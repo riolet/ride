@@ -147,10 +147,10 @@ simple_statement:
   | statement ENDOFLINE codeblock { compilerDebugPrintf("parser: s_s-stCB\nstatement EOL\n"); closeBrace(); $$ = $1; }
   | function_definition ASSIGNMENT statement ENDOFLINE {
           compilerDebugPrintf("parser: s_s-func - Funliner Defined! %s\n", $1->fullname);
-          makeReturn($3); doneFunction($1); printf("done funceion t1 \n");}
+          makeReturn($3); doneFunction($1); printf("done function t1 \n");}
   | function_definition ENDOFLINE funcblock {
           compilerDebugPrintf("parser: s_s-func - Function Defined! %s\n", $1->fullname);
-          doneFunction($1); printf("done funceion t2 \n"); }
+          doneFunction($1); printf("done function t2 \n"); }
   | CODE_INSERT ENDOFLINE     { compilerDebugPrintf("parser: code-insert\n"); $$ = injectC($1);  }
   | class_definition ENDOFLINE classblock {
           compilerDebugPrintf("parser: s_s-class - Class Defined! %s\n", $1->fullname);
@@ -297,7 +297,7 @@ class_statement:
           doneFunction($1); printf("function done  t3 \n\n"); }
   | function_definition ASSIGNMENT statement ENDOFLINE {
           compilerDebugPrintf("parser: c_s-func - Function Defined! %s\n", $1->fullname);
-          makeReturn($3); doneFunction($1); printf("done funceion t4 \n\n");}
+          makeReturn($3); doneFunction($1); printf("done function t4 \n\n");}
   | ctor_definition ENDOFLINE codeblock {
           compilerDebugPrintf("parser: c_s-func - Constructor Defined! %s\n", $1->fullname);
           doneConstructor($1); printf("done constructor t1 \n");}

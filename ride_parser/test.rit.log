@@ -1,0 +1,447 @@
+test.rit
+Lines read 55
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: directive
+lexer: string
+EOL
+parser: dtv
+Directive value "rsl/RSL_Array.h"
+parser: stmts-stmt,s_s
+lexer: directive
+lexer: string
+EOL
+parser: dtv
+Directive value "rsl/RSL_Array.c"
+parser: stmts-stmt,s_s
+lexer: unidentified identifier
+lexer: CtorDecPrim
+lexer: type
+parser: class-def
+External class 1
+EOL
+lexer: INDENT
+lexer: self
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: )
+parser: class-def
+Doing constructor Array_$_Array
+Adding category int
+Adding ctor Array_$_Array_$_int
+External ctor 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Constructor Defined! Array_$_Array_$_int
+lexer: verb
+parser: UNMARKEDNEWIDENT
+lexer: Return
+lexer: type
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: )
+parser: func-def
+External func 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Function Defined! Array_$_getObjectAtIndex_$_int
+lexer: unidentified identifier
+lexer: Return
+parser: UNMARKEDNEWIDENT
+lexer: type
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: ParamComma
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: paramN
+lexer: )
+parser: func-def
+External func 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Function Defined! Array_$_putObjectAtIndex_$_Generic_$$_$_Generic_$$
+EOL
+parser: c_s-eol
+empty EOL
+lexer: OUTDENT
+parser: s_s-class - Class Defined! Array_$_BaseType
+parser: stmts-stmt,s_s
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-stmt,s_s
+lexer: directive
+lexer: string
+EOL
+parser: dtv
+Directive value ""
+parser: stmts-stmt,s_s
+lexer: directive
+lexer: string
+EOL
+parser: dtv
+Directive value "rsl/RSL_String.h"
+parser: stmts-stmt,s_s
+lexer: directive
+lexer: string
+EOL
+parser: dtv
+Directive value "rsl/RSL_String.c"
+parser: stmts-stmt,s_s
+lexer: unidentified identifier
+lexer: ClassDec
+lexer: type
+parser: class-def
+External class 1
+EOL
+lexer: INDENT
+lexer: unidentified identifier
+lexer: Return
+parser: UNMARKEDNEWIDENT
+lexer: type
+lexer: (
+lexer: )
+parser: param0
+parser: func-def
+External func 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Function Defined! String_$_length_$_
+EOL
+parser: c_s-eol
+empty EOL
+lexer: OUTDENT
+parser: s_s-class - Class Defined! String_$_BaseType
+parser: stmts-stmt,s_s
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-stmt,s_s
+lexer: directive
+lexer: string
+EOL
+parser: dtv
+Directive value ""
+parser: stmts-stmt,s_s
+lexer: directive
+lexer: string
+EOL
+parser: dtv
+Directive value "rsl/RSL_Stream.h"
+parser: stmts-stmt,s_s
+lexer: directive
+lexer: string
+EOL
+parser: dtv
+Directive value "rsl/RSL_Stream.c"
+parser: stmts-stmt,s_s
+lexer: unidentified identifier
+lexer: ClassDec
+lexer: type
+parser: class-def
+External class 1
+EOL
+lexer: INDENT
+lexer: self
+lexer: (
+lexer: )
+parser: param0
+parser: class-def
+Doing constructor Stream_$_Stream
+Adding no types
+Adding ctor Stream_$_Stream_$_
+External ctor 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Constructor Defined! Stream_$_Stream_$_
+lexer: self
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: ParamComma
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: paramN
+lexer: )
+parser: class-def
+Doing constructor Stream_$_Stream
+Adding category String
+Adding category String
+Adding ctor Stream_$_Stream_$_String_$_String
+External ctor 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Constructor Defined! Stream_$_Stream_$_String_$_String
+lexer: verb
+parser: UNMARKEDNEWIDENT
+lexer: Return
+lexer: type
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: )
+parser: func-def
+External func 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Function Defined! Stream_$_print_$_String
+lexer: verb
+parser: UNMARKEDNEWIDENT
+lexer: Return
+lexer: type
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: )
+parser: func-def
+External func 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Function Defined! Stream_$_print_$_int
+lexer: verb
+parser: UNMARKEDNEWIDENT
+lexer: Return
+lexer: type
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: )
+parser: func-def
+External func 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Function Defined! Stream_$_print_$_float
+lexer: verb
+parser: UNMARKEDNEWIDENT
+lexer: Return
+lexer: type
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: )
+parser: func-def
+External func 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Function Defined! Stream_$_echo_$_String
+lexer: verb
+parser: UNMARKEDNEWIDENT
+lexer: Return
+lexer: type
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: )
+parser: func-def
+External func 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Function Defined! Stream_$_echo_$_int
+lexer: verb
+parser: UNMARKEDNEWIDENT
+lexer: Return
+lexer: type
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: )
+parser: func-def
+External func 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Function Defined! Stream_$_echo_$_float
+EOL
+parser: c_s-eol
+empty EOL
+lexer: OUTDENT
+parser: s_s-class - Class Defined! Stream_$_BaseType
+parser: stmts-stmt,s_s
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-stmt,s_s
+lexer: directive
+lexer: string
+EOL
+parser: dtv
+Directive value ""
+parser: stmts-stmt,s_s
+lexer: unidentified identifier
+lexer: Return
+parser: UNMARKEDNEWIDENT
+lexer: type
+lexer: (
+lexer: )
+parser: param0
+parser: func-def
+External func 0
+EOL
+lexer: INDENT
+	  searched prthuh_$_'s parent(RootScope) and found (null)
+lexer: new identifier i
+lexer: assignment
+parser: object-new-identifer
+objectNewIdent(i)
+	  searched prthuh_$_'s parent(RootScope) and found (null)
+parser: expr-obj
+lexer: int
+parser: object-int
+objectInt(5)
+parser: expr-obj
+EOL
+parser: expr-asn
+verbAssignment(=)
+ConjugateAssign: fullVerbName: assign_$_int
+	  searched prthuh_$_'s parent(RootScope) and found (null)
+Creating new variable i as int
+	  searched prthuh_$_'s parent(RootScope) and found int_$_Number
+	Conjugated: (799) i = 5 at 
+parser: stmt-expr
+lexer: Return
+parser: s_s-stmt
+statement EOL
+parser: stmts-s_s
+lexer: identifier
+EOL
+parser: object-identifer
+objectIdent(i)
+Ident full name i
+parser: expr-obj
+parser: stmt-rtEx
+	  searched prthuh_$_'s parent(RootScope) and found int_$_Number
+lexer: OUTDENT
+parser: s_s-stmt
+statement EOL
+parser: stmts-stmt,s_s
+parser: codeblock
+parser: s_s-func - Function Defined! prthuh_$_
+parser: stmts-stmt,s_s
+lexer: new identifier aa
+lexer: assignment
+parser: object-new-identifer
+objectNewIdent(aa)
+parser: expr-obj
+lexer: verb
+lexer: (
+lexer: )
+parser: arg-()
+parser: expr- vo
+verbIdent(prthuh)
+Conjugate: fullVerbName: prthuh_$_
+Conjugate: genericVerbName: prthuh
+	Conjugated: (1264) /* 1107 */ prthuh_$_(

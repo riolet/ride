@@ -70,5 +70,5 @@ void criticalError(ErrorCode code, char *message)
         fprintf(stderr, "\t");
         fprintf(stderr, "%s", message);
     }
-    exit((int)code);
+    // exit((int)code);
 }

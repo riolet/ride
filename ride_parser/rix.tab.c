@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.4.  */
+/* A Bison parser, made by GNU Bison 3.0.2.  */
 
 /* Skeleton implementation for Bison GLR parsers in C
 
-   Copyright (C) 2002-2015 Free Software Foundation, Inc.
+   Copyright (C) 2002-2013 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.4"
+#define YYBISON_VERSION "3.0.2"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "glr.c"
@@ -50,7 +50,7 @@
 
 
 /* First part of user declarations.  */
-#line 1 "rix.y" /* glr.c:240  */
+#line 1 "rix.y" /* glr.c:207  */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,7 +62,7 @@
 #define YYLEX_PARAM   scanner
 
 
-#line 66 "rix.tab.c" /* glr.c:240  */
+#line 66 "rix.tab.c" /* glr.c:207  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -94,11 +94,11 @@ static YYLTYPE yyloc_default
 ;
 
 /* Copy the second part of user declarations.  */
-#line 106 "rix.y" /* glr.c:263  */
+#line 106 "rix.y" /* glr.c:230  */
 
 void yyerror(YYLTYPE *locp, const char* msg);
 
-#line 102 "rix.tab.c" /* glr.c:263  */
+#line 102 "rix.tab.c" /* glr.c:230  */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -1120,503 +1120,503 @@ yyuserAction (yyRuleNum yyn, size_t yyrhslen, yyGLRStackItem* yyvsp,
   switch (yyn)
     {
         case 2:
-#line 134 "rix.y" /* glr.c:816  */
+#line 134 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: rix-stmts\n"); ((*yyvalp).oval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval); }
-#line 1126 "rix.tab.c" /* glr.c:816  */
+#line 1126 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 3:
-#line 135 "rix.y" /* glr.c:816  */
+#line 135 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: rix-EOF\n"); ((*yyvalp).oval) = 0; handleEOF(); }
-#line 1132 "rix.tab.c" /* glr.c:816  */
+#line 1132 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 4:
-#line 138 "rix.y" /* glr.c:816  */
+#line 138 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: stmts-s_s\n"); ((*yyvalp).oval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval); }
-#line 1138 "rix.tab.c" /* glr.c:816  */
+#line 1138 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 5:
-#line 139 "rix.y" /* glr.c:816  */
+#line 139 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: stmts-stmt,s_s\n"); ((*yyvalp).oval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.oval); }
-#line 1144 "rix.tab.c" /* glr.c:816  */
+#line 1144 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 6:
-#line 143 "rix.y" /* glr.c:816  */
+#line 143 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: s_s-eol\nempty EOL\n"); ((*yyvalp).oval) = 0; }
-#line 1150 "rix.tab.c" /* glr.c:816  */
+#line 1150 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 7:
-#line 144 "rix.y" /* glr.c:816  */
+#line 144 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: dtv\n"); directive((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.sval),(((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.sval));  }
-#line 1156 "rix.tab.c" /* glr.c:816  */
+#line 1156 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 8:
-#line 145 "rix.y" /* glr.c:816  */
+#line 145 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: dtv\n"); directive((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.sval),(((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.sval));  }
-#line 1162 "rix.tab.c" /* glr.c:816  */
+#line 1162 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 9:
-#line 146 "rix.y" /* glr.c:816  */
+#line 146 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: s_s-stmt\nstatement EOL\n"); ((*yyvalp).oval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.oval); }
-#line 1168 "rix.tab.c" /* glr.c:816  */
+#line 1168 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 10:
-#line 147 "rix.y" /* glr.c:816  */
+#line 147 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: s_s-stCB\nstatement EOL\n"); closeBrace(); ((*yyvalp).oval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval); }
-#line 1174 "rix.tab.c" /* glr.c:816  */
+#line 1174 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 11:
-#line 148 "rix.y" /* glr.c:816  */
+#line 148 "rix.y" /* glr.c:783  */
     {
           compilerDebugPrintf("parser: s_s-func - Funliner Defined! %s\n", (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.oval)->fullname);
-          makeReturn((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.oval)); doneFunction((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.oval)); printf("done funceion t1 \n");}
-#line 1182 "rix.tab.c" /* glr.c:816  */
+          makeReturn((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.oval)); doneFunction((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.oval)); printf("done function t1 \n");}
+#line 1182 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 12:
-#line 151 "rix.y" /* glr.c:816  */
+#line 151 "rix.y" /* glr.c:783  */
     {
           compilerDebugPrintf("parser: s_s-func - Function Defined! %s\n", (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval)->fullname);
-          doneFunction((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval)); printf("done funceion t2 \n"); }
-#line 1190 "rix.tab.c" /* glr.c:816  */
+          doneFunction((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval)); printf("done function t2 \n"); }
+#line 1190 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 13:
-#line 154 "rix.y" /* glr.c:816  */
+#line 154 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: code-insert\n"); ((*yyvalp).oval) = injectC((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.sval));  }
-#line 1196 "rix.tab.c" /* glr.c:816  */
+#line 1196 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 14:
-#line 155 "rix.y" /* glr.c:816  */
+#line 155 "rix.y" /* glr.c:783  */
     {
           compilerDebugPrintf("parser: s_s-class - Class Defined! %s\n", (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval)->fullname);
           doneClass((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval)); printf("done class \n \n");}
-#line 1204 "rix.tab.c" /* glr.c:816  */
+#line 1204 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 15:
-#line 172 "rix.y" /* glr.c:816  */
+#line 172 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: stmt-expr\n"); ((*yyvalp).oval) = completeExpression(finalize((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval))); }
-#line 1210 "rix.tab.c" /* glr.c:816  */
+#line 1210 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 16:
-#line 173 "rix.y" /* glr.c:816  */
+#line 173 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: stmt-rtEx\n"); ((*yyvalp).oval) = completeExpression(makeReturn((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval))); }
-#line 1216 "rix.tab.c" /* glr.c:816  */
+#line 1216 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 17:
-#line 174 "rix.y" /* glr.c:816  */
+#line 174 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: stmt-rtEx\n"); ((*yyvalp).oval) = completeExpression(makeReturn(0)); }
-#line 1222 "rix.tab.c" /* glr.c:816  */
+#line 1222 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 18:
-#line 178 "rix.y" /* glr.c:816  */
+#line 178 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-obj\n");   ((*yyvalp).oval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval); }
-#line 1228 "rix.tab.c" /* glr.c:816  */
+#line 1228 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 19:
-#line 179 "rix.y" /* glr.c:816  */
+#line 179 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-asn\n");   ((*yyvalp).oval) = conjugate((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval), verbAssignment((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.sval)), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval)); }
-#line 1234 "rix.tab.c" /* glr.c:816  */
+#line 1234 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 20:
-#line 180 "rix.y" /* glr.c:816  */
+#line 180 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-mas\n");   ((*yyvalp).oval) = conjugate((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval), verbAssignment((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.sval)), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval)); }
-#line 1240 "rix.tab.c" /* glr.c:816  */
+#line 1240 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 21:
-#line 181 "rix.y" /* glr.c:816  */
+#line 181 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-cmp\n");   ((*yyvalp).oval) = conjugate((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval), verbComparison((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.sval)), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval)); }
-#line 1246 "rix.tab.c" /* glr.c:816  */
+#line 1246 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 22:
-#line 182 "rix.y" /* glr.c:816  */
+#line 182 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-cmp\n");   ((*yyvalp).oval) = conjugate((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval), verbComparison((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.sval)), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval)); }
-#line 1252 "rix.tab.c" /* glr.c:816  */
+#line 1252 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 23:
-#line 183 "rix.y" /* glr.c:816  */
+#line 183 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-cmp\n");   ((*yyvalp).oval) = conjugate((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval), verbComparison((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.sval)), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval)); }
-#line 1258 "rix.tab.c" /* glr.c:816  */
+#line 1258 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 24:
-#line 184 "rix.y" /* glr.c:816  */
+#line 184 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-cmp\n");   ((*yyvalp).oval) = conjugate((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval), verbComparison((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.sval)), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval)); }
-#line 1264 "rix.tab.c" /* glr.c:816  */
+#line 1264 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 25:
-#line 185 "rix.y" /* glr.c:816  */
+#line 185 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-cmp\n");   ((*yyvalp).oval) = conjugate((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval),  verbTernary(), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval)); }
-#line 1270 "rix.tab.c" /* glr.c:816  */
+#line 1270 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 26:
-#line 186 "rix.y" /* glr.c:816  */
+#line 186 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-crt\n");   ((*yyvalp).oval) = conjugate((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval),  verbCondReturn(), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval)); }
-#line 1276 "rix.tab.c" /* glr.c:816  */
+#line 1276 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 27:
-#line 187 "rix.y" /* glr.c:816  */
+#line 187 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-mth\n");   ((*yyvalp).oval) = conjugate((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval), verbMathOp((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.sval)), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval)); }
-#line 1282 "rix.tab.c" /* glr.c:816  */
+#line 1282 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 28:
-#line 188 "rix.y" /* glr.c:816  */
+#line 188 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-mth\n");   ((*yyvalp).oval) = conjugate((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval), verbMathOp((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.sval)), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval)); }
-#line 1288 "rix.tab.c" /* glr.c:816  */
+#line 1288 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 29:
-#line 189 "rix.y" /* glr.c:816  */
+#line 189 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-mth\n");   ((*yyvalp).oval) = conjugate((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval), verbMathOp("*"), objectInt(-1)); }
-#line 1294 "rix.tab.c" /* glr.c:816  */
+#line 1294 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 30:
-#line 190 "rix.y" /* glr.c:816  */
+#line 190 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr- vo\n");   ((*yyvalp).oval) = conjugate( 0,  verbIdent((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.sval)), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval)); }
-#line 1300 "rix.tab.c" /* glr.c:816  */
+#line 1300 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 31:
-#line 191 "rix.y" /* glr.c:816  */
+#line 191 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-sto\n");   ((*yyvalp).oval) = conjugate( 0,   verbCtor((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.sval),0), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval)); }
-#line 1306 "rix.tab.c" /* glr.c:816  */
+#line 1306 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 32:
-#line 192 "rix.y" /* glr.c:816  */
+#line 192 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-.vo\n");   ((*yyvalp).oval) = conjugate( (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.oval), verbIdent((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.sval)), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval)); }
-#line 1312 "rix.tab.c" /* glr.c:816  */
+#line 1312 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 33:
-#line 193 "rix.y" /* glr.c:816  */
+#line 193 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-sto\n");   ((*yyvalp).oval) = conjugate( 0,   verbCtor((((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.sval),(((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.sval)), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval)); }
-#line 1318 "rix.tab.c" /* glr.c:816  */
+#line 1318 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 34:
-#line 194 "rix.y" /* glr.c:816  */
+#line 194 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-prn\n");   ((*yyvalp).oval) = parenthesize((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.oval)); }
-#line 1324 "rix.tab.c" /* glr.c:816  */
+#line 1324 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 35:
-#line 195 "rix.y" /* glr.c:816  */
+#line 195 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-prn\n");   ((*yyvalp).oval) = conjugate((((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.oval),  verbPutObjAtIdx(), concatParams((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval),(((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval))); }
-#line 1330 "rix.tab.c" /* glr.c:816  */
+#line 1330 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 36:
-#line 196 "rix.y" /* glr.c:816  */
+#line 196 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-prn\n");   ((*yyvalp).oval) = conjugate((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.oval),  verbGetObjAtIdx(), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.oval)); }
-#line 1336 "rix.tab.c" /* glr.c:816  */
+#line 1336 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 37:
-#line 197 "rix.y" /* glr.c:816  */
+#line 197 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: exp-.i\n");   ((*yyvalp).oval) = conjugateAccessorIdent( (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval)); }
-#line 1342 "rix.tab.c" /* glr.c:816  */
+#line 1342 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 38:
-#line 198 "rix.y" /* glr.c:816  */
+#line 198 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: expr-cmp\n");   ((*yyvalp).oval) = conjugate(objectIdent((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.sval)),  verbDestructor(), 0); }
-#line 1348 "rix.tab.c" /* glr.c:816  */
+#line 1348 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 39:
-#line 202 "rix.y" /* glr.c:816  */
+#line 202 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: arg\n");   ((*yyvalp).oval) = 0; }
-#line 1354 "rix.tab.c" /* glr.c:816  */
+#line 1354 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 40:
-#line 203 "rix.y" /* glr.c:816  */
+#line 203 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: arg-()\n");   ((*yyvalp).oval) = 0; }
-#line 1360 "rix.tab.c" /* glr.c:816  */
+#line 1360 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 41:
-#line 204 "rix.y" /* glr.c:816  */
+#line 204 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: arg(...)\n");   ((*yyvalp).oval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.oval); }
-#line 1366 "rix.tab.c" /* glr.c:816  */
+#line 1366 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 42:
-#line 208 "rix.y" /* glr.c:816  */
+#line 208 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: arg-(x)\n");   ((*yyvalp).oval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval); }
-#line 1372 "rix.tab.c" /* glr.c:816  */
+#line 1372 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 43:
-#line 209 "rix.y" /* glr.c:816  */
+#line 209 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: arg(x,y)\n");   ((*yyvalp).oval) = concatParams((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval),(((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.oval)); }
-#line 1378 "rix.tab.c" /* glr.c:816  */
+#line 1378 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 44:
-#line 213 "rix.y" /* glr.c:816  */
+#line 213 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: arg-(x) %s\n",(((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval));   ((*yyvalp).oval) = objectPlaceHolderType((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval)); }
-#line 1384 "rix.tab.c" /* glr.c:816  */
+#line 1384 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 45:
-#line 214 "rix.y" /* glr.c:816  */
+#line 214 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: arg(x,y) %s, %s\n",(((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.sval),(((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval));   ((*yyvalp).oval) = concatParams(objectPlaceHolderType((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.sval)),objectPlaceHolderType((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval))); }
-#line 1390 "rix.tab.c" /* glr.c:816  */
+#line 1390 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 46:
-#line 219 "rix.y" /* glr.c:816  */
+#line 219 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: object-int\n");       ((*yyvalp).oval) = objectInt((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ival)); }
-#line 1396 "rix.tab.c" /* glr.c:816  */
+#line 1396 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 47:
-#line 220 "rix.y" /* glr.c:816  */
+#line 220 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: object-int\n");       ((*yyvalp).oval) = objectChar((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval)); }
-#line 1402 "rix.tab.c" /* glr.c:816  */
+#line 1402 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 48:
-#line 221 "rix.y" /* glr.c:816  */
+#line 221 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: object-float\n");     ((*yyvalp).oval) = objectfloat((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.fval));}
-#line 1408 "rix.tab.c" /* glr.c:816  */
+#line 1408 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 49:
-#line 222 "rix.y" /* glr.c:816  */
+#line 222 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: object-identifer\n"); ((*yyvalp).oval) = objectIdent((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval)); }
-#line 1414 "rix.tab.c" /* glr.c:816  */
+#line 1414 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 50:
-#line 223 "rix.y" /* glr.c:816  */
+#line 223 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: object-new-identifer\n"); ((*yyvalp).oval) = objectNewIdent((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval)); }
-#line 1420 "rix.tab.c" /* glr.c:816  */
+#line 1420 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 51:
-#line 224 "rix.y" /* glr.c:816  */
+#line 224 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: object-unmarked-new-identifer\n"); ((*yyvalp).oval) = objectUnmarkedNewIdent((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval)); }
-#line 1426 "rix.tab.c" /* glr.c:816  */
+#line 1426 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 52:
-#line 225 "rix.y" /* glr.c:816  */
+#line 225 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: object-string\n");    ((*yyvalp).oval) = objectString((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval));  }
-#line 1432 "rix.tab.c" /* glr.c:816  */
+#line 1432 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 53:
-#line 226 "rix.y" /* glr.c:816  */
+#line 226 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: object-self\n");    ((*yyvalp).oval) = objectSelfIdent((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval));}
-#line 1438 "rix.tab.c" /* glr.c:816  */
+#line 1438 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 54:
-#line 227 "rix.y" /* glr.c:816  */
+#line 227 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: object-previous\n"); ((*yyvalp).oval) = objectPrev();   }
-#line 1444 "rix.tab.c" /* glr.c:816  */
+#line 1444 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 55:
-#line 231 "rix.y" /* glr.c:816  */
+#line 231 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: IDENT\n"); ((*yyvalp).sval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval); }
-#line 1450 "rix.tab.c" /* glr.c:816  */
+#line 1450 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 56:
-#line 232 "rix.y" /* glr.c:816  */
+#line 232 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: NEWIDENT\n"); ((*yyvalp).sval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval); }
-#line 1456 "rix.tab.c" /* glr.c:816  */
+#line 1456 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 57:
-#line 233 "rix.y" /* glr.c:816  */
+#line 233 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: UNMARKEDNEWIDENT\n"); ((*yyvalp).sval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval); }
-#line 1462 "rix.tab.c" /* glr.c:816  */
+#line 1462 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 58:
-#line 237 "rix.y" /* glr.c:816  */
+#line 237 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: IDENT\n"); ((*yyvalp).sval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval); }
-#line 1468 "rix.tab.c" /* glr.c:816  */
+#line 1468 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 59:
-#line 238 "rix.y" /* glr.c:816  */
+#line 238 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: NEWIDENT\n"); ((*yyvalp).sval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval); }
-#line 1474 "rix.tab.c" /* glr.c:816  */
+#line 1474 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 60:
-#line 239 "rix.y" /* glr.c:816  */
+#line 239 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: UNMARKEDNEWIDENT\n"); ((*yyvalp).sval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval); }
-#line 1480 "rix.tab.c" /* glr.c:816  */
+#line 1480 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 61:
-#line 240 "rix.y" /* glr.c:816  */
+#line 240 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: UNMARKEDNEWIDENT\n"); ((*yyvalp).sval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval); }
-#line 1486 "rix.tab.c" /* glr.c:816  */
+#line 1486 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 62:
-#line 244 "rix.y" /* glr.c:816  */
+#line 244 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: func-def\n"); ((*yyvalp).oval) = beginFunction((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.sval), (((yyGLRStackItem const *)yyvsp)[YYFILL (-5)].yystate.yysemantics.yysval.sval), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.oval));
   stdprintf((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.sval));
   stdprintf((((yyGLRStackItem const *)yyvsp)[YYFILL (-5)].yystate.yysemantics.yysval.sval));
   stdprintf((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.oval));
 }
-#line 1496 "rix.tab.c" /* glr.c:816  */
+#line 1496 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 63:
-#line 249 "rix.y" /* glr.c:816  */
+#line 249 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: func-void\n"); ((*yyvalp).oval) = beginFunction("void", (((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.sval), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.oval)); }
-#line 1502 "rix.tab.c" /* glr.c:816  */
+#line 1502 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 64:
-#line 253 "rix.y" /* glr.c:816  */
+#line 253 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: param0\n"); ((*yyvalp).oval) = CreateObject(0, 0, 0, Expression, 0); }
-#line 1508 "rix.tab.c" /* glr.c:816  */
+#line 1508 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 65:
-#line 254 "rix.y" /* glr.c:816  */
+#line 254 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: param1\n"); ((*yyvalp).oval) = funcParameters( 0, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.sval), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval)); }
-#line 1514 "rix.tab.c" /* glr.c:816  */
+#line 1514 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 66:
-#line 255 "rix.y" /* glr.c:816  */
+#line 255 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: paramN\n"); ((*yyvalp).oval) = funcParameters((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.oval), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.sval), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval));}
-#line 1520 "rix.tab.c" /* glr.c:816  */
+#line 1520 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 67:
-#line 259 "rix.y" /* glr.c:816  */
+#line 259 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: IDENT\n"); ((*yyvalp).sval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval); }
-#line 1526 "rix.tab.c" /* glr.c:816  */
+#line 1526 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 68:
-#line 260 "rix.y" /* glr.c:816  */
+#line 260 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: UNMARKEDNEWIDENT\n"); ((*yyvalp).sval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval); }
-#line 1532 "rix.tab.c" /* glr.c:816  */
+#line 1532 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 69:
-#line 264 "rix.y" /* glr.c:816  */
+#line 264 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: codeblock\n"); ((*yyvalp).oval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.oval); }
-#line 1538 "rix.tab.c" /* glr.c:816  */
+#line 1538 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 70:
-#line 270 "rix.y" /* glr.c:816  */
+#line 270 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: codeblock\n"); ((*yyvalp).oval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.oval); }
-#line 1544 "rix.tab.c" /* glr.c:816  */
+#line 1544 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 71:
-#line 276 "rix.y" /* glr.c:816  */
+#line 276 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: class-def\n"); ((*yyvalp).oval) = beginClass((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.sval), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval), 0, false); }
-#line 1550 "rix.tab.c" /* glr.c:816  */
+#line 1550 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 72:
-#line 277 "rix.y" /* glr.c:816  */
+#line 277 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: gen-class-def\n"); ((*yyvalp).oval) = beginClass((((yyGLRStackItem const *)yyvsp)[YYFILL (-5)].yystate.yysemantics.yysval.sval), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.oval), false); }
-#line 1556 "rix.tab.c" /* glr.c:816  */
+#line 1556 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 73:
-#line 278 "rix.y" /* glr.c:816  */
+#line 278 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: class-def\n"); ((*yyvalp).oval) = beginClass((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.sval), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval), 0, true); }
-#line 1562 "rix.tab.c" /* glr.c:816  */
+#line 1562 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 74:
-#line 279 "rix.y" /* glr.c:816  */
+#line 279 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: gen-class-def\n"); ((*yyvalp).oval) = beginClass((((yyGLRStackItem const *)yyvsp)[YYFILL (-5)].yystate.yysemantics.yysval.sval), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.sval), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.oval), true); }
-#line 1568 "rix.tab.c" /* glr.c:816  */
+#line 1568 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 75:
-#line 283 "rix.y" /* glr.c:816  */
+#line 283 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: class-def\n"); ((*yyvalp).oval) = beginConstructor((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.oval)); }
-#line 1574 "rix.tab.c" /* glr.c:816  */
+#line 1574 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 76:
-#line 286 "rix.y" /* glr.c:816  */
+#line 286 "rix.y" /* glr.c:783  */
     { ((*yyvalp).oval) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.oval); }
-#line 1580 "rix.tab.c" /* glr.c:816  */
+#line 1580 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 79:
-#line 293 "rix.y" /* glr.c:816  */
+#line 293 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: c_s-eol\nempty EOL\n"); ((*yyvalp).oval) = 0; }
-#line 1586 "rix.tab.c" /* glr.c:816  */
+#line 1586 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 80:
-#line 294 "rix.y" /* glr.c:816  */
+#line 294 "rix.y" /* glr.c:783  */
     { compilerDebugPrintf("parser: c_s:varType\n"); ((*yyvalp).oval) = declareVariable((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.sval), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.sval)); }
-#line 1592 "rix.tab.c" /* glr.c:816  */
+#line 1592 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 81:
-#line 295 "rix.y" /* glr.c:816  */
+#line 295 "rix.y" /* glr.c:783  */
     {
           compilerDebugPrintf("parser: c_s-func - Function Defined! %s\n", (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval)->fullname);
           doneFunction((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval)); printf("function done  t3 \n\n"); }
-#line 1600 "rix.tab.c" /* glr.c:816  */
+#line 1600 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 82:
-#line 298 "rix.y" /* glr.c:816  */
+#line 298 "rix.y" /* glr.c:783  */
     {
           compilerDebugPrintf("parser: c_s-func - Function Defined! %s\n", (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.oval)->fullname);
-          makeReturn((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.oval)); doneFunction((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.oval)); printf("done funceion t4 \n\n");}
-#line 1608 "rix.tab.c" /* glr.c:816  */
+          makeReturn((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.oval)); doneFunction((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.oval)); printf("done function t4 \n\n");}
+#line 1608 "rix.tab.c" /* glr.c:783  */
     break;
 
   case 83:
-#line 301 "rix.y" /* glr.c:816  */
+#line 301 "rix.y" /* glr.c:783  */
     {
           compilerDebugPrintf("parser: c_s-func - Constructor Defined! %s\n", (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval)->fullname);
           doneConstructor((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.oval)); printf("done constructor t1 \n");}
-#line 1616 "rix.tab.c" /* glr.c:816  */
+#line 1616 "rix.tab.c" /* glr.c:783  */
     break;
 
 
-#line 1620 "rix.tab.c" /* glr.c:816  */
+#line 1620 "rix.tab.c" /* glr.c:783  */
       default: break;
     }
 
@@ -3386,7 +3386,7 @@ yypdumpstack (yyGLRStack* yystackp)
 
 
 
-#line 306 "rix.y" /* glr.c:2584  */
+#line 306 "rix.y" /* glr.c:2551  */
 
 
 //void yyerror(char const *msg) {

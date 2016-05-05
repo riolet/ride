@@ -53,27 +53,21 @@ Stream::BaseType
 
 //Done
 ##external ""
-
-A :: BaseType
-	prtwat -> int ()
-		#i = 0
-		print("goodbye cruel world")
-		->i
-
-
-#a = A()
-a.prtwat()
-
-
-
-prthuh -> int ()
-	#i = 0
-	print("goodbye cruel world")
+prthuh -> int () 
+	#i = 5
 	->i
 
-prthuh()
+#aa = prthuh()
+print( aa )
 
+A :: BaseType
+	prtwat -> int (int num1, int num2)
+		#a = 10 + num
+		->a
 
+#class = A()
+#bb = class.prtwat(10, 20);
+#cc = "hella"
 
-
-
+print ( bb )
+print ( cc )

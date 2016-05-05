@@ -1,0 +1,667 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "#include \"errors.h\"\n\nint warningMsg(const char *format, ...)\n{\n    int ret;\n    //fprintf(stderr,\"Line %d: Column:%d - \",lineNum,linePos);\n    fprintf(stderr, ANSI_COLOR_YELLOW);\n    va_list arg;\n    va_start(arg, format);\n    ret = vfprintf(stderr, format, arg);\n    va_end(arg);\n    fprintf(stderr, ANSI_COLOR_RESET);\n    return ret;\n}\n\nint errorMsg(const char *format, ...)\n{\n    int ret;\n    fprintf(stderr, ANSI_COLOR_RED);\n    fprintf(stderr, \"Line %d: Column:%d - \", g_lineNum-g_headerLines, g_lineCol);\n    va_list arg;\n    va_start(arg, format);\n    ret = vfprintf(stderr, format, arg);\n    fprintf(stderr, ANSI_COLOR_RESET);\n    va_end(arg);\n    return ret;\n}\n\nvoid criticalError(ErrorCode code, char *message)\n{\n    fprintf(stderr, \"\\t\");\n    switch (code) {\n    case ERROR_EndlessString:\n        errorMsg(\"Error parsing string. No closing quote.\\n\");\n        break;\n    case ERROR_IncompatibleTypes:\n        errorMsg(\"Type mismatch.\\n\");\n        break;\n    case ERROR_UnexpectedIndent:\n        errorMsg(\"Unexpected scope increase\\n\");\n        break;\n    case ERROR_AssignToLiteral:\n        errorMsg(\"Cannot assign to a literal.\\n\");\n        break;\n    case ERROR_UnrecognizedSymbol:\n        errorMsg(\"Unknown symbol detected.\\n\");\n        break;\n    case ERROR_CannotAllocateMemory:\n        errorMsg(\"Cannot allocate new space.\\n\");\n        break;\n    case ERROR_UndefinedVerb:\n        errorMsg(\"Verb encountered without definition.\\n\");\n        break;\n    case ERROR_UndefinedVariable:\n        errorMsg(\"Variable encountered without definition.\\n\");\n        break;\n    case ERROR_UndefinedType:\n        errorMsg(\"Type encountered without definition.\\n\");\n        break;\n    case ERROR_InvalidArguments:\n        errorMsg(\"Attempted to run a function with invalid arguments.\\n\");\n        break;\n    case ERROR_ParseError:\n        errorMsg(\"Error while parsing file.\\n\");\n        break;\n    default:\n        errorMsg(\"Unknown critical error. Aborting.\\n\");\n    }\n    if (message) {\n        fprintf(stderr, \"\\t\");\n        fprintf(stderr, \"%s\", message);\n    }\n    // exit((int)code);\n}\n",
+			"file": "errors.c",
+			"file_size": 2095,
+			"file_write_time": 131069575619255013,
+			"settings":
+			{
+				"buffer_size": 2095,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/berong91/.config/sublime-text-3/Local/Session.sublime_session",
+			"settings":
+			{
+				"buffer_size": 28402,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "rixc.c",
+			"settings":
+			{
+				"buffer_size": 65794,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "test.rit",
+			"settings":
+			{
+				"buffer_size": 189,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "rix.y",
+			"settings":
+			{
+				"buffer_size": 14376,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "log",
+			"settings":
+			{
+				"buffer_size": 943,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 96.0,
+		"last_filter": "remove",
+		"selected_items":
+		[
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"install pa",
+				"Package Control: Install Package"
+			],
+			[
+				"remove ",
+				"Package Control: Remove Package"
+			],
+			[
+				"tab",
+				"Tabify"
+			],
+			[
+				"instlal p",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"format",
+				"SublimeAStyleFormatter: Format Current File"
+			],
+			[
+				"instla",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"c im",
+				"Set Syntax: C Improved"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"fold",
+				"Code Folding: Unfold All"
+			],
+			[
+				"for",
+				"CodeFormatter: Format Code"
+			],
+			[
+				"fotmat",
+				"CodeFormatter: Format Code"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/berong91/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings",
+		"/home/berong91/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/berong91/dev/ride/ride_parser/rixc.h",
+		"/home/berong91/.config/sublime-text-3/Packages/Tabright/Tabright.sublime-settings",
+		"/home/berong91/dev/ride/ride_parser/ride_parser.sublime-project",
+		"/home/berong91/dev/ride/ride_parser/rix.l",
+		"/home/berong91/dev/ride/ride_parser/A1.rit",
+		"/home/berong91/dev/ride/ride_parser/tests/inheritance.rit",
+		"/home/berong91/dev/ride/ride_parser/tests/functions.rit",
+		"/home/berong91/dev/ride/ride_parser/tests/GenericTest2.rit",
+		"/home/berong91/dev/ride/ride_parser/tests/GenericTest1.rit",
+		"/home/berong91/dev/ride/ride_parser/tests/floatDeclaration.rit",
+		"/home/berong91/dev/ride/ride_parser/tests/expressionsInt.rit",
+		"/home/berong91/dev/ride/ride_parser/tests/expressionsFloat.rit",
+		"/home/berong91/dev/ride/ride_parser/tests/condreturn.rit",
+		"/home/berong91/dev/ride/ride_parser/tests/codeinsert.rit",
+		"/home/berong91/dev/ride/ride_parser/rixc.c",
+		"/home/berong91/dev/ride/ride_parser/README.md",
+		"/home/berong91/dev/rix/rix.sh",
+		"/home/berong91/dev/rix/rix-rm.h",
+		"/home/berong91/dev/rix/tests/CodeBlocks.rit",
+		"/home/berong91/dev/rix/errors.c",
+		"/home/berong91/dev/rix/rixc.h",
+		"/home/berong91/dev/rix/rixc.c",
+		"/home/berong91/dev/rix/rix.y",
+		"/home/berong91/dev/rix setup",
+		"/home/berong91/clion-2016.1.1/Install-Linux-tar.txt",
+		"/home/berong91/dev/ride/ride_parser/wizard.sh",
+		"/home/berong91/dev/rix/rixp.h",
+		"/home/berong91/dev/ide/QScintilla_gpl-2.9.2/README",
+		"/home/berong91/dev/rix/tests/intDeclaration.rit",
+		"/home/berong91/dev/rix/tests/expressionsInt.rit",
+		"/home/berong91/dev/rix/tests/ObjectAtIndex.rit",
+		"/home/berong91/dev/ide/PyQt5_gpl-5.6/README",
+		"/home/berong91/dev/ide/sip-4.18/README",
+		"/home/berong91/dev/ide/QScintilla_gpl-2.9.2/doc/qscintilla-Qt4Qt5.dxy",
+		"/home/berong91/dev/ride/ride-gui/ride-gui.pro",
+		"/home/berong91/dev/rix/tests/UnknownIdentError.rit",
+		"/home/berong91/dev/rix/tests/functions.rit",
+		"/home/berong91/dev/rix/tests/GenericTest1.rit",
+		"/home/berong91/dev/rix/tests/GenericTest2.rit",
+		"/home/berong91/dev/rix/tests/inheritance.rit",
+		"/home/berong91/dev/rix/tests/StreamTest.rit",
+		"/home/berong91/dev/rix/tests/testfile.text",
+		"/home/berong91/dev/rix/tests/test.c",
+		"/home/berong91/dev/rix/tests/out.log",
+		"/home/berong91/dev/rix/tests/oneliner.rit",
+		"/home/berong91/dev/rix/tests/expressionsFloat.rit",
+		"/home/berong91/dev/rix/tests/condreturn.rit",
+		"/home/berong91/dev/rix/tests/codeinsert.rit",
+		"/home/berong91/dev/rix/examples/PointLine.rit",
+		"/home/berong91/dev/rix/examples/fibonacci.rit",
+		"/home/berong91/dev/rix/example.rit",
+		"/home/berong91/dev/rix/examples/99bottles_normal.rit",
+		"/home/berong91/dev/rix/examples/99bottles_alt.rit",
+		"/home/berong91/dev/rix/a1/a1.rit",
+		"/home/berong91/dev/rix/doc/tutorial.md",
+		"/home/berong91/dev/rix/out.c",
+		"/home/berong91/dev/rix/out.sh",
+		"/home/berong91/dev/rix/out.log",
+		"/home/berong91/dev/rix/ObjectTree.h",
+		"/home/berong91/dev/rix/ObjectTree.c",
+		"/home/berong91/dev/rix/LICENCE.md",
+		"/home/berong91/dev/rix/examples/generatedcode/benchmark.rit",
+		"/home/berong91/dev/rix/README.md",
+		"/home/berong91/dev/rix/errors.h",
+		"/home/berong91/dev/rix/CMakeLists.txt",
+		"/home/berong91/dev/rix/a1/a1.rit.h",
+		"/home/berong91/dev/rix/a1/a1.rit.c",
+		"/home/berong91/dev/rix/a1/a1.rit.log",
+		"/home/berong91/dev/rix/examples/generatedcode/benchmark.rit.h",
+		"/home/berong91/dev/rix/examples/generatedcode/benchmark.rit.c",
+		"/home/berong91/dev/rix/rix_temp_file.rit",
+		"/home/berong91/dev/rix/wizard.sh",
+		"/home/berong91/.CLion2016.1/system/.home",
+		"/home/berong91/dev/rix/rixbuild.sh",
+		"/home/berong91/clion-2016.1.1/build.txt",
+		"/home/berong91/dev/rix/rix.l",
+		"/home/berong91/dev/EditMee/build.txt",
+		"/home/berong91/dev/EditMee/README.md",
+		"/home/berong91/dev/sip-4.18/Makefile",
+		"/home/berong91/dev/QScintilla_gpl-2.9.2/README",
+		"/home/berong91/dev/PyQt5_gpl-5.6/configure.py",
+		"/home/berong91/Downloads/PyQt5_gpl-5.6/configure.py",
+		"/home/berong91/Downloads/sip-4.18/configure.py",
+		"/home/berong91/Downloads/sip-4.18/sip.pyi",
+		"/home/berong91/Downloads/sip-4.18/README",
+		"/home/berong91/Downloads/PyQt5_gpl-5.6/README",
+		"/home/berong91/Downloads/qt-unified-linux-x64-2.0.3-online.run.meta4",
+		"/home/berong91/Downloads/lockmyApp1234865.lock",
+		"/home/berong91/Downloads/Updates.xml.metalink",
+		"/home/berong91/Downloads/gcc",
+		"/home/berong91/Downloads/QScintilla_gpl-2.9.2/README",
+		"/home/berong91/dev/rix/Makefile",
+		"/home/berong91/me",
+		"/home/berong91/dev/rix/ObjectTree/ObjectTree_Applied.txt",
+		"/home/berong91/dev/scintilla/gtk/log",
+		"/home/berong91/dev/scintilla/gtk/makefile",
+		"/home/berong91/dev/scite/gtk/makefile",
+		"/home/berong91/dev/bait/bait.c",
+		"/home/berong91/dev/bait/Makefile",
+		"/home/berong91/dev/ride/ride.c",
+		"/home/berong91/dev/scintilla-code/README",
+		"/home/berong91/dev/bait/log",
+		"/home/berong91/dev/scintilla/README",
+		"/home/berong91/dev/rix/a1/a1.rit.sh",
+		"/etc/default/rcS",
+		"/home/berong91/dev/rix/test.rit",
+		"/home/berong91/dev/rix/test.rit.log",
+		"/home/berong91/dev/rix/test.rit.c",
+		"/home/berong91/dev/rix/examples/factorial.rit",
+		"/home/berong91/dev/rix/examples/example.rit",
+		"/home/berong91/dev/rix/preproc.c",
+		"/home/berong91/dev/rix/test.rit.sh",
+		"/home/berong91/dev/rix/test.rit.h",
+		"/home/berong91/dev/rix/out.h",
+		"/home/berong91/dev/rix/ext/BetterString/bstrlib.txt",
+		"/home/berong91/dev/rix/ObjectTree/ObjectTree_Input.txt",
+		"/home/berong91/dev/rix/ObjectTree/ObjectTree_HFile.txt",
+		"/home/berong91/dev/rix/ObjectTree/ObjectTree_CFile.txt",
+		"/usr/share/applications/defaults.list",
+		"/home/berong91/dev/rix/comp.sh"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"<open folders>,<current file>",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"wrap",
+			"ward",
+			"criticalError",
+			"goodbye cruel world",
+			"criticalError",
+			"Error while parsing file",
+			"Error while parsing file.",
+			"stdprintf",
+			"and scope is",
+			"criticalError",
+			"funceion",
+			"num",
+			"criticalError",
+			"wtf",
+			"Do",
+			"stdprintf",
+			"tf",
+			"--sip",
+			"--sup",
+			"/qt",
+			"/usr",
+			".ca",
+			"ca",
+			"LIBDL",
+			"-lm",
+			"lib",
+			"-lm",
+			"lstdc",
+			"-;,",
+			"g++",
+			"gcc",
+			"lstdc",
+			"-lm",
+			"LineMarker",
+			"-lm",
+			"gcc",
+			"LIBS",
+			" -lm",
+			"-l",
+			"-lm",
+			"0lm",
+			"LIBS",
+			"-lm",
+			"bait",
+			"PlatGTK",
+			"-lm",
+			"CONFIGFLAGS",
+			"CXXTFLAGS",
+			"PlatGTK",
+			"ar rc",
+			"PlatGTK",
+			"$(CCOMP)",
+			"$(CC)",
+			"LIBS",
+			"LDFLAGS",
+			"-",
+			"printTreeBool",
+			"scope",
+			"indent",
+			"bison found an int",
+			"\n	| INT            { cout << \"bison found an int: \" << $1 << endl; }",
+			"rix",
+			"printTreeToFile",
+			"printTreeFile",
+			"gedit",
+			"rix.y",
+			"gedit"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": true,
+		"regex": false,
+		"replace_history":
+		[
+			"function",
+			"",
+			"sublime_text"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "errors.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2095,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2076,
+								2076
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 969.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/home/berong91/.config/sublime-text-3/Local/Session.sublime_session",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 28402,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "rixc.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 65794,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								28177,
+								28177
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 14323.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "test.rit",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 189,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								171,
+								171
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 4,
+					"file": "rix.y",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 14376,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								14260,
+								14260
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3664.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "log",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 943,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								867,
+								867
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 50,
+							"translate_tabs_to_spaces": false,
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 817.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.astyle_error_message":
+	{
+		"height": 0.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "ride_parser.sublime-project",
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 117.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 392.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
