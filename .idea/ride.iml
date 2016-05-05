@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="CPP_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/ext/BetterString/BetterString.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/ext/BetterString/bstrlib.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/examples/generatedcode/benchmark.rit.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/preproc.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/test.rit.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/rixc.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/tests/test.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/ObjectTree.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/lex.yy.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/benchmarks/benchmark.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/rix.tab.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/errors.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/import.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/crsl.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/rsl/RSL_String.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/rsl/RSL_Vector.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/rsl/RSL_Array.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/rsl/rsl.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ride_parser/rsl/RSL_Stream.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="Header Search Paths">
+        <CLASSES>
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+          <root url="file:///usr/include" />
+          <root url="file:///usr/local/include" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+          <root url="file:///usr/include" />
+          <root url="file:///usr/local/include" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+  </component>
+</module>

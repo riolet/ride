@@ -1,0 +1,23 @@
+
+A :: BaseType
+	prtwat -> int ()
+		#i = 0
+		print("goodbye cruel world")
+		->i
+
+
+#a = A()
+a.prtwat()
+
+
+
+prthuh -> int ()
+	#i = 0
+	print("goodbye cruel world")
+	->i
+
+prthuh()
+
+
+
+
