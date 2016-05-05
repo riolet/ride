@@ -1,9 +1,12 @@
+QT += widgets qml quick core gui
+
+CONFIG += release
+
+TARGET = RIDE
 TEMPLATE = app
 
-QT += qml quick
-CONFIG += c++11
-
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    mainwindow.cpp
 
 RESOURCES += qml.qrc
 
@@ -12,3 +15,14 @@ QML_IMPORT_PATH =
 
 # Default rules for deployment.
 include(deployment.pri)
+
+FORMS += \
+    mainwindow.ui
+
+HEADERS += \
+    mainwindow.h
+
+unix:!macx: LIBS += -L$$PWD/../QScintilla_gpl-2.9.2/Qt4Qt5/ -lqscintilla2
+
+INCLUDEPATH += $$PWD/../QScintilla_gpl-2.9.2/Qt4Qt5
+DEPENDPATH += $$PWD/../QScintilla_gpl-2.9.2/Qt4Qt5
