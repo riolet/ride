@@ -78,7 +78,7 @@
       <height>51</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_icon_menu">
      <item>
       <widget class="QPushButton" name="button_open">
        <property name="text">
