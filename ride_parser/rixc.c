@@ -132,7 +132,7 @@ void doneClass(Object *tree) {
 Object *beginFunction(char *returnType, char *funcName, Object *parameters) {
     printf("***begin function\n");
     if (returnType == 0) {
-        //criticalError(ERROR_ParseError, "Return category mustn't be null.\n");
+        criticalError(ERROR_ParseError, "Return category mustn't be null.\n");
     }
     ListString *types = parameters->paramTypes;
     ListString *names = parameters->code;
@@ -227,7 +227,7 @@ void doneFunction(Object *tree) {
 Object *beginConstructor(Object *parameters) {
     printf("***begin constructor\n");
     if (current->category != Type) {
-        // criticalError(ERROR_ParseError, "Constructor can only exist inside a class.\n");
+        criticalError(ERROR_ParseError, "Constructor can only exist inside a class.\n");
     }
     ListString *types = parameters->paramTypes;
     ListString *names = parameters->code;
