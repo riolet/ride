@@ -14,29 +14,59 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>9</x>
-      <y>9</y>
-      <width>331</width>
-      <height>201</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout"/>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>220</y>
-      <width>411</width>
-      <height>27</height>
+      <y>0</y>
+      <width>801</width>
+      <height>80</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Here's your fucking button</string>
-    </property>
+    <layout class="QHBoxLayout" name="layout_button_icons">
+     <item>
+      <widget class="QPushButton" name="button_open">
+       <property name="text">
+        <string>Open</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_save">
+       <property name="text">
+        <string>Save</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_saveall">
+       <property name="text">
+        <string>SaveAll</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_zoom_in">
+       <property name="text">
+        <string>Zoom In</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_zoom_out">
+       <property name="text">
+        <string>Zoom Out</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_run">
+       <property name="text">
+        <string>Run</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

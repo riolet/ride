@@ -33,7 +33,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-private:
+private:    //Private Functions
+    void createIcons();
+
+private:    //Private Variables
+
     QsciScintilla *textEdit;
     Ui::MainWindow *ui;
 };
