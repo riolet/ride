@@ -8,14 +8,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    createIcons();
-    /*QQuickView *view = new QQuickView();
-    QWidget *container = QWidget::createWindowContainer(view, this);
-    container->setMinimumSize(200, 200);
-    container->setMaximumSize(200, 200);
-    container->setFocusPolicy(Qt::TabFocus);
-    view->setSource(QUrl("qrc:main.qml"));
-    ui->verticalLayout->addWidget(container);*/
+
+    //setupFileTree();
+    setupScintilla();
+
 }
 
 MainWindow::~MainWindow()
@@ -23,11 +19,26 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::createIcons()
+void MainWindow::setupScintilla()
 {
-    //  Save Button
-    QPixmap pix(":/icons/filesave.png");
-    QIcon icon(pix);
-    ui->button_save->setIcon(icon);
-    ui->button_save->setIconSize(QSize(32,32));
+    textEdit = new QsciScintilla;
+    ui->horizontalLayout_scintilla->addWidget(textEdit);
+}
+
+void MainWindow::setupFileTree()
+{
+    QFileSystemModel *model = new QFileSystemModel;
+    QDir curDir = QDir::current();
+    curDir.cdUp();
+
+    tree = ui->tree_project_directory;
+    tree->setRootIndex(model->setRootPath(curDir.path()));
+
+    /*QFileSystemModel *model = new QFileSystemModel;
+    model->setFilter(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
+    QDir curDir = QDir::current();
+    curDir.cdUp();
+
+    tree = ui->tree_project_directory;
+    tree->setRootIndex(model->setRootPath(curDir.path()));*/
 }
