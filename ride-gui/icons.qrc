@@ -10,5 +10,7 @@
         <file>icons/stop32.png</file>
         <file>icons/warning32.png</file>
         <file>icons/copy.png</file>
+        <file>icons/zoomin.png</file>
+        <file>icons/zoomout.png</file>
     </qresource>
 </RCC>
