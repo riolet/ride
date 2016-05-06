@@ -294,7 +294,7 @@ class_statement:
   | UNMARKEDNEWIDENT ASSIGNMENT TYPE ENDOFLINE { compilerDebugPrintf("parser: c_s:varType\n"); $$ = declareVariable($1, $3); }
   | function_definition ENDOFLINE codeblock {
           compilerDebugPrintf("parser: c_s-func - Function Defined! %s\n", $1->fullname);
-          doneFunction($1); printf("function done  t3 \n\n"); }
+          doneFunction($1); }
   | function_definition ASSIGNMENT statement ENDOFLINE {
           compilerDebugPrintf("parser: c_s-func - Function Defined! %s\n", $1->fullname);
           makeReturn($3); doneFunction($1); printf("done function t4 \n\n");}
