@@ -19,6 +19,9 @@
 #include <QStatusBar>
 #include <QTextStream>
 #include <QToolBar>
+#include <QDir>
+#include <QFileSystemModel>
+#include <QTreeView>
 #include <Qsci/qsciscintilla.h>
 
 namespace Ui {
@@ -29,17 +32,18 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
+public:     //Public Functions
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
 private:    //Private Functions
-    void createIcons();
+    void setupScintilla();
+    void setupFileTree();
 
 private:    //Private Variables
-
-    QsciScintilla *textEdit;
-    Ui::MainWindow *ui;
+    QsciScintilla   *textEdit;  // Scintilla widget
+    Ui::MainWindow  *ui;        // Central UI Widget Container
+    QTreeView       *tree;      // File Directory Tree
 };
 
 #endif // MAINWINDOW_H
