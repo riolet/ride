@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    //setupFileTree();
+    setupFileTree();
     setupScintilla();
 
 }
@@ -21,8 +21,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupScintilla()
 {
-    textEdit = new QsciScintilla;
-    ui->horizontalLayout_scintilla->addWidget(textEdit);
+    ScintillaDoc blank;
+    textEditList.push_back(blank);
+    cur_index = 0;
+
+    ui->tabWidget_scintilla->removeTab(0);  // Remove the first unused tab
+    ui->tabWidget_scintilla->removeTab(0);  // Remove the second unused tab
+
+    ui->tabWidget_scintilla->addTab(blank._doc, blank._name);
 }
 
 void MainWindow::setupFileTree()
@@ -31,14 +37,9 @@ void MainWindow::setupFileTree()
     QDir curDir = QDir::current();
     curDir.cdUp();
 
-    tree = ui->tree_project_directory;
-    tree->setRootIndex(model->setRootPath(curDir.path()));
-
-    /*QFileSystemModel *model = new QFileSystemModel;
-    model->setFilter(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
-    QDir curDir = QDir::current();
-    curDir.cdUp();
+    model->setRootPath(curDir.path());
 
     tree = ui->tree_project_directory;
-    tree->setRootIndex(model->setRootPath(curDir.path()));*/
+    tree->setModel(model);
+    tree->setRootIndex(model->index(curDir.path()));
 }
