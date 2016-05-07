@@ -51,6 +51,8 @@ void handleEOF() {
 
 Object *beginClass(char *className, char *parentName, Object *typeArgs, bool isPrimitive) {
     printf("***begin class\n");
+    printf("Class %s, Base %s, scope %d\n", className, parentName, scope_idx);
+
     if (!className || !parentName) {
         criticalError(ERROR_ParseError, "Class name mustn't be null.\n");
     }
@@ -100,7 +102,7 @@ Object *beginClass(char *className, char *parentName, Object *typeArgs, bool isP
 }
 
 void doneClass(Object *tree) {
-
+    printf("***end class\n\n");
     if (!external) {
         //check for destructor.
         //if no destructor exists, add one.
@@ -131,8 +133,12 @@ void doneClass(Object *tree) {
 }
 
 Object *beginFunction(char *returnType, char *funcName, Object *parameters) {
-    printf("***begin function\n");
+    printf("**begin function\n");
+    printf("Function %s, return %s, scope %d\n", funcName, returnType, scope_idx);
+    bool flag = false;
+
     if (returnType == 0) {
+        flag = true;
         criticalError(ERROR_ParseError, "Return category mustn't be null.\n");
     }
     ListString *types = parameters->paramTypes;
@@ -222,11 +228,14 @@ Object *beginFunction(char *returnType, char *funcName, Object *parameters) {
 }
 
 void doneFunction(Object *tree) {
+    printf("**end function\n");
     scope_pop();
 }
 
 Object *beginConstructor(Object *parameters) {
-    printf("***begin constructor\n");
+    printf("*begin constructor\n");
+    printf("Constructor, scope %d\n", scope_idx);
+
     if (current->category != Type) {
         criticalError(ERROR_ParseError, "Constructor can only exist inside a class.\n");
     }
@@ -365,14 +374,17 @@ Object *beginConstructor(Object *parameters) {
 }
 
 void doneConstructor(Object *tree) {
+    printf("*end constructor\n");
     if (!external) {
         addCode(current, "return " IDENT_SELF_SELF ";");
     }
     scope_pop();
 }
 
-Object *beginDestructor(Object *parameters) {
-    printf("***begin destructor\n");
+Object *beginDestructor(Object *paramItermeters) {
+    printf("*begin destructor\n");
+    printf("Destructor, scope %d\n", scope_idx);
+
     if (current->category != Type) {
         criticalError(ERROR_ParseError, "Destructor can only exist inside a class.\n");
     }
@@ -433,6 +445,7 @@ Object *beginDestructor(Object *parameters) {
 }
 
 void doneDestructor(Object *tree) {
+    printf("*end destructor\n\n");
     scope_pop();
 }
 
@@ -1703,24 +1716,20 @@ Object *directive(char *key, char *value) {
     return result;
 }
 
-void stdprintf(char *in) {
-    printf("%s and scope is %d\n", in, scope_idx);
-}
-
-/*
-    Object :
-        char *name;                 //symbol name     ("myint", "calcTotalArea ", "Rectangle")
-        char *fullname;             //symbol fullname ("myint", "int_calcTotalArea_Rectangle_Rectangle", "BaseType_Rectangle")
-        Object *parentClass;
-        Object *parentScope;        //parent scope    (global scope, global scope, BaseType)
-        OBJ_TYPE category;          //What is this?   (Variable, Function, Class)
-        char *returnType;           //What value category?(int,  int,  NULL)
-        char *genericType;          //What value category if the returnType is Generic?(int,  int,  NULL)
-        int genericTypeArgPos;      //What value category if the returnType is Generic?(int,  int,  NULL)
-        ListString *paramTypes;     //parameters?     (NULL,     [int, int], NULL)
-        ListObject *definedSymbols; //Things inside?  (NULL, [Rectangle "r1", Rectangle "r2", int "a1", int "a2"], [int "w", int "h", Constructor "Rectangle", Function "Area"])
-        ListString *code;           //CodeBlock       (NULL, "int ...calcTotalArea...(...) {...", "typedef struct...")
-        int flags;
+/**
+Object :
+    char *name;                 //symbol name     ("myint", "calcTotalArea ", "Rectangle")
+    char *fullname;             //symbol fullname ("myint", "int_calcTotalArea_Rectangle_Rectangle", "BaseType_Rectangle")
+    Object *parentClass;
+    Object *parentScope;        //parent scope    (global scope, global scope, BaseType)
+    OBJ_TYPE category;          //What is this?   (Variable, Function, Class)
+    char *returnType;           //What value category?(int,  int,  NULL)
+    char *genericType;          //What value category if the returnType is Generic?(int,  int,  NULL)
+    int genericTypeArgPos;      //What value category if the returnType is Generic?(int,  int,  NULL)
+    ListString *paramTypes;     //parameters?     (NULL,     [int, int], NULL)
+    ListObject *definedSymbols; //Things inside?  (NULL, [Rectangle "r1", Rectangle "r2", int "a1", int "a2"], [int "w", int "h", Constructor "Rectangle", Function "Area"])
+    ListString *code;           //CodeBlock       (NULL, "int ...calcTotalArea...(...) {...", "typedef struct...")
+    int flags;
  */
 void stdprintobj(Object *in) {
     printf("OUTPUTTING OBJECT\n");

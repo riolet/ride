@@ -8,10 +8,23 @@
 	"buffers":
 	[
 		{
-			"contents": "#include \"errors.h\"\n\nint warningMsg(const char *format, ...)\n{\n    int ret;\n    //fprintf(stderr,\"Line %d: Column:%d - \",lineNum,linePos);\n    fprintf(stderr, ANSI_COLOR_YELLOW);\n    va_list arg;\n    va_start(arg, format);\n    ret = vfprintf(stderr, format, arg);\n    va_end(arg);\n    fprintf(stderr, ANSI_COLOR_RESET);\n    return ret;\n}\n\nint errorMsg(const char *format, ...)\n{\n    int ret;\n    fprintf(stderr, ANSI_COLOR_RED);\n    fprintf(stderr, \"Line %d: Column:%d - \", g_lineNum-g_headerLines, g_lineCol);\n    va_list arg;\n    va_start(arg, format);\n    ret = vfprintf(stderr, format, arg);\n    fprintf(stderr, ANSI_COLOR_RESET);\n    va_end(arg);\n    return ret;\n}\n\nvoid criticalError(ErrorCode code, char *message)\n{\n    fprintf(stderr, \"\\t\");\n    switch (code) {\n    case ERROR_EndlessString:\n        errorMsg(\"Error parsing string. No closing quote.\\n\");\n        break;\n    case ERROR_IncompatibleTypes:\n        errorMsg(\"Type mismatch.\\n\");\n        break;\n    case ERROR_UnexpectedIndent:\n        errorMsg(\"Unexpected scope increase\\n\");\n        break;\n    case ERROR_AssignToLiteral:\n        errorMsg(\"Cannot assign to a literal.\\n\");\n        break;\n    case ERROR_UnrecognizedSymbol:\n        errorMsg(\"Unknown symbol detected.\\n\");\n        break;\n    case ERROR_CannotAllocateMemory:\n        errorMsg(\"Cannot allocate new space.\\n\");\n        break;\n    case ERROR_UndefinedVerb:\n        errorMsg(\"Verb encountered without definition.\\n\");\n        break;\n    case ERROR_UndefinedVariable:\n        errorMsg(\"Variable encountered without definition.\\n\");\n        break;\n    case ERROR_UndefinedType:\n        errorMsg(\"Type encountered without definition.\\n\");\n        break;\n    case ERROR_InvalidArguments:\n        errorMsg(\"Attempted to run a function with invalid arguments.\\n\");\n        break;\n    case ERROR_ParseError:\n        errorMsg(\"Error while parsing file.\\n\");\n        break;\n    default:\n        errorMsg(\"Unknown critical error. Aborting.\\n\");\n    }\n    if (message) {\n        fprintf(stderr, \"\\t\");\n        fprintf(stderr, \"%s\", message);\n    }\n    // exit((int)code);\n}\n",
+			"file": "ObjectTree.c",
+			"settings":
+			{
+				"buffer_size": 30338,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "ObjectTree.h",
+			"settings":
+			{
+				"buffer_size": 5129,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "errors.c",
-			"file_size": 2095,
-			"file_write_time": 131069575619255013,
 			"settings":
 			{
 				"buffer_size": 2095,
@@ -19,31 +32,10 @@
 			}
 		},
 		{
-			"file": "/home/berong91/.config/sublime-text-3/Local/Session.sublime_session",
-			"settings":
-			{
-				"buffer_size": 28402,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "rixc.c",
-			"settings":
-			{
-				"buffer_size": 65794,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "test.rit",
-			"settings":
-			{
-				"buffer_size": 189,
-				"line_ending": "Unix"
-			}
-		},
-		{
+			"contents": "%{\n#include <stdio.h>\n#include <stdlib.h>\n#include \"ObjectTree.h\"\n#include \"rixc.h\"\n#include \"errors.h\"\n\n#define YYPARSE_PARAM scanner\n#define YYLEX_PARAM   scanner\n\n%}\n\n%glr-parser\n%locations\n%define api.pure //full\n%define parse.error verbose\n\n// Bison fundamentally works by asking flex to get the next token, which it\n// returns as an object of type \"yystype\".  But tokens could be of any\n// arbitrary data type!  So we deal with that in Bison by defining a C union\n// holding each of the types of tokens that Flex could return, and have Bison\n// use that union instead of \"int\" for the definition of \"yystype\":\n%union {\n	int     ival;\n	float   fval;\n	char*   sval;\n	Object* oval;\n}\n\n// define the constant-string tokens:\n%token ENDOFLINE\n%token ENDOFFILE 0 \"end of file\"\n\n// define the \"terminal symbol\" token types I'm going to use (in CAPS\n// by convention), and associate each with a field of the union:\n%token <ival> INT\n%token <sval> CHAR\n%token <fval> FLOAT\n%token <sval> STRING\n%token <sval> IDENT\n%token <sval> NEWIDENT\n%token <sval> UNMARKEDNEWIDENT\n%token <sval> FIELD\n%token <sval> VERB\n%token <sval> STATICVERB\n%token <sval> TYPE\n%token <sval> MATH_OP\n%token <sval> ASSIGNMENT\n%token <sval> LPAREN\n%token <sval> RPAREN\n%token <sval> LBRACKET\n%token <sval> RBRACKET\n%token <sval> RBRACKETASSIGN\n%token <ival> INDENT\n%token <sval> LBRACE\n%token <sval> RBRACE\n%token <ival> UNINDENT\n%token <sval> CONDITIONLINK\n%token <sval> UNARYNEGATE\n%token <sval> MATHASSIGN\n%token <sval> BITWISEOP\n%token <sval> BOOLEANOP\n%token <sval> COLON\n%token <sval> CLASSDEC\n%token <sval> CLASSDECPRIM\n%token <sval> PARAMCOMMA\n%token <sval> RETURN\n%token <sval> SELFIDENT\n%token <sval> SLCOMMENT\n%token <sval> COMPARISON\n%token <sval> LESSTHAN\n%token <sval> GREATERTHAN\n%token <ival> TERNARY\n%token <sval> CODE_INSERT\n\n%token <sval> CONDRETURN\n%token <sval> ACCESSOR\n\n%token <sval> DTV_EXTERNAL\n%token <sval> DTV_ADDSOURCE\n\n%type <oval> rix;\n%type <oval> statements;\n%type <oval> statement;\n%type <oval> simple_statement;\n%type <oval> class_statements;\n%type <oval> class_statement;\n%type <oval> parameters;\n%type <oval> codeblock;\n%type <oval> funcblock;\n%type <oval> classblock;\n%type <oval> function_definition;\n%type <oval> class_definition;\n%type <oval> ctor_definition;\n%type <oval> expr;\n%type <oval> object;\n%type <oval> arguments;\n%type <oval> arglist;\n%type <oval> typeArgList;\n\n\n%type <sval> parameterIdent;\n%type <sval> anyIdent;\n%type <sval> anyIdentOrVerb;\n\n%{\nvoid yyerror(YYLTYPE *locp, const char* msg);\n%}\n\n//  Precedence for the following tokens.\n//  Higher tokens happen last\n//  Lower tokens happen first / take priority\n//  Multiple tokens means treat as the same precedence\n//     and rely on associativity.\n//  %right (as opposed to %left) means,\n//    given a compound expression,\n//    evaluate from right to left.\n%right ASSIGNMENT MATHASSIGN\n%left VERB TYPE STATICVERB CONDRETURN RBRACKETASSIGN\n%left ENDOFLINE INDENT\n%left PARAMCOMMA\n%left BOOLEANOP\n%left COMPARISON LESSTHAN GREATERTHAN TERNARY\n%left MATH_OP\n%left UNARYNEGATE\n%left ACCESSOR\n%left DESTRUCTOR\n%left LBRACKET RBRACKET LBRACE RBRACE\n//%right class_definition\n\n%%\n%start rix;\nrix:\n	statements   { compilerDebugPrintf(\"parser: rix-stmts\\n\"); $$ = $1; }\n	| ENDOFFILE  { compilerDebugPrintf(\"parser: rix-EOF\\n\"); $$ = 0; handleEOF(); }\n	;\nstatements:\n  simple_statement              { compilerDebugPrintf(\"parser: stmts-s_s\\n\"); $$ = $1; }\n  | statements simple_statement { compilerDebugPrintf(\"parser: stmts-stmt,s_s\\n\"); $$ = $1; }\n  ;\n\nsimple_statement:\n  ENDOFLINE             { compilerDebugPrintf(\"parser: s_s-eol\\nempty EOL\\n\"); $$ = 0; }\n  | DTV_EXTERNAL STRING ENDOFLINE { compilerDebugPrintf(\"parser: dtv\\n\"); directive($1,$2);  }\n  | DTV_ADDSOURCE STRING ENDOFLINE { compilerDebugPrintf(\"parser: dtv\\n\"); directive($1,$2);  }\n  | statement ENDOFLINE { compilerDebugPrintf(\"parser: s_s-stmt\\nstatement EOL\\n\"); $$ = $1; }\n  | statement ENDOFLINE codeblock { compilerDebugPrintf(\"parser: s_s-stCB\\nstatement EOL\\n\"); closeBrace(); $$ = $1; }\n  | function_definition ASSIGNMENT statement ENDOFLINE {\n          compilerDebugPrintf(\"parser: s_s-func - Funliner Defined! %s\\n\", $1->fullname);\n          makeReturn($3); doneFunction($1); printf(\"done function t1 \\n\");}\n  | function_definition ENDOFLINE funcblock {\n          compilerDebugPrintf(\"parser: s_s-func - Function Defined! %s\\n\", $1->fullname);\n          doneFunction($1); printf(\"done function t2 \\n\"); }\n  | CODE_INSERT ENDOFLINE     { compilerDebugPrintf(\"parser: code-insert\\n\"); $$ = injectC($1);  }\n  | class_definition ENDOFLINE classblock {\n          compilerDebugPrintf(\"parser: s_s-class - Class Defined! %s\\n\", $1->fullname);\n          doneClass($1); printf(\"done class \\n \\n\");}\n//Todo-Proper handling of codeblocks\n//Verb calls with Codeblocks\n//  |        VERB     arguments ENDOFLINE codeblock { compilerDebugPrintf(\"parser: expr- vo-cb\\n\");   $$ = completeExpression(conjugate( 0,  verbIdent($1), $2)); }\n//  |        TYPE     arguments ENDOFLINE codeblock { compilerDebugPrintf(\"parser: expr-sto-cb\\n\");   $$ = conjugate( 0,   verbCtor($1,0), $2); }\n//  | expr ACCESSOR VERB arguments ENDOFLINE codeblock { compilerDebugPrintf(\"parser: expr-.vo-cb\\n\");   $$ = conjugate( $1, verbIdent($3), $4); }\n//  | TYPE LBRACE TYPE RBRACE arguments  ENDOFLINE codeblock { compilerDebugPrintf(\"parser: expr-sto-cb\\n\");   $$ = conjugate( 0,   verbCtor($1,$3), $5); }\n////Verb calls without Codeblocks\n//  |        VERB     arguments ENDOFLINE  { compilerDebugPrintf(\"parser: expr- vo-nocb\\n\");   $$ = completeExpression(conjugate( 0,  verbIdent($1), $2)); }\n//  |        TYPE     arguments ENDOFLINE  { compilerDebugPrintf(\"parser: expr-sto-noccb\\n\");   $$ = completeExpression(conjugate( 0,   verbCtor($1,0), $2)); }\n//  | expr ACCESSOR VERB arguments ENDOFLINE  { compilerDebugPrintf(\"parser: expr-.vo-noccb\\n\");   $$ = completeExpression(conjugate( $1, verbIdent($3), $4)); }\n//  | TYPE LBRACE TYPE RBRACE arguments  ENDOFLINE  { compilerDebugPrintf(\"parser: expr-sto-noccb\\n\");   $$ = completeExpression(conjugate( 0,   verbCtor($1,$3), $5)); }\n  ;\n\nstatement:\n  expr              { compilerDebugPrintf(\"parser: stmt-expr\\n\"); $$ = completeExpression(finalize($1)); }\n  | RETURN expr     { compilerDebugPrintf(\"parser: stmt-rtEx\\n\"); $$ = completeExpression(makeReturn($2)); }\n  | RETURN          { compilerDebugPrintf(\"parser: stmt-rtEx\\n\"); $$ = completeExpression(makeReturn(0)); }\n  ;\n\nexpr:\n  object                  { compilerDebugPrintf(\"parser: expr-obj\\n\");   $$ = $1; }\n  | expr ASSIGNMENT expr  { compilerDebugPrintf(\"parser: expr-asn\\n\");   $$ = conjugate($1, verbAssignment($2), $3); }\n  | expr MATHASSIGN expr  { compilerDebugPrintf(\"parser: expr-mas\\n\");   $$ = conjugate($1, verbAssignment($2), $3); }\n  | expr LESSTHAN expr  { compilerDebugPrintf(\"parser: expr-cmp\\n\");   $$ = conjugate($1, verbComparison($2), $3); }\n  | expr GREATERTHAN expr  { compilerDebugPrintf(\"parser: expr-cmp\\n\");   $$ = conjugate($1, verbComparison($2), $3); }\n  | expr COMPARISON expr  { compilerDebugPrintf(\"parser: expr-cmp\\n\");   $$ = conjugate($1, verbComparison($2), $3); }\n  | expr BOOLEANOP  expr  { compilerDebugPrintf(\"parser: expr-cmp\\n\");   $$ = conjugate($1, verbComparison($2), $3); }\n  | expr  TERNARY   expr  { compilerDebugPrintf(\"parser: expr-cmp\\n\");   $$ = conjugate($1,  verbTernary(), $3); }\n  | expr  CONDRETURN   expr  { compilerDebugPrintf(\"parser: expr-crt\\n\");   $$ = conjugate($1,  verbCondReturn(), $3); }\n  | expr  MATH_OP   expr  { compilerDebugPrintf(\"parser: expr-mth\\n\");   $$ = conjugate($1, verbMathOp($2), $3); }\n  | expr  UNARYNEGATE   expr  { compilerDebugPrintf(\"parser: expr-mth\\n\");   $$ = conjugate($1, verbMathOp($2), $3); }\n  | UNARYNEGATE expr { compilerDebugPrintf(\"parser: expr-mth\\n\");   $$ = conjugate($2, verbMathOp(\"*\"), objectInt(-1)); }\n  |        VERB     arguments  { compilerDebugPrintf(\"parser: expr- vo\\n\");   $$ = conjugate( 0,  verbIdent($1), $2); }\n  |        TYPE     arguments  { compilerDebugPrintf(\"parser: expr-sto\\n\");   $$ = conjugate( 0,   verbCtor($1,0), $2); }\n  | expr ACCESSOR VERB arguments { compilerDebugPrintf(\"parser: expr-.vo\\n\");   $$ = conjugate( $1, verbIdent($3), $4); }\n  | TYPE LBRACE TYPE RBRACE arguments  { compilerDebugPrintf(\"parser: expr-sto\\n\");   $$ = conjugate( 0,   verbCtor($1,$3), $5); }\n  | LPAREN expr RPAREN    { compilerDebugPrintf(\"parser: expr-prn\\n\");   $$ = parenthesize($2); }\n  | expr LBRACKET expr RBRACKETASSIGN expr { compilerDebugPrintf(\"parser: expr-prn\\n\");   $$ = conjugate($1,  verbPutObjAtIdx(), concatParams($3,$5)); }\n  | expr LBRACKET expr RBRACKET  { compilerDebugPrintf(\"parser: expr-prn\\n\");   $$ = conjugate($1,  verbGetObjAtIdx(), $3); }\n  | expr ACCESSOR anyIdent { compilerDebugPrintf(\"parser: exp-.i\\n\");   $$ = conjugateAccessorIdent( $1, $3); }\n  | IDENT DESTRUCTOR      { compilerDebugPrintf(\"parser: expr-cmp\\n\");   $$ = conjugate(objectIdent($1),  verbDestructor(), 0); }\n  ;\n\narguments:\n   %empty { compilerDebugPrintf(\"parser: arg\\n\");   $$ = 0; } //0-ary\n  | LPAREN RPAREN { compilerDebugPrintf(\"parser: arg-()\\n\");   $$ = 0; } //0-ary\n  | LPAREN arglist RPAREN { compilerDebugPrintf(\"parser: arg(...)\\n\");   $$ = $2; } //n-ary\n  ;\n\narglist:\n  expr { compilerDebugPrintf(\"parser: arg-(x)\\n\");   $$ = $1; } //1-ary\n  | expr PARAMCOMMA arglist { compilerDebugPrintf(\"parser: arg(x,y)\\n\");   $$ = concatParams($1,$3); } //n-ary\n  ;\n\ntypeArgList:\n  UNMARKEDNEWIDENT { compilerDebugPrintf(\"parser: arg-(x) %s\\n\",$1);   $$ = objectPlaceHolderType($1); } //1-ary\n  | UNMARKEDNEWIDENT PARAMCOMMA UNMARKEDNEWIDENT { compilerDebugPrintf(\"parser: arg(x,y) %s, %s\\n\",$1,$3);   $$ = concatParams(objectPlaceHolderType($1),objectPlaceHolderType($3)); } //n-ary\n  ;\n\n\nobject:\n  INT       { compilerDebugPrintf(\"parser: object-int\\n\");       $$ = objectInt($1); }\n  | CHAR       { compilerDebugPrintf(\"parser: object-int\\n\");       $$ = objectChar($1); }\n  | FLOAT   { compilerDebugPrintf(\"parser: object-float\\n\");     $$ = objectfloat($1);}\n  | IDENT   { compilerDebugPrintf(\"parser: object-identifer\\n\"); $$ = objectIdent($1); }\n  | NEWIDENT   { compilerDebugPrintf(\"parser: object-new-identifer\\n\"); $$ = objectNewIdent($1); }\n  | UNMARKEDNEWIDENT { compilerDebugPrintf(\"parser: object-unmarked-new-identifer\\n\"); $$ = objectUnmarkedNewIdent($1); }\n  | STRING  { compilerDebugPrintf(\"parser: object-string\\n\");    $$ = objectString($1);  }\n  | SELFIDENT { compilerDebugPrintf(\"parser: object-self\\n\");    $$ = objectSelfIdent($1);}\n  | CONDITIONLINK { compilerDebugPrintf(\"parser: object-previous\\n\"); $$ = objectPrev();   }\n  ;\n\nanyIdent:\n  IDENT   { compilerDebugPrintf(\"parser: IDENT\\n\"); $$ = $1; }\n  | NEWIDENT   { compilerDebugPrintf(\"parser: NEWIDENT\\n\"); $$ = $1; }\n  | UNMARKEDNEWIDENT { compilerDebugPrintf(\"parser: UNMARKEDNEWIDENT\\n\"); $$ = $1; }\n  ;\n\nanyIdentOrVerb:\n  IDENT   { compilerDebugPrintf(\"parser: IDENT\\n\"); $$ = $1; }\n  | NEWIDENT   { compilerDebugPrintf(\"parser: NEWIDENT\\n\"); $$ = $1; }\n  | UNMARKEDNEWIDENT { compilerDebugPrintf(\"parser: UNMARKEDNEWIDENT\\n\"); $$ = $1; }\n  | VERB { compilerDebugPrintf(\"parser: UNMARKEDNEWIDENT\\n\"); $$ = $1; }\n  ;\n\nfunction_definition:\n  anyIdentOrVerb RETURN TYPE LPAREN parameters RPAREN { compilerDebugPrintf(\"parser: func-def\\n\"); $$ = beginFunction($3, $1, $5);\n  stdprintf($3);\n  stdprintf($1);\n  stdprintf($5);\n}\n  | anyIdentOrVerb RETURN LPAREN parameters RPAREN { compilerDebugPrintf(\"parser: func-void\\n\"); $$ = beginFunction(\"void\", $1, $4); }\n  ;\n\nparameters:\n  %empty                                { compilerDebugPrintf(\"parser: param0\\n\"); $$ = CreateObject(0, 0, 0, Expression, 0); }\n  | TYPE parameterIdent                       { compilerDebugPrintf(\"parser: param1\\n\"); $$ = funcParameters( 0, $1, $2); }\n  | parameters PARAMCOMMA TYPE parameterIdent { compilerDebugPrintf(\"parser: paramN\\n\"); $$ = funcParameters($1, $3, $4);}\n  ;\n\nparameterIdent:\n  IDENT                                 { compilerDebugPrintf(\"parser: IDENT\\n\"); $$ = $1; }\n  |UNMARKEDNEWIDENT                     { compilerDebugPrintf(\"parser: UNMARKEDNEWIDENT\\n\"); $$ = $1; }\n  ;\n\nfuncblock:\n  INDENT statements UNINDENT { compilerDebugPrintf(\"parser: codeblock\\n\"); $$ = $2; }\n  ;\n\ncodeblock:\n//Todo-Proper handling of codeblocks\n//  INDENT statements UNINDENT { compilerDebugPrintf(\"parser: codeblock\\n\"); $$ = createCodeBlock($2); }\n  INDENT statements UNINDENT { compilerDebugPrintf(\"parser: codeblock\\n\"); $$ = $2; }\n  ;\n\n\n\nclass_definition:\n  UNMARKEDNEWIDENT CLASSDEC TYPE { compilerDebugPrintf(\"parser: class-def\\n\"); $$ = beginClass($1, $3, 0, false); }\n  | UNMARKEDNEWIDENT LBRACE typeArgList RBRACE CLASSDEC TYPE { compilerDebugPrintf(\"parser: gen-class-def\\n\"); $$ = beginClass($1, $6, $3, false); }\n  | UNMARKEDNEWIDENT CLASSDECPRIM TYPE { compilerDebugPrintf(\"parser: class-def\\n\"); $$ = beginClass($1, $3, 0, true); }\n  | UNMARKEDNEWIDENT LBRACE typeArgList RBRACE CLASSDECPRIM TYPE { compilerDebugPrintf(\"parser: gen-class-def\\n\"); $$ = beginClass($1, $6, $3, true); }\n  ;\n\nctor_definition:\n  SELFIDENT LPAREN parameters RPAREN { compilerDebugPrintf(\"parser: class-def\\n\"); $$ = beginConstructor($3); }\n  ;\nclassblock:\n  INDENT class_statements UNINDENT { $$ = $2; }\n  ;\nclass_statements:\n  class_statement\n  | class_statements class_statement\n  ;\nclass_statement:\n  ENDOFLINE { compilerDebugPrintf(\"parser: c_s-eol\\nempty EOL\\n\"); $$ = 0; }\n  | UNMARKEDNEWIDENT ASSIGNMENT TYPE ENDOFLINE { compilerDebugPrintf(\"parser: c_s:varType\\n\"); $$ = declareVariable($1, $3); }\n  | function_definition ENDOFLINE codeblock {\n          compilerDebugPrintf(\"parser: c_s-func - Function Defined! %s\\n\", $1->fullname);\n          doneFunction($1); printf(\"function done  t3 \\n\\n\"); }\n  | function_definition ASSIGNMENT statement ENDOFLINE {\n          compilerDebugPrintf(\"parser: c_s-func - Function Defined! %s\\n\", $1->fullname);\n          makeReturn($3); doneFunction($1); printf(\"done function t4 \\n\\n\");}\n  | ctor_definition ENDOFLINE codeblock {\n          compilerDebugPrintf(\"parser: c_s-func - Constructor Defined! %s\\n\", $1->fullname);\n          doneConstructor($1); printf(\"done constructor t1 \\n\");}\n  ;\n\n%%\n\n//void yyerror(char const *msg) {\nvoid yyerror(YYLTYPE *locp, const char* msg) {\n  char errorMsg[256];\n  snprintf(errorMsg, 256, \"%s\\n\", msg);\n  //criticalError(ERROR_ParseError, errorMsg);\n	// might as well halt now:\n	//exit(-1);\n}\n",
 			"file": "rix.y",
+			"file_size": 14342,
+			"file_write_time": 131069676885213743,
 			"settings":
 			{
 				"buffer_size": 14376,
@@ -51,10 +43,42 @@
 			}
 		},
 		{
-			"file": "log",
+			"file": "rix.l",
 			"settings":
 			{
-				"buffer_size": 943,
+				"buffer_size": 12735,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "rixc.c",
+			"settings":
+			{
+				"buffer_size": 65942,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "./rixc -t -q -o test.rit test.rit",
+			"settings":
+			{
+				"buffer_size": 33,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "test.rit",
+			"settings":
+			{
+				"buffer_size": 209,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "test.rit.log",
+			"settings":
+			{
+				"buffer_size": 14901,
 				"line_ending": "Unix"
 			}
 		}
@@ -152,9 +176,29 @@
 	},
 	"file_history":
 	[
+		"/home/berong91/dev/ride/ride_parser/errors.c",
+		"/home/berong91/dev/ride/ride_parser/log",
+		"/home/berong91/dev/ride/ride_parser/rixc.c",
+		"/home/berong91/dev/ride/ride_parser/rsl/Stream.rit",
+		"/home/berong91/dev/ride/ride_parser/rix.sh",
+		"/home/berong91/dev/ride/ride_parser/rsl/Vector.rit",
+		"/home/berong91/dev/ride/ride_parser/rsl/String.rit",
+		"/home/berong91/dev/ride/ride_parser/rsl/rsl.rit",
+		"/home/berong91/dev/ride/ride_parser/rsl/rsl.c",
+		"/home/berong91/dev/ride/ride_parser/rsl/Array.rit",
+		"/home/berong91/dev/ride/ride_parser/rix.y",
+		"/home/berong91/dev/ride/ride_parser/errors.h",
+		"/home/berong91/dev/ride/ride_parser/test.rit.log",
+		"/home/berong91/dev/ride/ride_parser/test.rit.h",
+		"/home/berong91/dev/ride/ride_parser/test.rit.c",
+		"/home/berong91/dev/ride/ride_parser/test.rit.sh",
+		"/home/berong91/dev/ride/ride_parser/lex.yy.c",
+		"/home/berong91/dev/ride/ride_parser/rix.tab.c",
+		"/home/berong91/dev/ride/ride_parser/rixc.h",
+		"/home/berong91/.config/sublime-text-3/Local/Session.sublime_session",
 		"/home/berong91/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings",
 		"/home/berong91/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
-		"/home/berong91/dev/ride/ride_parser/rixc.h",
+		"/home/berong91/.config/sublime-text-3/Packages/User/Package Control.user-ca-bundle",
 		"/home/berong91/.config/sublime-text-3/Packages/Tabright/Tabright.sublime-settings",
 		"/home/berong91/dev/ride/ride_parser/ride_parser.sublime-project",
 		"/home/berong91/dev/ride/ride_parser/rix.l",
@@ -168,7 +212,6 @@
 		"/home/berong91/dev/ride/ride_parser/tests/expressionsFloat.rit",
 		"/home/berong91/dev/ride/ride_parser/tests/condreturn.rit",
 		"/home/berong91/dev/ride/ride_parser/tests/codeinsert.rit",
-		"/home/berong91/dev/ride/ride_parser/rixc.c",
 		"/home/berong91/dev/ride/ride_parser/README.md",
 		"/home/berong91/dev/rix/rix.sh",
 		"/home/berong91/dev/rix/rix-rm.h",
@@ -260,30 +303,18 @@
 		"/home/berong91/dev/rix/a1/a1.rit.sh",
 		"/etc/default/rcS",
 		"/home/berong91/dev/rix/test.rit",
-		"/home/berong91/dev/rix/test.rit.log",
-		"/home/berong91/dev/rix/test.rit.c",
-		"/home/berong91/dev/rix/examples/factorial.rit",
-		"/home/berong91/dev/rix/examples/example.rit",
-		"/home/berong91/dev/rix/preproc.c",
-		"/home/berong91/dev/rix/test.rit.sh",
-		"/home/berong91/dev/rix/test.rit.h",
-		"/home/berong91/dev/rix/out.h",
-		"/home/berong91/dev/rix/ext/BetterString/bstrlib.txt",
-		"/home/berong91/dev/rix/ObjectTree/ObjectTree_Input.txt",
-		"/home/berong91/dev/rix/ObjectTree/ObjectTree_HFile.txt",
-		"/home/berong91/dev/rix/ObjectTree/ObjectTree_CFile.txt",
-		"/usr/share/applications/defaults.list",
-		"/home/berong91/dev/rix/comp.sh"
+		"/home/berong91/dev/rix/test.rit.log"
 	],
 	"find":
 	{
-		"height": 35.0
+		"height": 45.0
 	},
 	"find_in_files":
 	{
 		"height": 93.0,
 		"where_history":
 		[
+			"/home/berong91/dev/ride/ride_parser/",
 			"<open folders>,<current file>",
 			""
 		]
@@ -293,6 +324,39 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"exit",
+			"criticalError",
+			"//criticalError",
+			"// criticalError",
+			"//criticalError",
+			"criticalError",
+			"function done",
+			"OBJ_TYPE",
+			"doneFunction",
+			"scope_pop",
+			"Object *begin",
+			"yyterminate",
+			"terminate",
+			"quit",
+			"exit",
+			"criticalError",
+			"errorMsg",
+			"yyparse",
+			"yy",
+			"yyparse",
+			"handleEOF",
+			"error",
+			"exit",
+			"prtwat",
+			"exit(",
+			"Verb",
+			"asdf",
+			"\")\n",
+			"num",
+			"prthuh",
+			"printTreeToFile",
+			"printTreeBool",
+			"current",
 			"wrap",
 			"ward",
 			"criticalError",
@@ -380,11 +444,71 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
+					"file": "ObjectTree.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 30338,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								14499,
+								14499
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 10695.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "ObjectTree.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5129,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2501,
+								2501
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 165.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
 					"file": "errors.c",
 					"semi_transient": false,
 					"settings":
@@ -396,8 +520,8 @@
 						"selection":
 						[
 							[
-								2076,
-								2076
+								426,
+								426
 							]
 						],
 						"settings":
@@ -407,107 +531,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 969.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/home/berong91/.config/sublime-text-3/Local/Session.sublime_session",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 28402,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 135.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "rixc.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 65794,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								28177,
-								28177
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true,
-							"word_wrap": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 14323.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
 					"buffer": 3,
-					"file": "test.rit",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 189,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								171,
-								171
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 4,
 					"file": "rix.y",
 					"semi_transient": false,
 					"settings":
@@ -519,19 +550,48 @@
 						"selection":
 						[
 							[
-								14260,
-								14260
+								14368,
+								14368
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/C++/C.sublime-syntax",
 							"tab_size": 2,
-							"translate_tabs_to_spaces": true,
-							"word_wrap": true
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3664.0,
+						"translation.y": 7245.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "rix.l",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 12735,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7469,
+								7469
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lisp/Lisp.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 144.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
@@ -539,33 +599,122 @@
 				},
 				{
 					"buffer": 5,
-					"file": "log",
+					"file": "rixc.c",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 943,
+						"buffer_size": 65942,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								867,
-								867
+								63974,
+								63974
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 35820.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 6,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 33,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								33,
+								33
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "test.rit",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 209,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								17,
+								17
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "test.rit.log",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 14901,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								278,
+								278
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 50,
-							"translate_tabs_to_spaces": false,
-							"word_wrap": false
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 817.0,
+						"translation.y": 378.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 6,
 					"type": "text"
 				}
 			]
@@ -573,7 +722,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 27.0
+		"height": 37.0
 	},
 	"input":
 	{
@@ -621,7 +770,7 @@
 	"project": "ride_parser.sublime-project",
 	"replace":
 	{
-		"height": 64.0
+		"height": 84.0
 	},
 	"save_all_on_build": true,
 	"select_file":

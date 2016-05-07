@@ -147,14 +147,14 @@ simple_statement:
   | statement ENDOFLINE codeblock { compilerDebugPrintf("parser: s_s-stCB\nstatement EOL\n"); closeBrace(); $$ = $1; }
   | function_definition ASSIGNMENT statement ENDOFLINE {
           compilerDebugPrintf("parser: s_s-func - Funliner Defined! %s\n", $1->fullname);
-          makeReturn($3); doneFunction($1); printf("done function t1 \n");}
+          makeReturn($3); doneFunction($1);}
   | function_definition ENDOFLINE funcblock {
           compilerDebugPrintf("parser: s_s-func - Function Defined! %s\n", $1->fullname);
-          doneFunction($1); printf("done function t2 \n"); }
+          doneFunction($1); }
   | CODE_INSERT ENDOFLINE     { compilerDebugPrintf("parser: code-insert\n"); $$ = injectC($1);  }
   | class_definition ENDOFLINE classblock {
           compilerDebugPrintf("parser: s_s-class - Class Defined! %s\n", $1->fullname);
-          doneClass($1); printf("done class \n \n");}
+          doneClass($1);}
 //Todo-Proper handling of codeblocks
 //Verb calls with Codeblocks
 //  |        VERB     arguments ENDOFLINE codeblock { compilerDebugPrintf("parser: expr- vo-cb\n");   $$ = completeExpression(conjugate( 0,  verbIdent($1), $2)); }
@@ -242,9 +242,6 @@ anyIdentOrVerb:
 
 function_definition:
   anyIdentOrVerb RETURN TYPE LPAREN parameters RPAREN { compilerDebugPrintf("parser: func-def\n"); $$ = beginFunction($3, $1, $5);
-  stdprintf($3);
-  stdprintf($1);
-  stdprintf($5);
 }
   | anyIdentOrVerb RETURN LPAREN parameters RPAREN { compilerDebugPrintf("parser: func-void\n"); $$ = beginFunction("void", $1, $4); }
   ;
@@ -297,10 +294,10 @@ class_statement:
           doneFunction($1); }
   | function_definition ASSIGNMENT statement ENDOFLINE {
           compilerDebugPrintf("parser: c_s-func - Function Defined! %s\n", $1->fullname);
-          makeReturn($3); doneFunction($1); printf("done function t4 \n\n");}
+          makeReturn($3); doneFunction($1); }
   | ctor_definition ENDOFLINE codeblock {
           compilerDebugPrintf("parser: c_s-func - Constructor Defined! %s\n", $1->fullname);
-          doneConstructor($1); printf("done constructor t1 \n");}
+          doneConstructor($1); }
   ;
 
 %%
