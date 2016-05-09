@@ -60,6 +60,12 @@ bool ScintillaDoc::saveAs(QString filepath)
     return saveFile(filepath);
 }
 
+void ScintillaDoc::clearTextArea()
+{
+    _editText->clear();
+    _filename = QString("untitled");
+}
+
 bool ScintillaDoc::isBlank()
 {
     return _isBlank;

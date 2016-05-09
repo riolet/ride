@@ -35,6 +35,8 @@ public:
 
     bool saveAs(QString filepath);
 
+    void clearTextArea();
+
     bool isBlank();
 
 private: // Private functions

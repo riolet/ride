@@ -44,6 +44,8 @@ private slots:
 
     void on_button_save_clicked();
 
+    void on_button_new_file_clicked();
+
 private:    //Private Functions
     void setupScintilla();
     void setupFileTree();

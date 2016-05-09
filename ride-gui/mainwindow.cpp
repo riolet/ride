@@ -94,3 +94,29 @@ void MainWindow::on_button_save_clicked()
     QApplication::restoreOverrideCursor();
     statusBar()->showMessage(tr("File saved"), 2000);
 }
+
+// Remove the current document and recreate a blank one.
+void MainWindow::on_button_new_file_clicked()
+{
+    if(!cur_doc->isBlank() && textEditList.size() > 0)
+    {
+        // Remove all old documents
+        do
+        {
+            ui->tabWidget_scintilla->removeTab(0);
+            textEditList.pop_back();
+
+        } while(textEditList.size() > 0);
+
+        ScintillaDoc blank;
+        textEditList.push_back(blank);
+
+        cur_doc = &textEditList[cur_index];
+
+        ui->tabWidget_scintilla->addTab(blank._editText, blank._filename);
+    }
+    else
+    {
+        cur_doc->clearTextArea();
+    }
+}
