@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/circleright32.png</file>
+        <file>icons/document_save_all.png</file>
+        <file>icons/filesave.png</file>
+        <file>icons/folder32.png</file>
+        <file>icons/linedpaperplus32.png</file>
+        <file>icons/scissors32.png</file>
+        <file>icons/search32.png</file>
+        <file>icons/stop32.png</file>
+        <file>icons/warning32.png</file>
+        <file>icons/copy.png</file>
+        <file>icons/zoomin.png</file>
+        <file>icons/zoomout.png</file>
+    </qresource>
+</RCC>
