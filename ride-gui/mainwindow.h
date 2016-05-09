@@ -50,6 +50,10 @@ private slots:
 
     void tabChanged(int index);
 
+    void on_button_zoom_in_clicked();
+
+    void on_button_zoom_out_clicked();
+
 private:    //Private Functions
     void setupScintilla();
     void setupFileTree();

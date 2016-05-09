@@ -171,6 +171,7 @@ void MainWindow::on_button_new_file_clicked()
     else
     {
         cur_doc->clearTextArea();
+        setDocumentModified(false);
     }
 }
 
@@ -183,4 +184,14 @@ void MainWindow::tabChanged(int index)
 {
     cur_index = index;
     cur_doc = textEditList[cur_index];
+}
+
+void MainWindow::on_button_zoom_in_clicked()
+{
+    cur_doc->zoom_in();
+}
+
+void MainWindow::on_button_zoom_out_clicked()
+{
+    cur_doc->zoom_out();
 }
