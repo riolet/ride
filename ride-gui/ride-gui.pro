@@ -6,7 +6,8 @@ TEMPLATE = app
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    scintilladoc.cpp
+    scintilladoc.cpp \
+    test.cpp
 
 RESOURCES += \
         qml.qrc \
@@ -24,7 +25,8 @@ FORMS += \
 HEADERS += \
     mainwindow.h \
     scintilladoc.h \
-    globals.h
+    globals.h \
+    test.h
 
 #unix:!macx: LIBS += -L$$PWD/../QScintilla_gpl-2.9.2/Qt4Qt5/ -lqscintilla2
 

@@ -1,33 +1,16 @@
 #ifndef SCINTILLADOC_H
 #define SCINTILLADOC_H
+#include <QObject>
 #include <QTextStream>
 #include <QFileInfo>
 #include <QMessageBox>
 #include "globals.h"
 
-class ScintillaDoc
+class ScintillaDoc : public QObject
 {
+    Q_OBJECT
 public:
-    //Default constructor
-    ScintillaDoc()
-        : _editText(new QsciScintilla), _filename(QString("untitled"))
-    {
-        _isBlank = true;
-        _filepath = QString("");
-    }
-
-    //Constructor with a previously existing scintilla document
-    ScintillaDoc(QsciScintilla* doc, QString name = QString("untitled"))
-        : _editText(doc), _filename(name)
-    {
-        _isBlank = true;
-        if(_filename == QString("untitled"))
-        {
-            _isBlank = true;
-            _filepath = QString("");
-        }
-    }
-
+    explicit ScintillaDoc(QObject *parent = 0);
 
     bool loadFile(QString filepath);
 
@@ -42,6 +25,14 @@ public:
 private: // Private functions
 
 
+signals:
+    void textChanged();
+
+private slots:
+
+    // Stops signals from being sent too many times.
+    void scintillaTextChanged();
+
 public: // public variables
     QsciScintilla*  _editText;
     QString         _filename;
@@ -49,8 +40,9 @@ public: // public variables
     QString         _errorString;
     QFile*          _file;
 
-private:
+private: // private variables
     bool            _isBlank;
+    bool            _modified;
 };
 
 #endif // SCINTILLADOC_H

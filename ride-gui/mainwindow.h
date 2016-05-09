@@ -46,18 +46,25 @@ private slots:
 
     void on_button_new_file_clicked();
 
+    void documentWasModified();
+
+    void tabChanged(int index);
+
 private:    //Private Functions
     void setupScintilla();
     void setupFileTree();
+    void setupShortcuts(); // Not done yet.
     void saveAs();
+    void setDocumentModified(bool modified);
 
     // Combined MainWindow and Scintilla methods
     void loadFile(QString filename);
 
 private:    //Private Variables
     Ui::MainWindow              *ui;            // Central UI Widget Container
-    std::vector<ScintillaDoc>   textEditList;   // Container of Scintilla widgets
+    std::vector<ScintillaDoc*>  textEditList;   // Container of Scintilla widgets
     int                         cur_index;      // Currently active document index
+    QFileSystemModel            *model;         // File Directory View
     QTreeView                   *tree;          // File Directory Tree
     ScintillaDoc                *cur_doc;       // Currently active document
 
