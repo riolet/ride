@@ -42,9 +42,14 @@ public:     //Public Functions
 private slots:
     void on_button_open_clicked();
 
+    void on_button_save_clicked();
+
 private:    //Private Functions
     void setupScintilla();
     void setupFileTree();
+    void saveAs();
+
+    // Combined MainWindow and Scintilla methods
     void loadFile(QString filename);
 
 private:    //Private Variables

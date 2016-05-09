@@ -45,12 +45,21 @@ void MainWindow::setupFileTree()
     tree->setRootIndex(model->index(curDir.path()));
 }
 
+void MainWindow::saveAs()
+{
+    /*
+    QString filepath = QFileDialog::getSaveFileName(this);
+
+    cur_doc->saveAs(filepath);
+    */
+}
+
 void MainWindow::loadFile(QString filepath)
 {
     QApplication::setOverrideCursor(Qt::WaitCursor);
     if(!cur_doc->loadFile(filepath))
     {
-        QMessageBox::warning(this, tr("ERROR"),  tr("Cannot read file %1.").arg(filepath).arg(cur_doc->_errorString));
+        QMessageBox::warning(this, tr("Load File Error"),  tr("Cannot read file %1\n%2.").arg(cur_doc->_filepath).arg(cur_doc->_errorString));
         return;
     }
 
@@ -65,4 +74,23 @@ void MainWindow::on_button_open_clicked()
     QString fileName = QFileDialog::getOpenFileName(this);
     if (!fileName.isEmpty())
         loadFile(fileName);
+}
+
+void MainWindow::on_button_save_clicked()
+{
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+
+    if(!cur_doc->saveFile())
+    {
+        QMessageBox::warning(this, tr("Save File Error"),  tr("Cannot save file %1\n%2.").arg(cur_doc->_filepath).arg(cur_doc->_errorString));
+        QApplication::restoreOverrideCursor();
+        return;
+    }
+    else
+    {
+        // TODO: set modified indicator off
+    }
+
+    QApplication::restoreOverrideCursor();
+    statusBar()->showMessage(tr("File saved"), 2000);
 }
