@@ -92,11 +92,28 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>371</width>
+      <width>481</width>
       <height>51</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_icon_menu">
+     <item>
+      <widget class="QPushButton" name="button_new_file">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="icons.qrc">
+         <normaloff>:/icons/linedpaperplus32.png</normaloff>:/icons/linedpaperplus32.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QPushButton" name="button_open">
        <property name="text">

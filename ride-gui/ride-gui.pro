@@ -4,8 +4,8 @@ TARGET = RIDE
 TEMPLATE = app
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
+    main.cpp \
+    mainwindow.cpp \
     scintilladoc.cpp
 
 RESOURCES += \
