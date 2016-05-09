@@ -18,6 +18,7 @@ bool ScintillaDoc::loadFile(QString filepath)
     _filepath = _file->fileName();
     if (!_file->open(QFile::ReadOnly))
     {
+        delete _file;
         _errorString = _file->errorString();
         return false;
     }
