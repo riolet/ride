@@ -10,6 +10,9 @@ ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
 
     connect(_editText, SIGNAL(textChanged()),
                 this, SLOT(scintillaTextChanged()));
+
+    _editText->setMarginLineNumbers(1, true);
+    _editText->setMarginWidth(1, MARGIN_WIDTH); // 6 characters wide.
 }
 
 bool ScintillaDoc::loadFile(QString filepath)
@@ -98,8 +101,19 @@ bool ScintillaDoc::isBlank()
     return _isBlank;
 }
 
+void ScintillaDoc::zoom_in()
+{
+    _editText->zoomIn(ZOOM_FACTOR);
+}
+
+void ScintillaDoc::zoom_out()
+{
+    _editText->zoomOut(ZOOM_FACTOR);
+}
+
 void ScintillaDoc::scintillaTextChanged()
 {
+
     if(_modified)
     {
         return;

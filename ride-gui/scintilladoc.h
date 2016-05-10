@@ -6,6 +6,9 @@
 #include <QMessageBox>
 #include "globals.h"
 
+#define ZOOM_FACTOR 2
+#define MARGIN_WIDTH QString("123456")
+
 class ScintillaDoc : public QObject
 {
     Q_OBJECT
@@ -21,6 +24,10 @@ public:
     void clearTextArea();
 
     bool isBlank();
+
+    void zoom_in();
+
+    void zoom_out();
 
 private: // Private functions
 
@@ -43,6 +50,7 @@ public: // public variables
 private: // private variables
     bool            _isBlank;
     bool            _modified;
+
 };
 
 #endif // SCINTILLADOC_H
