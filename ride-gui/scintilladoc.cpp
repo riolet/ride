@@ -8,9 +8,16 @@ ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
     _modified = false;
     _filepath = QString("");
 
+
+
     connect(_editText, SIGNAL(textChanged()),
                 this, SLOT(scintillaTextChanged()));
 
+    QFont fixedfont("Monospace", 12);
+    fixedfont.setStyleHint(QFont::Monospace);
+
+    _editText->setAutoIndent(true);
+    _editText->setFont(fixedfont);
     _editText->setMarginLineNumbers(1, true);
     _editText->setMarginWidth(1, MARGIN_WIDTH); // 6 characters wide.
 }
@@ -109,6 +116,18 @@ void ScintillaDoc::zoom_in()
 void ScintillaDoc::zoom_out()
 {
     _editText->zoomOut(ZOOM_FACTOR);
+}
+
+void ScintillaDoc::setWrapMode(bool enable)
+{
+    if(enable)
+    {
+        _editText->setWrapMode(_editText->WrapWord);
+    }
+    else
+    {
+        _editText->setWrapMode(_editText->WrapNone);
+    }
 }
 
 void ScintillaDoc::scintillaTextChanged()

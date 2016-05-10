@@ -26,10 +26,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->tabWidget_scintilla, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
-
     setupFileTree();
     setupScintilla();
+    setupMenuActions();
     setupShortcuts(); //Not active atm
 }
 
@@ -40,6 +39,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupScintilla()
 {
+    connect(ui->tabWidget_scintilla, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
+
     ScintillaDoc* blank = new ScintillaDoc;
     textEditList.push_back(blank);
     cur_index = 0;
@@ -72,6 +73,17 @@ void MainWindow::setupShortcuts()
     // TODO: connect common keyboard shortcuts to various methods such as Ctrl+S to Save File
 }
 
+void MainWindow::setupMenuActions()
+{
+    connect(ui->actionNew_File, SIGNAL(triggered()), this, SLOT(on_button_new_file_clicked()));
+    connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(on_button_open_clicked()));
+    connect(ui->actionSave_File, SIGNAL(triggered()), this, SLOT(on_button_save_clicked()));
+    connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(saveAs()));
+    connect(ui->actionLicense, SIGNAL(triggered()), this, SLOT(displayLicense()));
+    connect(ui->actionAbout_Rix, SIGNAL(triggered()), this, SLOT(displayAboutRix()));
+    connect(ui->actionAbout_RIDE, SIGNAL(triggered()), this, SLOT(displayAboutRide()));
+}
+
 void MainWindow::saveAs()
 {
     QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -95,6 +107,47 @@ void MainWindow::setDocumentModified(bool modified)
         tabtext.prepend(QString("*"));
     }
     ui->tabWidget_scintilla->setTabText(cur_index, tabtext);
+}
+
+void MainWindow::displayAboutRix()
+{
+    // TODO: Display information about Rix
+}
+
+void MainWindow::displayAboutRide()
+{
+    // TODO: Display information about Ride
+}
+
+void MainWindow::displayLicense()
+{
+    QDir curDir = QDir::current();
+    curDir.cdUp();
+    QFile license(curDir.path() + QString("/LICENSE"));
+
+    if(!license.open(QFile::ReadOnly))
+    {
+        std::cerr << "Couldn't open file" << std::endl;
+        return;
+    }
+
+    QTextStream in(&license);
+    QString body(in.readAll());
+    QString title("GNU License");
+
+    new AboutDialog(title, body);
+}
+
+void MainWindow::displayUnsavedChanges()
+{
+    /* UNTESTED
+    QMessageBox msgBox;
+    msgBox.setText("The document has been modified.");
+    msgBox.setInformativeText("Do you want to save your changes?");
+    msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Save);
+    int ret = msgBox.exec();
+    */
 }
 
 void MainWindow::loadFile(QString filepath)
@@ -194,4 +247,10 @@ void MainWindow::on_button_zoom_in_clicked()
 void MainWindow::on_button_zoom_out_clicked()
 {
     cur_doc->zoom_out();
+}
+
+void MainWindow::on_button_saveall_clicked()
+{
+    //Dealing with one file only atm, redirect to save file.
+    on_button_save_clicked();
 }
