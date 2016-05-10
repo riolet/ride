@@ -3,8 +3,8 @@
 
 #include <QFile>
 #include <QString>
-#include <QFile>
 #include <iostream>
+#include <QFont>
 #include <Qsci/qsciscintilla.h>
 
 #endif // GLOBALS_H

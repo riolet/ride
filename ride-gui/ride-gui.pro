@@ -6,7 +6,8 @@ TEMPLATE = app
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    scintilladoc.cpp
+    scintilladoc.cpp \
+    aboutdialog.cpp
 
 RESOURCES += \
         icons.qrc
@@ -18,12 +19,14 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    aboutdialog.ui
 
 HEADERS += \
     mainwindow.h \
     scintilladoc.h \
-    globals.h
+    globals.h \
+    aboutdialog.h
 
 #unix:!macx: LIBS += -L$$PWD/../QScintilla_gpl-2.9.2/Qt4Qt5/ -lqscintilla2
 

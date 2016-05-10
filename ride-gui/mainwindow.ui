@@ -285,6 +285,7 @@
     <addaction name="separator"/>
     <addaction name="actionOpen"/>
     <addaction name="actionSave_File"/>
+    <addaction name="actionSave_As"/>
     <addaction name="actionSave_All"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
@@ -402,6 +403,11 @@
   <action name="actionAbout_Rix">
    <property name="text">
     <string>About Rix</string>
+   </property>
+  </action>
+  <action name="actionSave_As">
+   <property name="text">
+    <string>Save As...</string>
    </property>
   </action>
  </widget>

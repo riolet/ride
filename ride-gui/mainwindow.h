@@ -26,6 +26,7 @@
 #include <vector>
 #include "globals.h"
 #include "scintilladoc.h"
+#include "aboutdialog.h"
 
 namespace Ui {
     class MainWindow;
@@ -54,12 +55,34 @@ private slots:
 
     void on_button_zoom_out_clicked();
 
+    void on_button_saveall_clicked();
+
+    void displayAboutRix();
+
+    void displayAboutRide();
+
+    void displayLicense();
+
+    bool displayUnsavedChanges();
+
+    bool saveAs();
+
+    bool save();
+
+    void open();
+
+    void newFile();
+
+    void closeEvent(QCloseEvent *event);
+
 private:    //Private Functions
     void setupScintilla();
     void setupFileTree();
     void setupShortcuts(); // Not done yet.
-    void saveAs();
+    void setupMenuActions();
     void setDocumentModified(bool modified);
+
+
 
     // Combined MainWindow and Scintilla methods
     void loadFile(QString filename);
