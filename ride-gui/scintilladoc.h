@@ -25,6 +25,8 @@ public:
 
     bool isBlank();
 
+    bool isModified();
+
     void zoom_in();
 
     void zoom_out();

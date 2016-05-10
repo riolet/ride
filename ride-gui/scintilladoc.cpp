@@ -108,6 +108,11 @@ bool ScintillaDoc::isBlank()
     return _isBlank;
 }
 
+bool ScintillaDoc::isModified()
+{
+    return _modified;
+}
+
 void ScintillaDoc::zoom_in()
 {
     _editText->zoomIn(ZOOM_FACTOR);

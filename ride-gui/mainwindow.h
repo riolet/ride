@@ -63,9 +63,17 @@ private slots:
 
     void displayLicense();
 
-    void displayUnsavedChanges();
+    bool displayUnsavedChanges();
 
-    void saveAs();
+    bool saveAs();
+
+    bool save();
+
+    void open();
+
+    void newFile();
+
+    void closeEvent(QCloseEvent *event);
 
 private:    //Private Functions
     void setupScintilla();
@@ -73,6 +81,7 @@ private:    //Private Functions
     void setupShortcuts(); // Not done yet.
     void setupMenuActions();
     void setDocumentModified(bool modified);
+
 
 
     // Combined MainWindow and Scintilla methods
