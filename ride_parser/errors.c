@@ -28,6 +28,10 @@ int errorMsg(const char *format, ...)
 
 void criticalError(ErrorCode code, char *message)
 {
+    struct error_object error;
+
+    error.code = code;
+
     fprintf(stderr, "\t");
     switch (code) {
     case ERROR_EndlessString:

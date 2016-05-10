@@ -29,6 +29,13 @@ typedef enum {
     ERROR_RuntimeError
 } ErrorCode;
 
+typedef struct error_object {
+   ErrorCode code;
+   char * message;
+   int line;
+   int column;
+};
+
 int g_lineNum;
 int g_lineCol;
 int g_headerLines;
