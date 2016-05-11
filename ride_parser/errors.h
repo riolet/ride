@@ -34,7 +34,7 @@ typedef struct error_object {
    char * message;
    int line;
    int column;
-};
+} Error;
 
 int g_lineNum;
 int g_lineCol;
@@ -42,6 +42,7 @@ int g_headerLines;
 
 int errorMsg(const char *format, ...);
 int warningMsg(const char *format, ...);
+void errorInitial( Error *e, char* message );
 void criticalError(ErrorCode code, char *message);
 
 #endif
