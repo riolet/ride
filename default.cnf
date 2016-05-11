@@ -2,6 +2,8 @@
 "theme title":"Default Theme",
 "default":"white",
 "text":"white",
+"comment":"light green",
+"mcomment":"green",
 "integer":"violet",
 "float":"violet",
 "string":"yellow",

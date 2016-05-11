@@ -22,7 +22,6 @@
 #include <QFileSystemModel>
 #include <QTreeView>
 #include <string>
-#include <vector>
 #include "globals.h"
 #include "scintilladoc.h"
 #include "aboutdialog.h"

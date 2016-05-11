@@ -5,6 +5,7 @@
 #include <QDir>
 #include <QString>
 #include <iostream>
+#include <vector>
 #include <QFont>
 #include <Qsci/qsciscintilla.h>
 
