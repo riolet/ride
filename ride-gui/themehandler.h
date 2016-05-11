@@ -51,11 +51,11 @@ private:    // Private functions
 private:    // Private variables
     QFile*                  _file;
     QTextStream*            _stream;
-    QStringList             keylist;
+    QStringList             _keylist;
     Theme                   _theme;
     bool                    useDefault;
 
-    const QString key_title       = QString("\"theme title\"");
+    const QString key_title       = QString("\"title\"");
     const QString key_TEXT        = QString("\"text\"");
     const QString key_INTEGER     = QString("\"integer\"");
     const QString key_COMMENT     = QString("\"comment\"");

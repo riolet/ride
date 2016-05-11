@@ -2,12 +2,17 @@
 
 ThemeHandler::ThemeHandler(const QString &filepath)
 {
-    keylist << key_title << key_TEXT << key_INTEGER << key_FLOAT <<  key_STRING;
-    keylist << key_VERB << key_RET_TYPE << key_RET_ARROW << key_COMPARISON;
-    keylist << key_BOOLEAN << key_BITWISEOP << key_DEFAULT << key_BACKGROUND;
+    _keylist << key_title << key_TEXT << key_INTEGER << key_FLOAT <<  key_STRING;
+    _keylist << key_VERB << key_RET_TYPE << key_RET_ARROW << key_COMPARISON;
+    _keylist << key_BOOLEAN << key_BITWISEOP << key_DEFAULT << key_BACKGROUND;
+    _keylist << key_COMMENT << key_MCOMMENT;
 
-    readDefaultFile();
+    if(!readDefaultFile())
+    {
+        // TODO: Handle
+    }
 
+    /*
     _file = new QFile(filepath);
     if (!_file->open(QFile::ReadOnly))
     {
@@ -18,16 +23,23 @@ ThemeHandler::ThemeHandler(const QString &filepath)
         _stream = new QTextStream(_file);
         useDefault = false;
     }
+    */
+
 }
 
 bool ThemeHandler::readDefaultFile()
 {
-    bool success = false;
     QDir curDir = QDir::current();
     curDir.cdUp();
     QStringList contents;
 
     QFile       default_config(curDir.path() + QString("/default.cnf"));
+    if(!default_config.open(QFile::ReadOnly))
+    {
+        std::cerr << "Critical error, could not open default file." << std::endl;
+        std::cerr << "Use internal theme." << std::endl;
+        return false;
+    }
     QTextStream in(&default_config);
 
     QString line;
@@ -42,16 +54,14 @@ bool ThemeHandler::readDefaultFile()
 
     parseFileContents(contents);
 
-    success = true;
-
-    return success;
+    return true;
 }
 
 void ThemeHandler::parseFileContents(const QStringList &contents)
 {
     int index = -1;
-
-    for(const QString key : keylist)
+    QRegExp match("\"");
+    for(const QString key : _keylist)
     {
         QStringList result;
         int size;
@@ -62,27 +72,27 @@ void ThemeHandler::parseFileContents(const QStringList &contents)
         if(size == 0)
             continue;
 
-
-
         for(int i = 0; i < size; i++)
         {
             int j;
             QString input;
             QString line = result[i];
 
-            index = line.indexOf(key);
-            j = line.indexOf(QRegExp("\"[a-z]\""), index + line.size());
+            index = line.indexOf(key) + (key.size() - 1);
+            j = line.indexOf(match, key.size());
 
-            if(j == -1)
+            if(j++ == -1)
                 continue;
 
-            while(j+1 < line.size())
+            while(j < line.size())
             {
                 if(line[j] == '\"')
                     break;
 
                 input.append(line[j]);
+                j++;
             }
+            assignColorString(key, input);
         }
 
     }
@@ -93,6 +103,10 @@ void ThemeHandler::assignColorString(const QString &keyword, const QString &inpu
     //TODO: Parse the input into a QColor
     //QColor color = input.Turn_Into_Color
     if(key_title.contains(keyword))
+    {
+        _theme.title = input;
+    }
+    else if(key_TEXT.contains(keyword))
     {
         _theme.color_TEXT = input;
     }

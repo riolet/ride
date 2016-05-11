@@ -25,6 +25,7 @@
 #include "globals.h"
 #include "scintilladoc.h"
 #include "aboutdialog.h"
+#include "themehandler.h"
 
 namespace Ui {
     class MainWindow;
@@ -79,6 +80,7 @@ private:    //Private Functions
     void setupShortcuts(); // Not done yet.
     void setupMenuActions();
     void setDocumentModified(bool modified);
+    void setupTheme();
 
 
 
@@ -92,6 +94,7 @@ private:    //Private Variables
     QFileSystemModel            *model;         // File Directory View
     QTreeView                   *tree;          // File Directory Tree
     ScintillaDoc                *cur_doc;       // Currently active document
+    ThemeHandler                *themer;         // Text highlighting manager
 
 };
 
