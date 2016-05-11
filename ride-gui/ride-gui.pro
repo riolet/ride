@@ -7,7 +7,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     scintilladoc.cpp \
-    aboutdialog.cpp
+    aboutdialog.cpp \
+    rixlexer.cpp
 
 RESOURCES += \
         icons.qrc
@@ -26,7 +27,8 @@ HEADERS += \
     mainwindow.h \
     scintilladoc.h \
     globals.h \
-    aboutdialog.h
+    aboutdialog.h \
+    rixlexer.h
 
 #unix:!macx: LIBS += -L$$PWD/../QScintilla_gpl-2.9.2/Qt4Qt5/ -lqscintilla2
 
