@@ -1,0 +1,15 @@
+#DEFAULT THEME COLOUR FOR RIDE
+"theme title":"Default Theme",
+"default":"white",
+"text":"white",
+"integer":"violet",
+"float":"violet",
+"string":"yellow",
+"verb":"cyan",
+"ret_type":"pink",
+"ret_arrow":"pink",
+"comparison":"white",
+"boolean":"violet",
+"bitwiseop":"dark blue",
+"background":"dark grey"
+

@@ -2,6 +2,7 @@
 #define GLOBALS_H
 
 #include <QFile>
+#include <QDir>
 #include <QString>
 #include <iostream>
 #include <QFont>

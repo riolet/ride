@@ -19,7 +19,6 @@
 #include <QStatusBar>
 #include <QTextStream>
 #include <QToolBar>
-#include <QDir>
 #include <QFileSystemModel>
 #include <QTreeView>
 #include <string>

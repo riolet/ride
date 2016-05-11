@@ -8,8 +8,6 @@ ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
     _modified = false;
     _filepath = QString("");
 
-
-
     connect(_editText, SIGNAL(textChanged()),
                 this, SLOT(scintillaTextChanged()));
 
