@@ -7,6 +7,8 @@ ThemeHandler::ThemeHandler(const QString &filepath)
     _keylist << key_BOOLEAN << key_BITWISEOP << key_DEFAULT << key_BACKGROUND;
     _keylist << key_COMMENT << key_MCOMMENT;
 
+    //QColor c(QString("#112233"));
+
     if(!readDefaultFile())
     {
         // TODO: Handle
@@ -78,8 +80,8 @@ void ThemeHandler::parseFileContents(const QStringList &contents)
             QString input;
             QString line = result[i];
 
-            index = line.indexOf(key) + (key.size() - 1);
-            j = line.indexOf(match, key.size());
+            index = line.indexOf(key) + (key.size());
+            j = line.indexOf(match, index);
 
             if(j++ == -1)
                 continue;
@@ -101,66 +103,67 @@ void ThemeHandler::parseFileContents(const QStringList &contents)
 void ThemeHandler::assignColorString(const QString &keyword, const QString &input)
 {
     //TODO: Parse the input into a QColor
-    //QColor color = input.Turn_Into_Color
+    QColor color;
+    color.setNamedColor(input);
     if(key_title.contains(keyword))
     {
         _theme.title = input;
     }
     else if(key_TEXT.contains(keyword))
     {
-        _theme.color_TEXT = input;
+        _theme.color_TEXT = color;
     }
     else if(key_COMMENT.contains(keyword))
     {
-        _theme.color_COMMENT = input;
+        _theme.color_COMMENT = color;
     }
     else if(key_MCOMMENT.contains(keyword))
     {
-        _theme.color_MCOMMENT = input;
+        _theme.color_MCOMMENT = color;
     }
     else if(key_INTEGER.contains(keyword))
     {
-        _theme.color_INTEGER = input;
+        _theme.color_INTEGER = color;
     }
     else if(key_FLOAT.contains(keyword))
     {
-        _theme.color_FLOAT = input;
+        _theme.color_FLOAT = color;
     }
     else if(key_STRING.contains(keyword))
     {
-        _theme.color_STRING = input;
+        _theme.color_STRING = color;
     }
     else if(key_VERB.contains(keyword))
     {
-        _theme.color_VERB = input;
+        _theme.color_VERB = color;
     }
     else if(key_RET_TYPE.contains(keyword))
     {
-        _theme.color_RET_TYPE = input;
+        _theme.color_RET_TYPE = color;
     }
     else if(key_RET_ARROW.contains(keyword))
     {
-        _theme.color_RET_ARROW = input;
+        _theme.color_RET_ARROW = color;
     }
     else if(key_COMPARISON.contains(keyword))
     {
-        _theme.color_COMPARISON = input;
+        _theme.color_COMPARISON = color;
     }
     else if(key_BOOLEAN.contains(keyword))
     {
-        _theme.color_BOOLEAN = input;
+        _theme.color_BOOLEAN = color;
     }
     else if(key_BITWISEOP.contains(keyword))
     {
-        _theme.color_BITWISEOP = input;
+        _theme.color_BITWISEOP = color;
     }
     else if(key_DEFAULT.contains(keyword))
     {
-        _theme.color_DEFAULT = input;
+        _theme.color_DEFAULT = color;
     }
     else if(key_BACKGROUND.contains(keyword))
     {
-        _theme.color_BACKGROUND = input;
+        _theme.color_BACKGROUND = color;
     }
 
 }

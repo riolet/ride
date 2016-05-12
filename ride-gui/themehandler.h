@@ -7,7 +7,7 @@
 struct Theme
 {
     QString title;
-    /*QColor color_TEXT;
+    QColor color_TEXT;
     QColor color_INTEGER;
     QColor color_COMMENT;
     QColor color_MCOMMENT;
@@ -20,21 +20,7 @@ struct Theme
     QColor color_BOOLEAN;
     QColor color_BITWISEOP;
     QColor color_DEFAULT;
-    QColor color_BACKGROUND;*/
-    QString color_TEXT;
-    QString color_INTEGER;
-    QString color_COMMENT;
-    QString color_MCOMMENT;
-    QString color_FLOAT;
-    QString color_STRING;
-    QString color_VERB;
-    QString color_RET_TYPE;
-    QString color_RET_ARROW;
-    QString color_COMPARISON;
-    QString color_BOOLEAN;
-    QString color_BITWISEOP;
-    QString color_DEFAULT;
-    QString color_BACKGROUND;
+    QColor color_BACKGROUND;
 };
 
 class ThemeHandler
@@ -71,5 +57,24 @@ private:    // Private variables
     const QString key_DEFAULT     = QString("\"default\"");
     const QString key_BACKGROUND  = QString("\"background\"");
 };
+
+/*
+    #DEFAULT THEME COLOUR FOR RIDE
+    "title":"Default",
+    "default":"#FFFFFF",
+    "text":"#FFFFFF",
+    "comment":"#28551D",
+    "mcomment":"#28991D",
+    "integer":"#CC00FF",
+    "float":"#CC00FF",
+    "string":"#E88A0C",
+    "verb":"#2AFFED",
+    "ret_type":"#FF19D3",
+    "ret_arrow":"#FF19D3",
+    "comparison":"#FFFFFF",
+    "boolean":"#CC00FF",
+    "bitwiseop":"#0C1A99",
+    "background":"#666666"
+*/
 
 #endif // THEMEHANDLER_H
