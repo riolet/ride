@@ -8,5 +8,6 @@
 #include <vector>
 #include <QFont>
 #include <Qsci/qsciscintilla.h>
+#include <QDebug>
 
 #endif // GLOBALS_H

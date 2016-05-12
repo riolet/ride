@@ -1,10 +1,11 @@
 #ifndef RIXLEXER_H
 #define RIXLEXER_H
 
-#include <QObject>
+#include <QColor>
 #include <Qsci/qsciscintilla.h>
 #include <Qsci/qscilexercustom.h>
 #include <Qsci/qscistyle.h>
+#include "globals.h"
 
 class RixLexer : public QsciLexerCustom
 {
