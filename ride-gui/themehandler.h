@@ -31,8 +31,10 @@ public:     //Public functions
 
 private:    // Private functions
     bool readDefaultFile();
+    bool readFile(QFile* file);
     void parseFileContents(const QStringList &contents);
     void assignColorString(const QString &keyword, const QString &input);
+    void setToAbsoluteDefault();
 
 private:    // Private variables
     QFile*                  _file;

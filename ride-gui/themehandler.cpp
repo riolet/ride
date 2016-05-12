@@ -2,30 +2,23 @@
 
 ThemeHandler::ThemeHandler(const QString &filepath)
 {
+    useDefault = true;
+
     _keylist << key_title << key_TEXT << key_INTEGER << key_FLOAT <<  key_STRING;
     _keylist << key_VERB << key_RET_TYPE << key_RET_ARROW << key_COMPARISON;
     _keylist << key_BOOLEAN << key_BITWISEOP << key_DEFAULT << key_BACKGROUND;
     _keylist << key_COMMENT << key_MCOMMENT;
 
-    //QColor c(QString("#112233"));
+    setToAbsoluteDefault();
+    readDefaultFile();
 
-    if(!readDefaultFile())
+    if(!filepath.isNull() && !filepath.isEmpty())
     {
-        // TODO: Handle
-    }
+        _file = new QFile(filepath);
+        readFile(_file);
 
-    /*
-    _file = new QFile(filepath);
-    if (!_file->open(QFile::ReadOnly))
-    {
-        useDefault = true;
-    }
-    else
-    {
-        _stream = new QTextStream(_file);
         useDefault = false;
     }
-    */
 
 }
 
@@ -33,16 +26,28 @@ bool ThemeHandler::readDefaultFile()
 {
     QDir curDir = QDir::current();
     curDir.cdUp();
+
+    QFile default_config(curDir.path() + QString("/default.cnf"));
+
+    if(!readFile(&default_config))
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool ThemeHandler::readFile(QFile *file)
+{
     QStringList contents;
 
-    QFile       default_config(curDir.path() + QString("/default.cnf"));
-    if(!default_config.open(QFile::ReadOnly))
+    if(!file->open(QFile::ReadOnly))
     {
         std::cerr << "Critical error, could not open default file." << std::endl;
         std::cerr << "Use internal theme." << std::endl;
         return false;
     }
-    QTextStream in(&default_config);
+    QTextStream in(file);
 
     QString line;
     while (!in.atEnd())
@@ -54,6 +59,8 @@ bool ThemeHandler::readDefaultFile()
         contents << line;
     }
 
+    file->close();
+
     parseFileContents(contents);
 
     return true;
@@ -62,7 +69,10 @@ bool ThemeHandler::readDefaultFile()
 void ThemeHandler::parseFileContents(const QStringList &contents)
 {
     int index = -1;
-    QRegExp match("\"");  // Need a better regular expression for matching.
+
+    // Need a better regular expression for matching strings.
+    QRegExp match("\"");
+
     for(const QString key : _keylist)
     {
         QStringList result;
@@ -71,7 +81,7 @@ void ThemeHandler::parseFileContents(const QStringList &contents)
         result = contents.filter(key);
         size = result.size();
 
-        if(size == 0)
+        if(size == 0) // No lines contain this key
             continue;
 
         for(int i = 0; i < size; i++)
@@ -102,9 +112,14 @@ void ThemeHandler::parseFileContents(const QStringList &contents)
 
 void ThemeHandler::assignColorString(const QString &keyword, const QString &input)
 {
-    //TODO: Parse the input into a QColor
     QColor color;
     color.setNamedColor(input);
+
+    if(!color.isValid()) // Improperly formatted hexcode string
+    {
+        color.setNamedColor(QString("#FFFFFF"));
+    }
+
     if(key_title.contains(keyword))
     {
         _theme.title = input;
@@ -166,4 +181,12 @@ void ThemeHandler::assignColorString(const QString &keyword, const QString &inpu
         _theme.color_BACKGROUND = color;
     }
 
+}
+
+void ThemeHandler::setToAbsoluteDefault()
+{
+    for(const QString key : _keylist)
+    {
+        assignColorString(key, QString("#FFFFFF"));
+    }
 }

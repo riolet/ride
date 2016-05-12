@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setupScintilla();
     setupMenuActions();
     setupTheme();
+    setupCompiler();
     setupShortcuts(); //Not active atm
 }
 
@@ -194,6 +195,11 @@ void MainWindow::gotoLine()
     }
 }
 
+void MainWindow::runCompiler()
+{
+
+}
+
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     bool quit = true;
@@ -219,6 +225,11 @@ void MainWindow::setDocumentModified(bool modified)
         tabtext.prepend(QString("*"));
     }
     ui->tabWidget_scintilla->setTabText(cur_index, tabtext);
+}
+
+void MainWindow::setupCompiler()
+{
+    compiler = new CompilerHandler();
 }
 
 void MainWindow::setupTheme()
@@ -308,6 +319,17 @@ void MainWindow::loadFile(QString filepath)
     QApplication::restoreOverrideCursor();
 }
 
+void MainWindow::documentWasModified()
+{
+    setDocumentModified(true);
+}
+
+void MainWindow::tabChanged(int index)
+{
+    cur_index = index;
+    cur_doc = textEditList[cur_index];
+}
+
 void MainWindow::on_button_open_clicked()
 {
     open();
@@ -318,21 +340,9 @@ void MainWindow::on_button_save_clicked()
     save();
 }
 
-// Remove the current document and recreate a blank one.
 void MainWindow::on_button_new_file_clicked()
 {
     newFile();
-}
-
-void MainWindow::documentWasModified()
-{
-    setDocumentModified(true);
-}
-
-void MainWindow::tabChanged(int index)
-{
-    cur_index = index;
-    cur_doc = textEditList[cur_index];
 }
 
 void MainWindow::on_button_zoom_in_clicked()

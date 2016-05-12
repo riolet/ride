@@ -8,7 +8,8 @@ SOURCES += \
     mainwindow.cpp \
     scintilladoc.cpp \
     aboutdialog.cpp \
-    themehandler.cpp
+    themehandler.cpp \
+    compilerhandler.cpp
 
 RESOURCES += \
         icons.qrc
@@ -28,7 +29,8 @@ HEADERS += \
     scintilladoc.h \
     globals.h \
     aboutdialog.h \
-    themehandler.h
+    themehandler.h \
+    compilerhandler.h
 
 #unix:!macx: LIBS += -L$$PWD/../QScintilla_gpl-2.9.2/Qt4Qt5/ -lqscintilla2
 
