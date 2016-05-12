@@ -9,6 +9,7 @@ SOURCES += \
     scintilladoc.cpp \
     aboutdialog.cpp \
     rixlexer.cpp
+    themehandler.cpp
 
 RESOURCES += \
         icons.qrc
@@ -29,8 +30,4 @@ HEADERS += \
     globals.h \
     aboutdialog.h \
     rixlexer.h
-
-#unix:!macx: LIBS += -L$$PWD/../QScintilla_gpl-2.9.2/Qt4Qt5/ -lqscintilla2
-
-#INCLUDEPATH += $$PWD/../QScintilla_gpl-2.9.2/Qt4Qt5
-#DEPENDPATH += $$PWD/../QScintilla_gpl-2.9.2/Qt4Qt5
+    themehandler.h

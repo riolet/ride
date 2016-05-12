@@ -11,6 +11,7 @@ ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
 
     _lex->setEditor(_editText);
     _lex->editor()->SendScintilla(QsciScintilla::SCI_STYLESETFORE, 0, 255 | (0 << 8) | (0 << 16));
+
     connect(_editText, SIGNAL(textChanged()),
                 this, SLOT(scintillaTextChanged()));
 
@@ -122,6 +123,16 @@ void ScintillaDoc::zoom_in()
 void ScintillaDoc::zoom_out()
 {
     _editText->zoomOut(ZOOM_FACTOR);
+}
+
+void ScintillaDoc::gotoLine(int line)
+{
+    _editText->setCursorPosition((line - 1), 0);
+}
+
+int ScintillaDoc::getTotalLines()
+{
+    return _editText->lines();
 }
 
 void ScintillaDoc::setWrapMode(bool enable)
