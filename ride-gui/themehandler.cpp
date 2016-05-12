@@ -62,7 +62,7 @@ bool ThemeHandler::readDefaultFile()
 void ThemeHandler::parseFileContents(const QStringList &contents)
 {
     int index = -1;
-    QRegExp match("\"");
+    QRegExp match("\"");  // Need a better regular expression for matching.
     for(const QString key : _keylist)
     {
         QStringList result;
