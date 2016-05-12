@@ -71,6 +71,14 @@ void MainWindow::setupFileTree()
 
 void MainWindow::setupShortcuts()
 {
+    ui->actionGo_to_line->setShortcut(tr("Ctrl+G"));
+    /*
+    cutAct = new QAction(QIcon(":/images/cut.png"), tr("Cu&t"), this);
+    cutAct->setShortcut(tr("Ctrl+X"));
+    cutAct->setStatusTip(tr("Cut the current selection's contents to the "
+                            "clipboard"));
+    connect(cutAct, SIGNAL(triggered()), textEdit, SLOT(cut()))*/
+
     // TODO: connect common keyboard shortcuts to various methods such as Ctrl+S to Save File
 }
 
@@ -80,6 +88,7 @@ void MainWindow::setupMenuActions()
     connect(ui->actionOpen,         SIGNAL(triggered()), this, SLOT(open()));
     connect(ui->actionSave_File,    SIGNAL(triggered()), this, SLOT(save()));
     connect(ui->actionSave_As,      SIGNAL(triggered()), this, SLOT(saveAs()));
+    connect(ui->actionGo_to_line,   SIGNAL(triggered()), this, SLOT(gotoLine()));
     connect(ui->actionLicense,      SIGNAL(triggered()), this, SLOT(displayLicense()));
     connect(ui->actionAbout_Rix,    SIGNAL(triggered()), this, SLOT(displayAboutRix()));
     connect(ui->actionAbout_RIDE,   SIGNAL(triggered()), this, SLOT(displayAboutRide()));
@@ -170,6 +179,18 @@ void MainWindow::newFile()
         // Simply just clean up the current blank document.
         cur_doc->clearTextArea();
         setDocumentModified(false);
+    }
+}
+
+void MainWindow::gotoLine()
+{
+    bool ok;
+    int max = cur_doc->getTotalLines();
+    int line = QInputDialog::getInt(this, tr("Go to"), tr("line:"), 1, 1, max, 1, &ok);
+
+    if(ok)
+    {
+        cur_doc->gotoLine(line);
     }
 }
 

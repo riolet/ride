@@ -31,6 +31,10 @@ public:
 
     void zoom_out();
 
+    void gotoLine(int line);
+
+    int getTotalLines();
+
 private: // Private functions
     void setWrapMode(bool enable);
 

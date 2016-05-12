@@ -121,6 +121,16 @@ void ScintillaDoc::zoom_out()
     _editText->zoomOut(ZOOM_FACTOR);
 }
 
+void ScintillaDoc::gotoLine(int line)
+{
+    _editText->setCursorPosition((line - 1), 0);
+}
+
+int ScintillaDoc::getTotalLines()
+{
+    return _editText->lines();
+}
+
 void ScintillaDoc::setWrapMode(bool enable)
 {
     if(enable)
