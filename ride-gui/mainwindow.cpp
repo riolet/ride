@@ -105,7 +105,6 @@ bool MainWindow::saveAs()
     if(!cur_doc->saveAs(filepath))
     {
         isSuccessful = false;
-        QMessageBox::warning(this, tr("Save File Error"),  tr("Cannot save the file %1\n%2.").arg(cur_doc->_filepath).arg(cur_doc->_errorString));
     }
     else
     {
@@ -132,8 +131,6 @@ bool MainWindow::save()
     if(!cur_doc->saveFile())
     {
         isSuccessful = false;
-        QMessageBox::warning(this, tr("Save File Error"),  tr("Cannot save file %1\n%2.").arg(cur_doc->_filepath).arg(cur_doc->_errorString));
-        statusBar()->showMessage(tr("Error saving the current file..."), 2000);
     }
     else
     {
@@ -289,6 +286,7 @@ bool MainWindow::displayUnsavedChanges()
         case QMessageBox::Save:
             flag = save();
             quit = true;
+            statusBar()->showMessage(tr("Error saving the current file..."), 2000);
             break;
         case QMessageBox::Discard:
             flag = true;
