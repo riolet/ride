@@ -1,8 +1,17 @@
 #include <QDebug>
+#include <QColor>
 #include "rixlexer.h"
+
+RixLexer::RixLexer(QObject *parent) : QsciLexerCustom(parent)
+{
+
+}
 
 void RixLexer::handleStyleNeeded(int pos)
 {
+    if (!editor())
+        return;
+
     int start = editor()->SendScintilla(QsciScintillaBase::SCI_GETENDSTYLED);
     int line = editor()->SendScintilla(QsciScintillaBase::SCI_LINEFROMPOSITION,
             start);
@@ -18,37 +27,13 @@ void RixLexer::handleStyleNeeded(int pos)
 
 void RixLexer::styleText(int start, int end)
 {
-    //QString source;
-    //int i;
+    char *unstyledChars = (char *) malloc (end - start);
 
-    /*if (!editor())
-        return;
+    editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE, start, lastVisibleCharacter,
+                            unstyledChars);
 
-    char *chars = (char *) malloc (end - start);
-    editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE, start, end, chars);
-    source = QString(chars);
-    free(chars);
-
-    qDebug() << "source =" << source;
-
-    startStyling(start, 0x1f);
-    QStringList list = source.split("\n");
-    for (i = 0; i < list.size(); i++) {
-        QString line = list.at(i);
-        int len = line.size();
-        int style;
-        qDebug() << "line =" << line;
-
-        if (line.startsWith("//")) {
-            style = Comment;
-        } else {
-            style = Default;
-        }
-        qDebug() << "Styling " << len << "bytes " << description(style);
-        setStyling(len, getStyle(style));
-        // newline character was consumed in split so...
-        setStyling(1, getStyle(Default));
-    }*/
+    startStyling(start);
+    setStyling(end - start, 0);
 }
 
 QString RixLexer::description(int style) const
