@@ -8,7 +8,7 @@ SOURCES += \
     mainwindow.cpp \
     scintilladoc.cpp \
     aboutdialog.cpp \
-    rixlexer.cpp
+    rixlexer.cpp \
     themehandler.cpp
 
 RESOURCES += \
@@ -29,5 +29,5 @@ HEADERS += \
     scintilladoc.h \
     globals.h \
     aboutdialog.h \
-    rixlexer.h
+    rixlexer.h \
     themehandler.h
