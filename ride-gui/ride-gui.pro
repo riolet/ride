@@ -1,4 +1,4 @@
-QT += widgets qml quick core gui
+QT += widgets core gui
 CONFIG      += debug qscintilla2
 TARGET = RIDE
 TEMPLATE = app
@@ -8,6 +8,7 @@ SOURCES += \
     mainwindow.cpp \
     scintilladoc.cpp \
     aboutdialog.cpp \
+    rixlexer.cpp
     themehandler.cpp
 
 RESOURCES += \
@@ -28,9 +29,5 @@ HEADERS += \
     scintilladoc.h \
     globals.h \
     aboutdialog.h \
+    rixlexer.h
     themehandler.h
-
-#unix:!macx: LIBS += -L$$PWD/../QScintilla_gpl-2.9.2/Qt4Qt5/ -lqscintilla2
-
-#INCLUDEPATH += $$PWD/../QScintilla_gpl-2.9.2/Qt4Qt5
-#DEPENDPATH += $$PWD/../QScintilla_gpl-2.9.2/Qt4Qt5
