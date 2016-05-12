@@ -4,12 +4,12 @@ ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
 {
     _filename = QString("untitled");
     _editText = new QsciScintilla;
+    _lex = new RixLexer();
     _isBlank = true;
     _modified = false;
     _filepath = QString("");
 
-
-
+    _lex->setEditor(_editText);
     connect(_editText, SIGNAL(textChanged()),
                 this, SLOT(scintillaTextChanged()));
 

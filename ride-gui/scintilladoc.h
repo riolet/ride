@@ -5,6 +5,7 @@
 #include <QFileInfo>
 #include <QMessageBox>
 #include "globals.h"
+#include "rixlexer.h"
 
 #define ZOOM_FACTOR 2
 #define MARGIN_WIDTH QString("123456")
@@ -44,6 +45,7 @@ private slots:
 
 public: // public variables
     QsciScintilla*  _editText;
+    RixLexer*       _lex;
     QString         _filename;
     QString         _filepath;
     QString         _errorString;

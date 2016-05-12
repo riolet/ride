@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QQuickView>
 #include <QAction>
 #include <QApplication>
 #include <QCloseEvent>

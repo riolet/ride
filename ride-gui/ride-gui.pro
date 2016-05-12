@@ -1,4 +1,4 @@
-QT += widgets qml quick core gui
+QT += widgets core gui
 CONFIG      += debug qscintilla2
 TARGET = RIDE
 TEMPLATE = app
