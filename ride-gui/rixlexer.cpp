@@ -35,8 +35,6 @@ void RixLexer::styleText(int start, int end)
 
     startStyling(start);
     setStyling(end - start, 0);
-
-
 }
 
 QString RixLexer::description(int style) const
