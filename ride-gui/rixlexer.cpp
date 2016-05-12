@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <QColor>
 #include <QString>
+#include <string>
 #include "rixlexer.h"
 
 RixLexer::RixLexer(QObject *parent) : QsciLexerCustom(parent)
@@ -25,14 +26,17 @@ void RixLexer::handleStyleNeeded(int pos)
 
 void RixLexer::styleText(int start, int end)
 {
-    char *unstyledChars = (char *) malloc (end - start);
+    char chars[end - start];
 
     editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE, start, end,
-                            unstyledChars);
-    qDebug() << QString::fromLatin1(unstyledChars);
+                            chars);
+    std::string unstyledChars(chars);
+    qDebug() << QString::fromStdString(unstyledChars);
 
     startStyling(start);
     setStyling(end - start, 0);
+
+
 }
 
 QString RixLexer::description(int style) const
