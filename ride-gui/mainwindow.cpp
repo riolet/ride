@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setupFileTree();
     setupScintilla();
     setupMenuActions();
+    setupTheme();
     setupShortcuts(); //Not active atm
 }
 
@@ -197,6 +198,11 @@ void MainWindow::setDocumentModified(bool modified)
         tabtext.prepend(QString("*"));
     }
     ui->tabWidget_scintilla->setTabText(cur_index, tabtext);
+}
+
+void MainWindow::setupTheme()
+{
+    themer = new ThemeHandler();
 }
 
 void MainWindow::displayAboutRix()

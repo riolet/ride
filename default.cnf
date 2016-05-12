@@ -1,0 +1,17 @@
+#DEFAULT THEME COLOUR FOR RIDE
+"title":"Default",
+"default":"#FFFFFF",
+"text":"#FFFFFF",
+"comment":"#28551D",
+"mcomment":"#28991D",
+"integer":"#CC00FF",
+"float":"#CC00FF",
+"string":"#E88A0C",
+"verb":"#2AFFED",
+"ret_type":"#FF19D3",
+"ret_arrow":"#FF19D3",
+"comparison":"#FFFFFF",
+"boolean":"#CC00FF",
+"bitwiseop":"#0C1A99",
+"background":"#666666"
+
