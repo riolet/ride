@@ -9,6 +9,7 @@
 
 #include <QFileInfo>
 #include <QFileDialog>
+#include <QInputDialog>
 #include <QIcon>
 #include <QMenu>
 #include <QMenuBar>
@@ -71,6 +72,8 @@ private slots:
     void open();
 
     void newFile();
+
+    void gotoLine();
 
     void closeEvent(QCloseEvent *event);
 
