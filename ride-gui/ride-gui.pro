@@ -8,10 +8,9 @@ SOURCES += \
     mainwindow.cpp \
     scintilladoc.cpp \
     aboutdialog.cpp \
-    themehandler.cpp \
     compilerhandler.cpp \
     rixlexer.cpp \
-    themehandler.cpp 
+    themehandler.cpp
 
 RESOURCES += \
         icons.qrc
@@ -34,4 +33,3 @@ HEADERS += \
     themehandler.h \
     compilerhandler.h \
     rixlexer.h \
-    themehandler.h

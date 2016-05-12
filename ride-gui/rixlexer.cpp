@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QColor>
+#include <QString>
 #include "rixlexer.h"
 
 RixLexer::RixLexer(QObject *parent) : QsciLexerCustom(parent)
@@ -13,13 +14,10 @@ void RixLexer::handleStyleNeeded(int pos)
         return;
 
     int start = editor()->SendScintilla(QsciScintillaBase::SCI_GETENDSTYLED);
-    int line = editor()->SendScintilla(QsciScintillaBase::SCI_LINEFROMPOSITION,
-            start);
-    start = editor()->SendScintilla(QsciScintillaBase::SCI_POSITIONFROMLINE,
+    int line =  editor()->SendScintilla(QsciScintillaBase::SCI_LINEFROMPOSITION,
+                start);
+    start =     editor()->SendScintilla(QsciScintillaBase::SCI_POSITIONFROMLINE,
                 line);
-    qDebug() << "pos:" << pos;
-    qDebug() << "start:" << start;
-    qDebug() << "line:" << line;
 
     if (start != pos)
         styleText(start, pos);
@@ -27,10 +25,11 @@ void RixLexer::handleStyleNeeded(int pos)
 
 void RixLexer::styleText(int start, int end)
 {
-    char *unstyledChars = (char *) malloc (end - start);
+    /*char *unstyledChars = (char *) malloc (end - start);
 
-    editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE, start, lastVisibleCharacter,
+    editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE, start, end,
                             unstyledChars);
+    qDebug() << QString::fromLatin1(unstyledChars);*/
 
     startStyling(start);
     setStyling(end - start, 0);
