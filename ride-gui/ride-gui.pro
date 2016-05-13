@@ -2,6 +2,7 @@ QT += widgets core gui
 CONFIG      += debug qscintilla2
 TARGET = RIDE
 TEMPLATE = app
+LIBS += -lfl
 
 SOURCES += \
     main.cpp \
@@ -11,6 +12,11 @@ SOURCES += \
     compilerhandler.cpp \
     rixlexer.cpp \
     themehandler.cpp
+
+FLEXSOURCES = lex.l
+
+OTHER_FILES += \
+    $$FLEXSOURCES
 
 RESOURCES += \
         icons.qrc
@@ -32,4 +38,22 @@ HEADERS += \
     aboutdialog.h \
     themehandler.h \
     compilerhandler.h \
-    rixlexer.h \
+    rixlexer.h
+
+flexsource.input = FLEXSOURCES
+flexsource.output = ${QMAKE_FILE_BASE}.cpp
+flexsource.commands = flex --header-file=${QMAKE_FILE_BASE}.h -o ${QMAKE_FILE_BASE}.cpp ${QMAKE_FILE_IN}
+flexsource.variable_out = SOURCES
+flexsource.name = Flex Sources ${QMAKE_FILE_IN}
+flexsource.CONFIG += target_predeps
+
+QMAKE_EXTRA_COMPILERS += flexsource
+
+flexheader.input = FLEXSOURCES
+flexheader.output = ${QMAKE_FILE_BASE}.h
+flexheader.commands = @true
+flexheader.variable_out = HEADERS
+flexheader.name = Flex Headers ${QMAKE_FILE_IN}
+flexheader.CONFIG += target_predeps no_link
+
+QMAKE_EXTRA_COMPILERS += flexheader
