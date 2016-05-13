@@ -1,7 +1,3 @@
-#include <QDebug>
-#include <QColor>
-#include <QString>
-#include <string>
 #include "rixlexer.h"
 
 RixLexer::RixLexer(QObject *parent) : QsciLexerCustom(parent)
@@ -15,10 +11,13 @@ void RixLexer::handleStyleNeeded(int pos)
         return;
 
     int start = editor()->SendScintilla(QsciScintillaBase::SCI_GETENDSTYLED);
-    int line =  editor()->SendScintilla(QsciScintillaBase::SCI_LINEFROMPOSITION,
-                start);
-    start =     editor()->SendScintilla(QsciScintillaBase::SCI_POSITIONFROMLINE,
+    int line = editor()->SendScintilla(QsciScintillaBase::SCI_LINEFROMPOSITION,
+            start);
+    start = editor()->SendScintilla(QsciScintillaBase::SCI_POSITIONFROMLINE,
                 line);
+    qDebug() << "pos:" << pos;
+    qDebug() << "start:" << start;
+    qDebug() << "line:" << line;
 
     if (start != pos)
         styleText(start, pos);
