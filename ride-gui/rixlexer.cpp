@@ -1,25 +1,9 @@
 #include "rixlexer.h"
 
-void RixLexer::RixLexer (QObject *parent) : QsciLexerCustom(parent)
+RixLexer::RixLexer (QObject *parent) : QsciLexerCustom(parent)
 {
-    char output[10];
-    yyin = fopen("test.txt", "w+");
-    fputs("int i = 3", yyin);
+    scan_string("int i = 3");
     fflush(stdout);
-    fgets(output, 9, yyin);
-    printf("File contents pre-lexing: %s\n", output);
-    qDebug() << "File contents pre-lexing:" << QString::fromLatin1(output);
-    fflush(stdout);
-    yylex();
-    fflush(stdout);
-    fgets(output, 9, yyin);
-    printf("File contents pre-lexing: %s\n", output);
-    fflush(stdout);
-}
-
-void RixLexer::~RixLexer()
-{
-    fclose(yyin);
 }
 
 void RixLexer::handleStyleNeeded(int pos)
