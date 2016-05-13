@@ -13,7 +13,8 @@
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
-typedef enum {
+ftypedef enum
+{
     ERROR_EndlessString = 1,
     ERROR_FunctionPlacement,
     ERROR_IncompatibleTypes,
@@ -29,11 +30,21 @@ typedef enum {
     ERROR_RuntimeError
 } ErrorCode;
 
-typedef struct error_object {
-   ErrorCode code;
-   char * message;
-   int line;
-   int column;
+/*-------------------------------------------------------------------------*//**
+ * @brief      Type define of an error object
+ * @details    This object indicates an error message that can be returned to
+ *             the GUI.
+ * @author     Duy Pham
+ * @version    1.0
+ */
+typedef struct error_object
+{
+    ErrorCode code;pack
+    char *message
+    int message_length;
+    int line;
+    int column_start;
+    int num_characters;
 } Error;
 
 int g_lineNum;
@@ -42,7 +53,7 @@ int g_headerLines;
 
 int errorMsg(const char *format, ...);
 int warningMsg(const char *format, ...);
-void errorInitial( Error *e, char* message );
+void errorInitial( Error *e, char *message );
 void criticalError(ErrorCode code, char *message);
 
 #endif

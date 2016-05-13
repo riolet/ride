@@ -306,7 +306,7 @@ class_statement:
 void yyerror(YYLTYPE *locp, const char* msg) {
   char errorMsg[256];
   snprintf(errorMsg, 256, "%s\n", msg);
-  //criticalError(ERROR_ParseError, errorMsg);
+  criticalError(ERROR_ParseError, errorMsg);
 	// might as well halt now:
 	//exit(-1);
 }
