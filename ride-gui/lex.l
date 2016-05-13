@@ -139,13 +139,8 @@ if|for {
 %%
 
 
-/*int main( int argc, char **argv ) {
-	++argv, --argc;  /* skip over program name */
-	/*if ( argc > 0 )
-	     yyin = fopen( argv[0], "r" );
-	else
-	     yyin = stdin;
-
-	yylex();
+void scan_string(const char* str)
+{
+    yy_switch_to_buffer(yy_scan_string(str));
+    yylex();
 }
-*/

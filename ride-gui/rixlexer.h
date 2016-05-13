@@ -8,15 +8,13 @@
 #include <stdio.h>
 #include "globals.h"
 
-extern int yylex();
-extern FILE *yyin;
+extern void scan_string(const char* str);
 
 class RixLexer : public QsciLexerCustom
 {
     Q_OBJECT
 public:
     RixLexer(QObject *parent = 0);
-    ~RixLexer();
     void styleText(int start, int end) override;
     QString description(int style) const override;
     const char* language() const override;
