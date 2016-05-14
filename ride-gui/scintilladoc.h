@@ -36,6 +36,8 @@ public:
 
     int getTotalLines();
 
+    const QString getAllText();
+
 private: // Private functions
     void setWrapMode(bool enable);
 

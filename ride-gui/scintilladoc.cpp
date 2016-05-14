@@ -135,6 +135,25 @@ int ScintillaDoc::getTotalLines()
     return _editText->lines();
 }
 
+const QString ScintillaDoc::getAllText()
+{
+    //
+    /*
+    SCI_GETTEXT, SCI_GETTEXTLENGTH
+    This message gets the text of the document.
+    wParam is size of the buffer that the text is copied to.
+    lParam is the address of the buffer that the text is copied to.
+
+long QsciScintillaBase::SendScintilla 	( 	unsigned int  	msg,
+                                            unsigned long  	wParam = 0,
+                                            long  	lParam = 0
+                                        ) 		const
+    len  = _editText->SendScintilla(SCI_GETTEXTLENGTH);
+    pants = _editText->SendScintilla(SCI_GETTEXT,
+    http://pyqt.sourceforge.net/Docs/QScintilla2/classQsciScintillaBase.html#ab7599500a82c87cf303643005ea78e79a4bc0cd151979992bc5015852c5dbfbfe
+    */
+}
+
 void ScintillaDoc::setWrapMode(bool enable)
 {
     if(enable)
