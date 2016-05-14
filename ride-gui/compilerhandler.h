@@ -1,7 +1,7 @@
 #ifndef COMPILERHANDLER_H
 #define COMPILERHANDLER_H
 
-#include <QObject>
+#include "globals.h"
 
 class CompilerHandler : public QObject
 {
