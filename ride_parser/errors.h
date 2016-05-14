@@ -13,7 +13,7 @@
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
-ftypedef enum
+typedef enum
 {
     ERROR_EndlessString = 1,
     ERROR_FunctionPlacement,
@@ -39,10 +39,9 @@ ftypedef enum
  */
 typedef struct error_object
 {
-    ErrorCode code;pack
     char *message
     int message_length;
-    int line;
+    int line_number;
     int column_start;
     int num_characters;
 } Error;
