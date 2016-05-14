@@ -8,6 +8,7 @@ int warningMsg(const char *format, ...)
     va_list arg;
     va_start(arg, format);
     ret = vfprintf(stderr, format, arg);
+    errorInitial(ret);
     va_end(arg);
     fprintf(stderr, ANSI_COLOR_RESET);
     return ret;
@@ -21,15 +22,15 @@ int errorMsg(const char *format, ...)
     va_list arg;
     va_start(arg, format);
     ret = vfprintf(stderr, format, arg);
+    errorInitial(ret);
     fprintf(stderr, ANSI_COLOR_RESET);
     va_end(arg);
     return ret;
 }
 
-void errorInitial( Error *e, char* message )
+void errorInitial( Error *e, char *message )
 {
-    Error error;
-    e = &error;
+    e = malloc(sizeof(Error));
 
     e->message          = message;
     e->message_length   = strlen(message);

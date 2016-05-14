@@ -46,6 +46,7 @@ typedef struct error_object
     int num_characters;
 } Error;
 
+int e_count;
 int g_lineNum;
 int g_lineCol;
 int g_headerLines;
