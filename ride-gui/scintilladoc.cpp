@@ -152,8 +152,18 @@ long QsciScintillaBase::SendScintilla 	( 	unsigned int  	msg,
     pants = _editText->SendScintilla(SCI_GETTEXT,
     http://pyqt.sourceforge.net/Docs/QScintilla2/classQsciScintillaBase.html#ab7599500a82c87cf303643005ea78e79a4bc0cd151979992bc5015852c5dbfbfe
     */
+    long num_total = _editText->SendScintilla(QsciScintilla::SCI_GETTEXTLENGTH);
+    char all_text[num_total];
+    long num_copied = _editText->SendScintilla(QsciScintilla::SCI_GETTEXT, num_total, all_text);
 
-    return QString("Empty");
+    if(num_copied != num_total)
+    {
+        // Error occured, the total characters available was not copied correctly.
+        return QString("Tacobell");
+    }
+
+    QString temp(all_text);
+    return temp;
 }
 
 void ScintillaDoc::setWrapMode(bool enable)

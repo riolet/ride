@@ -190,14 +190,16 @@ void MainWindow::newFile()
 
 void MainWindow::gotoLine()
 {
-    bool ok;
+    QString tacos = cur_doc->getAllText();
+    std::cerr << tacos.toStdString() << std::endl;
+    /*bool ok;
     int max = cur_doc->getTotalLines();
     int line = QInputDialog::getInt(this, tr("Go to"), tr("line:"), 1, 1, max, 1, &ok);
 
     if(ok)
     {
         cur_doc->gotoLine(line);
-    }
+    }*/
 }
 
 void MainWindow::runCompiler()

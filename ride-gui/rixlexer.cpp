@@ -16,9 +16,9 @@ void RixLexer::handleStyleNeeded(int pos)
             start);
     start = editor()->SendScintilla(QsciScintillaBase::SCI_POSITIONFROMLINE,
                 line);
-    qDebug() << "pos:" << pos;
-    qDebug() << "start:" << start;
-    qDebug() << "line:" << line;
+    //qDebug() << "pos:" << pos;
+    //qDebug() << "start:" << start;
+    //qDebug() << "line:" << line;
 
     if (start != pos)
         styleText(start, pos);
@@ -31,7 +31,7 @@ void RixLexer::styleText(int start, int end)
     editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE, start, end,
                             chars);
     std::string unstyledChars(chars);
-    qDebug() << QString::fromStdString(unstyledChars);
+    //qDebug() << QString::fromStdString(unstyledChars);
 
     startStyling(start);
     setStyling(end - start, 0);
@@ -39,6 +39,7 @@ void RixLexer::styleText(int start, int end)
 
 QString RixLexer::description(int style) const
 {
+    Q_UNUSED(style);
     return "Default";
 }
 
