@@ -21,6 +21,9 @@ void CompilerHandler::compileRixFile(ScintillaDoc *doc)
         return;
     }
 
+
+    emit compilerOutput(compile_begin);
+
     FILE *fp;
     char buffer[BUFSIZE];
 
@@ -47,6 +50,8 @@ void CompilerHandler::compileRixFile(ScintillaDoc *doc)
             ++i;
         }
     }
+
+    emit compilerOutput(compile_end);
 
     /* close */
     pclose(fp);
