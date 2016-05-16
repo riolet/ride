@@ -21,22 +21,34 @@ int errorMsg(const char *format, ...)
     fprintf(stderr, "Line %d: Column:%d - ", g_lineNum - g_headerLines, g_lineCol);
     va_list arg;
     va_start(arg, format);
+
+    // In case we want to grab the error and modify it
+    char buffer[1024];
+    vsnprintf(buffer, 1024, format, arg);
+    
+
     ret = vfprintf(stderr, format, arg);
-    errorInitial(ret);
     fprintf(stderr, ANSI_COLOR_RESET);
     va_end(arg);
     return ret;
 }
 
-void errorInitial( Error *e, char *message )
+/**
+ * @brief      Initialize an error object
+ *
+ * @param      message  The message of the error
+ */
+Error *errorInitial( char *message )
 {
-    e = malloc(sizeof(Error));
+    Error *e = malloc(sizeof(Error));
 
     e->message          = message;
     e->message_length   = strlen(message);
     e->line_number      = g_lineNum - g_headerLines;
     e->column_start     = g_lineCol;
     e->num_characters   = 0;
+
+    return e;
 }
 
 void criticalError(ErrorCode code, char *message)
@@ -45,40 +57,40 @@ void criticalError(ErrorCode code, char *message)
     switch (code)
     {
     case ERROR_EndlessString:
-        errorMsg(e, "Error parsing string. No closing quote.\n");
+        errorMsg( "Error parsing string. No closing quote.\n");
         break;
     case ERROR_IncompatibleTypes:
-        errorMsg(e, "Type mismatch.\n");
+        errorMsg( "Type mismatch.\n");
         break;
     case ERROR_UnexpectedIndent:
-        errorMsg(e, "Unexpected scope increase\n");
+        errorMsg( "Unexpected scope increase\n");
         break;
     case ERROR_AssignToLiteral:
-        errorMsg(e, "Cannot assign to a literal.\n");
+        errorMsg( "Cannot assign to a literal.\n");
         break;
     case ERROR_UnrecognizedSymbol:
-        errorMsg(e, "Unknown symbol detected.\n");
+        errorMsg( "Unknown symbol detected.\n");
         break;
     case ERROR_CannotAllocateMemory:
-        errorMsg(e, "Cannot allocate new space.\n");
+        errorMsg( "Cannot allocate new space.\n");
         break;
     case ERROR_UndefinedVerb:
-        errorMsg(e, "Verb encountered without definition.\n");
+        errorMsg( "Verb encountered without definition.\n");
         break;
     case ERROR_UndefinedVariable:
-        errorMsg(e, "Variable encountered without definition.\n");
+        errorMsg( "Variable encountered without definition.\n");
         break;
     case ERROR_UndefinedType:
-        errorMsg(e, "Type encountered without definition.\n");
+        errorMsg( "Type encountered without definition.\n");
         break;
     case ERROR_InvalidArguments:
-        errorMsg(e, "Attempted to run a function with invalid arguments.\n");
+        errorMsg( "Attempted to run a function with invalid arguments.\n");
         break;
     case ERROR_ParseError:
-        errorMsg(e, "Error while parsing file.\n");
+        errorMsg( "Error while parsing file.\n");
         break;
     default:
-        errorMsg(e, "Unknown critical error. Aborting.\n");
+        errorMsg( "Unknown critical error. Aborting.\n");
     }
     if (message)
     {
