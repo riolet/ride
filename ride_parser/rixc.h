@@ -78,4 +78,7 @@ Object *createCodeBlock(Object * expression);
 float simplifyfloat(float left, char *op, float right);
 int simplifyInt(int left, char *op, int right);
 
+int errorDetect(Error **err, int *errnum, const char * doc);
+void sendError(Error *e);
+
 #endif
