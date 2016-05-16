@@ -1827,7 +1827,7 @@ void sendError(Error *e) {
     int i;
     int used = 0;
     int size = e_count;
-    Error *errs[e_count]int errorDetect(Error **err, int *errnum, const char * doc) = (Error **) malloc(sizeof(int)*e_count);
+    Error *errs[e_count] = (Error **) malloc(sizeof(int)*e_count);
 
     for(i=0; i<size; i++) {
         if(i == (size-1))
