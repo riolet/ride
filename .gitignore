@@ -1,4 +1,11 @@
 #####
+##### Custom Ignores
+#####
+
+#*.yy.c
+
+
+#####
 ##### QT
 #####
 # Compiled Object files
