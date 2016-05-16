@@ -84,7 +84,7 @@ void MainWindow::setupShortcuts()
 }
 
 void MainWindow::setupMenuActions()
-{
+{   
     connect(ui->actionNew_File,     SIGNAL(triggered()), this, SLOT(newFile()));
     connect(ui->actionOpen,         SIGNAL(triggered()), this, SLOT(open()));
     connect(ui->actionSave_File,    SIGNAL(triggered()), this, SLOT(save()));
@@ -93,6 +93,7 @@ void MainWindow::setupMenuActions()
     connect(ui->actionLicense,      SIGNAL(triggered()), this, SLOT(displayLicense()));
     connect(ui->actionAbout_Rix,    SIGNAL(triggered()), this, SLOT(displayAboutRix()));
     connect(ui->actionAbout_RIDE,   SIGNAL(triggered()), this, SLOT(displayAboutRide()));
+    connect(ui->actionExit,         SIGNAL(triggered()), this, SLOT(sendCloseEvent()));
 }
 
 bool MainWindow::saveAs()
@@ -174,6 +175,13 @@ void MainWindow::newFile()
     }
     else
     {
+        // Force user to make a decision on keeping or discarding changes.
+        bool flag = false;
+        do
+        {
+            flag = saveAs();
+        } while(!flag);
+
         // Simply just clean up the current blank document.
         cur_doc->clearTextArea();
         setDocumentModified(false);
@@ -194,7 +202,7 @@ void MainWindow::gotoLine()
 
 void MainWindow::runCompiler()
 {
-
+    compiler->compileRixFile();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -207,11 +215,22 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if(quit)
     {
         QMainWindow::closeEvent(event);
+        close();
     }
     else
     {
         event->ignore();
     }
+}
+
+void MainWindow::sendCloseEvent()
+{
+    closeEvent(new QCloseEvent());
+}
+
+void MainWindow::readCompilerOutputLine(const QString& line)
+{
+    ui->text_output->appendPlainText(line);
 }
 
 void MainWindow::setDocumentModified(bool modified)
@@ -226,7 +245,8 @@ void MainWindow::setDocumentModified(bool modified)
 
 void MainWindow::setupCompiler()
 {
-    compiler = new CompilerHandler();
+    compiler = new CompilerHandler(this);
+    connect(compiler, SIGNAL(compilerOutput(QString)), this, SLOT(readCompilerOutputLine(QString)));
 }
 
 void MainWindow::setupTheme()
@@ -357,4 +377,9 @@ void MainWindow::on_button_saveall_clicked()
 {
     //Dealing with one file only atm, redirect to save file.
     save();
+}
+
+void MainWindow::on_button_run_clicked()
+{
+    runCompiler();
 }
