@@ -1,8 +1,9 @@
 #include "rixlexer.h"
 
-RixLexer::RixLexer(QObject *parent) : QsciLexerCustom(parent)
+RixLexer::RixLexer (QObject *parent) : QsciLexerCustom(parent)
 {
-
+    scan_string("int i = 3");
+    fflush(stdout);
 }
 
 void RixLexer::handleStyleNeeded(int pos)

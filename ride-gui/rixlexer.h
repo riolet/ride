@@ -5,7 +5,10 @@
 #include <Qsci/qsciscintilla.h>
 #include <Qsci/qscilexercustom.h>
 #include <Qsci/qscistyle.h>
+#include <stdio.h>
 #include "globals.h"
+
+extern void scan_string(const char* str);
 
 class RixLexer : public QsciLexerCustom
 {
