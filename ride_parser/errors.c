@@ -8,7 +8,12 @@ int warningMsg(const char *format, ...)
     va_list arg;
     va_start(arg, format);
     ret = vfprintf(stderr, format, arg);
-    errorInitial(ret);
+    
+    // In case we want to grab the error and modify it
+    char buffer[1024];
+    vsnprintf(buffer, 1024, format, arg);
+    errorInitial(buffer);
+
     va_end(arg);
     fprintf(stderr, ANSI_COLOR_RESET);
     return ret;
@@ -21,16 +26,75 @@ int errorMsg(const char *format, ...)
     fprintf(stderr, "Line %d: Column:%d - ", g_lineNum - g_headerLines, g_lineCol);
     va_list arg;
     va_start(arg, format);
+
+    // In case we want to grab the error and modify it
+    char buffer[1024];
+    vsnprintf(buffer, 1024, format, arg);
+    errorInitial(buffer);
+
     ret = vfprintf(stderr, format, arg);
-    errorInitial(ret);
     fprintf(stderr, ANSI_COLOR_RESET);
     va_end(arg);
     return ret;
 }
 
-void errorInitial( Error *e, char *message )
+void criticalError(ErrorCode code, char *message)
 {
-    e = malloc(sizeof(Error));
+    fprintf(stderr, "\t");
+    switch (code)
+    {
+    case ERROR_EndlessString:
+        errorMsg( "Error parsing string. No closing quote.\n");
+        break;
+    case ERROR_IncompatibleTypes:
+        errorMsg( "Type mismatch.\n");
+        break;
+    case ERROR_UnexpectedIndent:
+        errorMsg( "Unexpected scope increase\n");
+        break;
+    case ERROR_AssignToLiteral:
+        errorMsg( "Cannot assign to a literal.\n");
+        break;
+    case ERROR_UnrecognizedSymbol:
+        errorMsg( "Unknown symbol detected.\n");
+        break;
+    case ERROR_CannotAllocateMemory:
+        errorMsg( "Cannot allocate new space.\n");
+        break;
+    case ERROR_UndefinedVerb:
+        errorMsg( "Verb encountered without definition.\n");
+        break;
+    case ERROR_UndefinedVariable:
+        errorMsg( "Variable encountered without definition.\n");
+        break;
+    case ERROR_UndefinedType:
+        errorMsg( "Type encountered without definition.\n");
+        break;
+    case ERROR_InvalidArguments:
+        errorMsg( "Attempted to run a function with invalid arguments.\n");
+        break;
+    case ERROR_ParseError:
+        errorMsg( "Error while parsing file.\n");
+        break;
+    default:
+        errorMsg( "Unknown critical error. Aborting.\n");
+    }
+    if (message)
+    {
+        fprintf(stderr, "\t");
+        fprintf(stderr, "%s", message);
+    }
+    // exit((int)code);
+}
+
+/**
+ * @brief      Initialize an error object
+ *
+ * @param      message  The message of the error
+ */
+void errorInitial( char *message )
+{
+    Error *e = malloc(sizeof(Error));
 
     //add to errList
 
@@ -42,53 +106,4 @@ void errorInitial( Error *e, char *message )
 
     e_count++;
     sendError(e);
-}
-
-void criticalError(ErrorCode code, char *message)
-{
-    fprintf(stderr, "\t");
-    switch (code)
-    {
-    case ERROR_EndlessString:
-        errorMsg(e, "Error parsing string. No closing quote.\n");
-        break;
-    case ERROR_IncompatibleTypes:
-        errorMsg(e, "Type mismatch.\n");
-        break;
-    case ERROR_UnexpectedIndent:
-        errorMsg(e, "Unexpected scope increase\n");
-        break;
-    case ERROR_AssignToLiteral:
-        errorMsg(e, "Cannot assign to a literal.\n");
-        break;
-    case ERROR_UnrecognizedSymbol:
-        errorMsg(e, "Unknown symbol detected.\n");
-        break;
-    case ERROR_CannotAllocateMemory:
-        errorMsg(e, "Cannot allocate new space.\n");
-        break;
-    case ERROR_UndefinedVerb:
-        errorMsg(e, "Verb encountered without definition.\n");
-        break;
-    case ERROR_UndefinedVariable:
-        errorMsg(e, "Variable encountered without definition.\n");
-        break;
-    case ERROR_UndefinedType:
-        errorMsg(e, "Type encountered without definition.\n");
-        break;
-    case ERROR_InvalidArguments:
-        errorMsg(e, "Attempted to run a function with invalid arguments.\n");
-        break;
-    case ERROR_ParseError:
-        errorMsg(e, "Error while parsing file.\n");
-        break;
-    default:
-        errorMsg(e, "Unknown critical error. Aborting.\n");
-    }
-    if (message)
-    {
-        fprintf(stderr, "\t");
-        fprintf(stderr, "%s", message);
-    }
-    // exit((int)code);
 }
