@@ -57,6 +57,8 @@ private slots:
 
     void on_button_saveall_clicked();
 
+    void on_button_run_clicked();
+
     void displayAboutRix();
 
     void displayAboutRide();
@@ -77,7 +79,11 @@ private slots:
 
     void runCompiler();
 
-    void closeEvent(QCloseEvent *event);
+    void closeEvent(QCloseEvent *event); // Override of standard Qt M
+
+    void sendCloseEvent();
+
+    void readCompilerOutputLine(const QString& line);
 
 private:    //Private Functions
     void setupScintilla();

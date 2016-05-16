@@ -15,9 +15,9 @@ class RixLexer : public QsciLexerCustom
     Q_OBJECT
 public:
     RixLexer(QObject *parent = 0);
-    void styleText(int start, int end) override;
-    QString description(int style) const override;
-    const char* language() const override;
+    void styleText(int start, int end);
+    QString description(int style) const;
+    const char* language() const;
 private slots:
     void handleStyleNeeded(int pos);
 };
