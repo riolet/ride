@@ -39,14 +39,14 @@ typedef enum
  */
 typedef struct error_object
 {
-    ErrorCode code;pack
     char *message
     int message_length;
-    int line;
+    int line_number;
     int column_start;
     int num_characters;
 } Error;
 
+int e_count;
 int g_lineNum;
 int g_lineCol;
 int g_headerLines;
