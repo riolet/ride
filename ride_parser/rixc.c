@@ -70,7 +70,7 @@ Object *beginClass(char *className, char *parentName, Object *typeArgs, bool isP
     if (parent == 0) {
         char error[BUFFLEN];
         snprintf(error, BUFFLEN, "Cannot find definition for '%s'\n", parentName);
-        criticalError(ERROR_ParseError, error, parentName);
+        criticalError(ERROR_ParseError, error);
     }
 
     snprintf(codename, BUFFLEN, "%s", className);
@@ -1672,7 +1672,7 @@ Object *conjugateAccessorIdent(Object *subject, char *field){
         } else {
             break;
         }
-    }43
+    }
 
     if (!oField) {
         char error[BUFFLEN];
@@ -1816,7 +1816,7 @@ int errorDetect(Error **err, int *errnum, const char * doc) {
         yyparse();
     }
 
-    err = errors_array
+    err = errors_array;
     errnum = e_count;
 
     return 0;
@@ -1827,13 +1827,13 @@ void sendError(Error *e) {
     int i;
     int used = 0;
     int size = e_count;
-    Error *errs[e_count] = (Error **) malloc(sizeof(int)*e_count);
+    Error **errs = (Error**) malloc( size * sizeof( Error* ) );
 
     for(i=0; i<size; i++) {
         if(i == (size-1))
-            *errs[size-1] = &e;
+            errs[size-1] = e;
         else
-            *errs[i] = &errors_array[i];
+            errs[i] = errors_array[i];
         used++;
     }
 

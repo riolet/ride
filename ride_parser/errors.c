@@ -8,7 +8,12 @@ int warningMsg(const char *format, ...)
     va_list arg;
     va_start(arg, format);
     ret = vfprintf(stderr, format, arg);
-    errorInitial(ret);
+    
+    // In case we want to grab the error and modify it
+    char buffer[1024];
+    vsnprintf(buffer, 1024, format, arg);
+    errorInitial(buffer);
+
     va_end(arg);
     fprintf(stderr, ANSI_COLOR_RESET);
     return ret;
@@ -25,33 +30,12 @@ int errorMsg(const char *format, ...)
     // In case we want to grab the error and modify it
     char buffer[1024];
     vsnprintf(buffer, 1024, format, arg);
-    
+    errorInitial(buffer);
 
     ret = vfprintf(stderr, format, arg);
     fprintf(stderr, ANSI_COLOR_RESET);
     va_end(arg);
     return ret;
-}
-
-/**
- * @brief      Initialize an error object
- *
- * @param      message  The message of the error
- */
-Error *errorInitial( char *message )
-{
-    Error *e = malloc(sizeof(Error));
-
-    //add to errList
-
-    e->message          = message;
-    e->message_length   = strlen(message);
-    e->line_number      = g_lineNum - g_headerLines;
-    e->column_start     = g_lineCol;
-    e->num_characters   = 0;
-
-    e_count++;
-    sendError(e);
 }
 
 void criticalError(ErrorCode code, char *message)
@@ -101,4 +85,25 @@ void criticalError(ErrorCode code, char *message)
         fprintf(stderr, "%s", message);
     }
     // exit((int)code);
+}
+
+/**
+ * @brief      Initialize an error object
+ *
+ * @param      message  The message of the error
+ */
+void errorInitial( char *message )
+{
+    Error *e = malloc(sizeof(Error));
+
+    //add to errList
+
+    e->message          = message;
+    e->message_length   = strlen(message);
+    e->line_number      = g_lineNum - g_headerLines;
+    e->column_start     = g_lineCol;
+    e->num_characters   = 0;
+
+    e_count++;
+    sendError(e);
 }
