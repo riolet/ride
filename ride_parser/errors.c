@@ -42,13 +42,16 @@ Error *errorInitial( char *message )
 {
     Error *e = malloc(sizeof(Error));
 
+    //add to errList
+
     e->message          = message;
     e->message_length   = strlen(message);
     e->line_number      = g_lineNum - g_headerLines;
     e->column_start     = g_lineCol;
     e->num_characters   = 0;
 
-    return e;
+    e_count++;
+    sendError(e);
 }
 
 void criticalError(ErrorCode code, char *message)
