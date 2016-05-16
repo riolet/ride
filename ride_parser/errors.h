@@ -39,7 +39,7 @@ typedef enum
  */
 typedef struct error_object
 {
-    char *message
+    char *message;
     int message_length;
     int line_number;
     int column_start;

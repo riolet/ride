@@ -156,12 +156,16 @@ long QsciScintillaBase::SendScintilla 	( 	unsigned int  	msg,
     char all_text[num_total];
     long num_copied = _editText->SendScintilla(QsciScintilla::SCI_GETTEXT, num_total, all_text);
 
-    if(num_copied != num_total)
+    if( (num_copied+1) != num_total)
     {
         // Error occured, the total characters available was not copied correctly.
         return QString("Tacobell");
     }
 
+    Error* error_array;
+    int num_errors;
+
+    errorDetect(&error_array, &num_errors, all_text);
     QString temp(all_text);
     return temp;
 }

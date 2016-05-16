@@ -26,6 +26,9 @@ void RixLexer::handleStyleNeeded(int pos)
 
 void RixLexer::styleText(int start, int end)
 {
+    if(end < start)
+        return;
+
     char chars[end - start];
 
     editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE, start, end,
