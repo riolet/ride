@@ -9,9 +9,9 @@
 #include <QFont>
 #include <Qsci/qsciscintilla.h>
 #include <QDebug>
-#include "../ride_parser/rixc.h"    // NEED TO LINK RIDE TO RIDE_PARSER
-#include "../ride_parser/errors.h"
+//#include "../ride_parser/rixc.c"    // NEED TO LINK RIDE TO RIDE_PARSER
+//#include "../ride_parser/errors.h"
 
-extern int errorDetect(Error **err, int *errnum, const char * doc);
+//extern int errorDetect(Error **err, int *errnum, const char * doc);
 
 #endif // GLOBALS_H

@@ -73,8 +73,9 @@ void ThemeHandler::parseFileContents(const QStringList &contents)
     // Need a better regular expression for matching strings.
     QRegExp match("\"");
 
-    for(const QString key : _keylist)
+    for(int i = 0; i < _keylist.size(); i++)
     {
+        QString key = _keylist[i];
         QStringList result;
         int size;
 
@@ -185,8 +186,9 @@ void ThemeHandler::assignColorString(const QString &keyword, const QString &inpu
 
 void ThemeHandler::setToAbsoluteDefault()
 {
-    for(const QString key : _keylist)
+    for(int i = 0; i < _keylist.size(); i++)
     {
+        QString key = _keylist[i];
         assignColorString(key, QString("#FFFFFF"));
     }
 }
