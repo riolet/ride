@@ -7,7 +7,8 @@ extern char **environ;
 
 CompilerHandler::CompilerHandler(QObject *parent) : QObject(parent)
 {
-
+    compile_begin   = QString("Starting compilation...");
+    compile_end     = QString("End of compilation...");
 }
 
 void CompilerHandler::compileRixFile(ScintillaDoc *doc)

@@ -152,6 +152,8 @@ long QsciScintillaBase::SendScintilla 	( 	unsigned int  	msg,
     pants = _editText->SendScintilla(SCI_GETTEXT,
     http://pyqt.sourceforge.net/Docs/QScintilla2/classQsciScintillaBase.html#ab7599500a82c87cf303643005ea78e79a4bc0cd151979992bc5015852c5dbfbfe
     */
+
+    return QString("Empty");
 }
 
 void ScintillaDoc::setWrapMode(bool enable)
