@@ -6,7 +6,6 @@
 #include <Qsci/qscilexercustom.h>
 #include <Qsci/qscistyle.h>
 #include <stdio.h>
-#include "globals.h"
 
 extern void scan_string(const char* str);
 
@@ -14,8 +13,8 @@ class RixLexer : public QsciLexerCustom
 {
     Q_OBJECT
 public:
-    RixLexer(QObject *parent = 0);
     void styleText(int start, int end) override;
+    void styleToken(int length, int style);
     QString description(int style) const override;
     const char* language() const override;
 private slots:

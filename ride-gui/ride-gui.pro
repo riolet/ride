@@ -38,7 +38,8 @@ HEADERS += \
     aboutdialog.h \
     themehandler.h \
     compilerhandler.h \
-    rixlexer.h
+    rixlexer.h \
+    lexershare.h
 
 flexsource.input = FLEXSOURCES
 flexsource.output = ${QMAKE_FILE_BASE}.cpp

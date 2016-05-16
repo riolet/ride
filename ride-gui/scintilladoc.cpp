@@ -10,7 +10,13 @@ ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
     _filepath = QString("");
 
     _lex->setEditor(_editText);
-    _lex->editor()->SendScintilla(QsciScintilla::SCI_STYLESETFORE, 0, 255 | (0 << 8) | (0 << 16));
+    for (int i = 1; i <= 13; i++)
+    {
+        _lex->editor()->SendScintilla(QsciScintilla::SCI_STYLESETFORE,
+                                      i, syntaxColors[i]);
+        qDebug() << syntaxColors[i];
+
+    }
 
     connect(_editText, SIGNAL(textChanged()),
                 this, SLOT(scintillaTextChanged()));

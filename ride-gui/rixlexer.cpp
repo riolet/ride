@@ -1,11 +1,5 @@
 #include "rixlexer.h"
 
-RixLexer::RixLexer (QObject *parent) : QsciLexerCustom(parent)
-{
-    scan_string("int i = 3");
-    fflush(stdout);
-}
-
 void RixLexer::handleStyleNeeded(int pos)
 {
     if (!editor())
@@ -16,9 +10,6 @@ void RixLexer::handleStyleNeeded(int pos)
             start);
     start = editor()->SendScintilla(QsciScintillaBase::SCI_POSITIONFROMLINE,
                 line);
-    qDebug() << "pos:" << pos;
-    qDebug() << "start:" << start;
-    qDebug() << "line:" << line;
 
     if (start != pos)
         styleText(start, pos);
@@ -30,11 +21,19 @@ void RixLexer::styleText(int start, int end)
 
     editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE, start, end,
                             chars);
-    std::string unstyledChars(chars);
-    qDebug() << QString::fromStdString(unstyledChars);
 
     startStyling(start);
-    setStyling(end - start, 0);
+    scan_string(chars);
+}
+
+void RixLexer::styleToken(int length, int style)
+{
+    if (style == 0)
+    {
+        setStyling(length, 32);
+        return;
+    }
+    setStyling(length, style);
 }
 
 QString RixLexer::description(int style) const

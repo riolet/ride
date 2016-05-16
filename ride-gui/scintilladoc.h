@@ -4,8 +4,7 @@
 #include <QTextStream>
 #include <QFileInfo>
 #include <QMessageBox>
-#include "globals.h"
-#include "rixlexer.h"
+#include "lexershare.h"
 
 #define ZOOM_FACTOR 2
 #define MARGIN_WIDTH QString("123456")
@@ -49,7 +48,6 @@ private slots:
 
 public: // public variables
     QsciScintilla*  _editText;
-    RixLexer*       _lex;
     QString         _filename;
     QString         _filepath;
     QString         _errorString;
@@ -58,7 +56,36 @@ public: // public variables
 private: // private variables
     bool            _isBlank;
     bool            _modified;
-
+    enum            syntaxTypes {
+                        tInteger    = 1,
+                        tFloat      = 2,
+                        tInt        = 3,
+                        tString     = 4,
+                        tChar       = 5,
+                        tClass      = 6,
+                        tScope      = 7,
+                        tKeyword    = 8,
+                        tReturn     = 9,
+                        tIdentifier = 10,
+                        tSingleComm = 11,
+                        tMultiComm  = 12,
+                        tMultiCommUnterm = 13
+    };
+    int            syntaxColors[14] = { 0,              // Unidentified token
+                        (0 | (0 << 8) | (255 << 16)),   // Integer
+                        (0 | (0 << 8) | (255 << 16)),   // Float
+                        (0 | (0 << 8) | (255 << 16)),   // Int
+                        (128 | (0 << 8) | (128 << 16)), // String
+                        (128 | (0 << 8) | (128 << 16)), // Char
+                        (0 | (0 << 8) | (0 << 16)),     // Class
+                        (0 | (0 << 8) | (0 << 16)),     // Scope
+                        (0 | (0 << 8) | (0 << 16)),     // Keyword
+                        (0 | (0 << 8) | (0 << 16)),     // Return
+                        (40 | (164 << 8) | (164 << 16)),// Identifier
+                        (0 | (0 << 8) | (0 << 16)),     // Single-line comment
+                        (0 | (0 << 8) | (0 << 16)),     // Multi-line comment (terminated)
+                        (0 | (0 << 8) | (0 << 16))      // Multi-line comment (unterminated)
+    };
 };
 
 #endif // SCINTILLADOC_H
