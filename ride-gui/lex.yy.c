@@ -497,7 +497,7 @@ char *yytext;
 /* need this for the call to atof() below */
 #include <math.h>
 #include <string.h>
-
+#include "lexershare.h"
 int col_number = 0;
 
 
@@ -782,45 +782,45 @@ YY_RULE_SETUP
 #line 32 "lex.l"
 {
 										size_t len = strlen(yytext);
-										col_number+=len;
-     									printf( "An integer: %s (%d)\n", yytext,
-             								atoi( yytext ) );
-             								
-             							printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
+                                        _lex->styleToken(len, 1);
+                                        col_number += len;
+                                        printf( "An integer: %s (%d)\n", yytext, atoi( yytext ) );
+                                        printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
 }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 41 "lex.l"
+#line 40 "lex.l"
 {
 										size_t len = strlen(yytext);
-										col_number+=len;
-    									printf( "A float: %s (%g)\n", yytext,
-             								atof( yytext ) );
-             								
-             							printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
+                                        _lex->styleToken(len, 2);
+                                        col_number+=len;
+                                        printf( "A float: %s (%g)\n", yytext, atof( yytext ) );
+                                        printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
 }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 50 "lex.l"
+#line 48 "lex.l"
 {							
 										size_t len = strlen(yytext);
-										col_number+=len;
-										printf( "An int type: %s\n", yytext);
-										
-             							printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
+                                        _lex->styleToken(len, 3);
+                                        col_number+=len;
+                                        printf( "An int type: %s\n", yytext);
+
+                                        printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
 }
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 58 "lex.l"
+#line 57 "lex.l"
 {								
 										size_t len = strlen(yytext);
-										col_number+=len;
-										printf( "A string: %s\n", yytext);
-             							printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
+                                        _lex->styleToken(len, 4);
+                                        col_number+=len;
+                                        printf( "A string: %s\n", yytext);
+                                        printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
 }
 	YY_BREAK
 case 5:
@@ -829,110 +829,120 @@ YY_RULE_SETUP
 #line 65 "lex.l"
 {								
 										size_t len = strlen(yytext);
-										col_number+=len;
-										printf( "A char: %s\n", yytext);
-             							printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
+                                        _lex->styleToken(len, 5);
+                                        col_number+=len;
+                                        printf( "A char: %s\n", yytext);
+                                        printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
 }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 72 "lex.l"
+#line 73 "lex.l"
 {								
 										size_t len = strlen(yytext);
-										col_number+=len;
-										printf( "A class operator: %s\n", yytext );
-             							printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
+                                        _lex->styleToken(len, 6);
+                                        col_number+=len;
+                                        printf( "A class operator: %s\n", yytext );
+                                        printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
 }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 79 "lex.l"
+#line 81 "lex.l"
 {							
 										size_t len = strlen(yytext);
-										col_number+=len;
-										printf( "A scope resolution operator: %s\n", yytext );
-             							printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
+                                        _lex->styleToken(len, 7);
+                                        col_number+=len;
+                                        printf( "A scope resolution operator: %s\n", yytext );
+                                        printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
 }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 86 "lex.l"
+#line 89 "lex.l"
 {								
 										size_t len = strlen(yytext);
-										col_number+=len;
-										printf( "A keyword: %s\n", yytext );
-             							printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
+                                        _lex->styleToken(len, 8);
+                                        col_number+=len;
+                                        printf( "A keyword: %s\n", yytext );
+                                        printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
 }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 93 "lex.l"
+#line 97 "lex.l"
 {									
 										size_t len = strlen(yytext);
-										col_number+=len;
-										printf( "A return statement: %s\n", yytext );
-             							printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
+                                        _lex->styleToken(len, 9);
+                                        col_number+=len;
+                                        printf( "A return statement: %s\n", yytext );
+                                        printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
 }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 100 "lex.l"
+#line 105 "lex.l"
 {
 										size_t len = strlen(yytext);
-										col_number+=len;
-										printf( "An identifier: %s\n", yytext );
-             							printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
+                                        _lex->styleToken(len, 10);
+                                        col_number+=len;
+                                        printf( "An identifier: %s\n", yytext );
+                                        printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
 }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 107 "lex.l"
+#line 113 "lex.l"
 { 					 		
 										size_t len = strlen(yytext);
-										col_number+=len;
-										printf( "single line comment: %s\n", yytext );
-             							printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
+                                        _lex->styleToken(len, 11);
+                                        col_number+=len;
+                                        printf( "single line comment: %s\n", yytext );
+                                        printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
 }
 	YY_BREAK
 case 12:
 /* rule 12 can match eol */
 YY_RULE_SETUP
-#line 114 "lex.l"
+#line 121 "lex.l"
 {
 										size_t len = strlen(yytext);
-										col_number+=len;
-										printf( "Multiline comment: %s\n", yytext);
-             							printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
+                                        _lex->styleToken(len, 12);
+                                        col_number+=len;
+                                        printf( "Multiline comment: %s\n", yytext);
+                                        printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
 }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 122 "lex.l"
+#line 130 "lex.l"
 {
 										size_t len = strlen(yytext);
-										col_number+=len;
-								 		printf( "Multiline unterminated comment\n");
-             							printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
+                                        _lex->styleToken(len, 13);
+                                        col_number+=len;
+                                        printf( "Multiline unterminated comment\n");
+                                        printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
 }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 129 "lex.l"
+#line 138 "lex.l"
 {
 										size_t len = strlen(yytext);
-										col_number+=len;
-          								printf( "Unrecognized character: %s\n", yytext );
-             							printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
+                                        _lex->styleToken(len, 0);
+                                        col_number+=len;
+                                        printf( "Unrecognized character: %s\n", yytext );
+                                        printf( "Length was: (%zu); and column is now: (%d) \n", len, col_number);
              							
              							
 }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 139 "lex.l"
+#line 149 "lex.l"
 ECHO;
 	YY_BREAK
-#line 936 "lex.yy.c"
+#line 946 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1927,19 +1937,14 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 138 "lex.l"
+#line 148 "lex.l"
 
 
 
 
-/*int main( int argc, char **argv ) {
-	++argv, --argc;  /* skip over program name */
-	/*if ( argc > 0 )
-	     yyin = fopen( argv[0], "r" );
-	else
-	     yyin = stdin;
-
-	yylex();
+void scan_string(const char* str)
+{
+    yy_switch_to_buffer(yy_scan_string(str));
+    yylex();
 }
-*/
 
