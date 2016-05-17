@@ -12,6 +12,8 @@ public:     // Public functions
 
     void compileRixFile(ScintillaDoc* doc = NULL);
 
+    void readCompilerOutput(FILE* output, FILE* error);
+
 private:    // Private functions
 
 private:    // Private variables
@@ -20,6 +22,7 @@ private:    // Private variables
 
 signals:
     void compilerOutput(const QString& line);
+    void compilerError(const QString& error);
 
 public slots:
 
