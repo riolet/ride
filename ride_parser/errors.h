@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_GREEN   "\x1b[32m"
@@ -53,7 +54,7 @@ int g_headerLines;
 
 int errorMsg(const char *format, ...);
 int warningMsg(const char *format, ...);
-void errorInitial( Error *e, char *message );
 void criticalError(ErrorCode code, char *message);
+void errorInitial( char *message );
 
 #endif

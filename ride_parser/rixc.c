@@ -45,7 +45,7 @@ Object *scope_pop() {
 }
 
 void scope_push(Object *val) {
-    
+
     current = scopeStack[++scope_idx] = val;
 }
 
