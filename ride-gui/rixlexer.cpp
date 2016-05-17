@@ -17,6 +17,11 @@ void RixLexer::handleStyleNeeded(int pos)
 
 void RixLexer::styleText(int start, int end)
 {
+    if(end < start)
+    {
+        return;
+    }
+
     char chars[end - start];
 
     editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE, start, end,
@@ -38,6 +43,7 @@ void RixLexer::styleToken(int length, int style)
 
 QString RixLexer::description(int style) const
 {
+    Q_UNUSED(style);
     return "Default";
 }
 

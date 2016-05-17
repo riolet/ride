@@ -1,0 +1,728 @@
+test.rit
+Lines read 55
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: directive
+lexer: string
+EOL
+parser: dtv
+Directive value "rsl/RSL_Array.h"
+parser: stmts-stmt,s_s
+lexer: directive
+lexer: string
+EOL
+parser: dtv
+Directive value "rsl/RSL_Array.c"
+parser: stmts-stmt,s_s
+lexer: unidentified identifier
+lexer: CtorDecPrim
+lexer: type
+parser: class-def
+External class 1
+EOL
+lexer: INDENT
+lexer: self
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: )
+parser: class-def
+Doing constructor Array_$_Array
+Adding category int
+Adding ctor Array_$_Array_$_int
+External ctor 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Constructor Defined! Array_$_Array_$_int
+lexer: verb
+parser: UNMARKEDNEWIDENT
+lexer: Return
+lexer: type
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: )
+parser: func-def
+External func 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Function Defined! Array_$_getObjectAtIndex_$_int
+lexer: unidentified identifier
+lexer: Return
+parser: UNMARKEDNEWIDENT
+lexer: type
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: ParamComma
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: paramN
+lexer: )
+parser: func-def
+External func 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Function Defined! Array_$_putObjectAtIndex_$_Generic_$$_$_Generic_$$
+EOL
+parser: c_s-eol
+empty EOL
+lexer: OUTDENT
+parser: s_s-class - Class Defined! Array_$_BaseType
+parser: stmts-stmt,s_s
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-stmt,s_s
+lexer: directive
+lexer: string
+EOL
+parser: dtv
+Directive value ""
+parser: stmts-stmt,s_s
+lexer: directive
+lexer: string
+EOL
+parser: dtv
+Directive value "rsl/RSL_String.h"
+parser: stmts-stmt,s_s
+lexer: directive
+lexer: string
+EOL
+parser: dtv
+Directive value "rsl/RSL_String.c"
+parser: stmts-stmt,s_s
+lexer: unidentified identifier
+lexer: ClassDec
+lexer: type
+parser: class-def
+External class 1
+EOL
+lexer: INDENT
+lexer: unidentified identifier
+lexer: Return
+parser: UNMARKEDNEWIDENT
+lexer: type
+lexer: (
+lexer: )
+parser: param0
+parser: func-def
+External func 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Function Defined! String_$_length_$_
+EOL
+parser: c_s-eol
+empty EOL
+lexer: OUTDENT
+parser: s_s-class - Class Defined! String_$_BaseType
+parser: stmts-stmt,s_s
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-stmt,s_s
+lexer: directive
+lexer: string
+EOL
+parser: dtv
+Directive value ""
+parser: stmts-stmt,s_s
+lexer: directive
+lexer: string
+EOL
+parser: dtv
+Directive value "rsl/RSL_Stream.h"
+parser: stmts-stmt,s_s
+lexer: directive
+lexer: string
+EOL
+parser: dtv
+Directive value "rsl/RSL_Stream.c"
+parser: stmts-stmt,s_s
+lexer: unidentified identifier
+lexer: ClassDec
+lexer: type
+parser: class-def
+External class 1
+EOL
+lexer: INDENT
+lexer: self
+lexer: (
+lexer: )
+parser: param0
+parser: class-def
+Doing constructor Stream_$_Stream
+Adding no types
+Adding ctor Stream_$_Stream_$_
+External ctor 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Constructor Defined! Stream_$_Stream_$_
+lexer: self
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: ParamComma
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: paramN
+lexer: )
+parser: class-def
+Doing constructor Stream_$_Stream
+Adding category String
+Adding category String
+Adding ctor Stream_$_Stream_$_String_$_String
+External ctor 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Constructor Defined! Stream_$_Stream_$_String_$_String
+lexer: verb
+parser: UNMARKEDNEWIDENT
+lexer: Return
+lexer: type
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: )
+parser: func-def
+External func 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Function Defined! Stream_$_print_$_String
+lexer: verb
+parser: UNMARKEDNEWIDENT
+lexer: Return
+lexer: type
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: )
+parser: func-def
+External func 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Function Defined! Stream_$_print_$_int
+lexer: verb
+parser: UNMARKEDNEWIDENT
+lexer: Return
+lexer: type
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: )
+parser: func-def
+External func 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Function Defined! Stream_$_print_$_float
+lexer: verb
+parser: UNMARKEDNEWIDENT
+lexer: Return
+lexer: type
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: )
+parser: func-def
+External func 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Function Defined! Stream_$_echo_$_String
+lexer: verb
+parser: UNMARKEDNEWIDENT
+lexer: Return
+lexer: type
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: )
+parser: func-def
+External func 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Function Defined! Stream_$_echo_$_int
+lexer: verb
+parser: UNMARKEDNEWIDENT
+lexer: Return
+lexer: type
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: )
+parser: func-def
+External func 1
+EOL
+lexer: INDENT
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-s_s
+lexer: OUTDENT
+parser: codeblock
+parser: c_s-func - Function Defined! Stream_$_echo_$_float
+EOL
+parser: c_s-eol
+empty EOL
+lexer: OUTDENT
+parser: s_s-class - Class Defined! Stream_$_BaseType
+parser: stmts-stmt,s_s
+lexer: comment (ignored)
+EOL
+parser: s_s-eol
+empty EOL
+parser: stmts-stmt,s_s
+lexer: directive
+lexer: string
+EOL
+parser: dtv
+Directive value ""
+parser: stmts-stmt,s_s
+lexer: unidentified identifier
+lexer: Return
+parser: UNMARKEDNEWIDENT
+lexer: type
+lexer: (
+lexer: )
+parser: param0
+parser: func-def
+External func 0
+EOL
+lexer: INDENT
+	  searched prthuh_$_'s parent(RootScope) and found (null)
+lexer: new identifier i
+lexer: assignment
+parser: object-new-identifer
+objectNewIdent(i)
+	  searched prthuh_$_'s parent(RootScope) and found (null)
+parser: expr-obj
+lexer: int
+parser: object-int
+objectInt(5)
+parser: expr-obj
+EOL
+parser: expr-asn
+verbAssignment(=)
+ConjugateAssign: fullVerbName: assign_$_int
+	  searched prthuh_$_'s parent(RootScope) and found (null)
+Creating new variable i as int
+	  searched prthuh_$_'s parent(RootScope) and found int_$_Number
+	Conjugated: (813) i = 5 at 
+parser: stmt-expr
+lexer: Return
+parser: s_s-stmt
+statement EOL
+parser: stmts-s_s
+lexer: identifier
+EOL
+parser: object-identifer
+objectIdent(i)
+Ident full name i
+parser: expr-obj
+parser: stmt-rtEx
+	  searched prthuh_$_'s parent(RootScope) and found int_$_Number
+lexer: OUTDENT
+parser: s_s-stmt
+statement EOL
+parser: stmts-stmt,s_s
+parser: codeblock
+parser: s_s-func - Function Defined! prthuh_$_
+parser: stmts-stmt,s_s
+lexer: new identifier aa
+lexer: assignment
+parser: object-new-identifer
+objectNewIdent(aa)
+parser: expr-obj
+lexer: verb
+lexer: (
+lexer: )
+parser: arg-()
+parser: expr- vo
+verbIdent(prthuh)
+Conjugate: fullVerbName: prthuh_$_
+Conjugate: genericVerbName: prthuh
+	Conjugated: (1278) /* 1121 */ prthuh_$_( )  -> int
+EOL
+parser: expr-asn
+verbAssignment(=)
+ConjugateAssign: fullVerbName: assign_$_int
+Creating new variable aa as int
+	Conjugated: (813) aa = /* 1121 */ prthuh_$_( ) at 
+parser: stmt-expr
+lexer: verb
+parser: s_s-stmt
+statement EOL
+parser: stmts-stmt,s_s
+lexer: (
+lexer: identifier
+lexer: )
+parser: object-identifer
+objectIdent(aa)
+Ident full name aa
+parser: expr-obj
+parser: arg-(x)
+parser: arg(...)
+parser: expr- vo
+verbIdent(print)
+Conjugate: fullVerbName: print_$_int
+Conjugate: genericVerbName: print_$_Generic_$$
+	Conjugated: (1278) /* 1121 */ print_$_int( /* 1178 */ aa)  -> int
+EOL
+parser: stmt-expr
+lexer: unidentified identifier
+parser: s_s-stmt
+statement EOL
+parser: stmts-stmt,s_s
+lexer: ClassDec
+lexer: type
+parser: class-def
+External class 0
+EOL
+lexer: INDENT
+lexer: unidentified identifier
+lexer: Return
+parser: UNMARKEDNEWIDENT
+lexer: type
+lexer: (
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: param1
+lexer: ParamComma
+lexer: type
+lexer: unidentified identifier
+parser: UNMARKEDNEWIDENT
+parser: paramN
+lexer: )
+parser: func-def
+External func 0
+EOL
+lexer: INDENT
+	  searched A_$_prtwat_$_int_$_int's parent(RootScope) and found (null)
+lexer: new identifier a
+lexer: assignment
+parser: object-new-identifer
+objectNewIdent(a)
+	  searched A_$_prtwat_$_int_$_int's parent(RootScope) and found (null)
+parser: expr-obj
+lexer: int
+parser: object-int
+objectInt(10)
+parser: expr-obj
+lexer: mathOp
+lexer: identifier
+EOL
+parser: object-identifer
+objectIdent(num1)
+Ident full name num1
+parser: expr-obj
+parser: expr-mth
+verbMathOp(+)
+Conjugate: fullVerbName: int_$_plus_$_int
+Conjugate: genericVerbName: int_$_plus_$_Generic_$$
+	  searched A_$_prtwat_$_int_$_int's parent(RootScope) and found (null)
+	  searched A_$_prtwat_$_int_$_int's parent(RootScope) and found (null)
+Trying parent class: int_$_plus_$_int
+	  searched A_$_prtwat_$_int_$_int's parent(RootScope) and found (null)
+Cannot find verb "int_$_plus_$_int". Assuming "+" is infix operator in C.
+	Conjugated: (1107) 10 + num1 at 
+parser: expr-asn
+verbAssignment(=)
+ConjugateAssign: fullVerbName: assign_$_int
+	  searched A_$_prtwat_$_int_$_int's parent(RootScope) and found (null)
+Creating new variable a as int
+	Conjugated: (813) a = 10 + num1 at 
+parser: stmt-expr
+lexer: Return
+parser: s_s-stmt
+statement EOL
+parser: stmts-s_s
+lexer: identifier
+EOL
+parser: object-identifer
+objectIdent(a)
+Ident full name a
+parser: expr-obj
+parser: stmt-rtEx
+lexer: OUTDENT
+parser: s_s-stmt
+statement EOL
+parser: stmts-stmt,s_s
+parser: codeblock
+parser: c_s-func - Function Defined! A_$_prtwat_$_int_$_int
+EOL
+parser: c_s-eol
+empty EOL
+lexer: OUTDENT
+parser: s_s-class - Class Defined! A_$_BaseType
+Beginning Destructor A_$_destructor_$_!
+Finding ctor for A_$_A_$_
+Doing constructor A_$_A
+Adding no types
+Adding ctor A_$_A_$_
+External ctor 0
+parser: stmts-stmt,s_s
+lexer: new identifier class
+lexer: assignment
+parser: object-new-identifer
+objectNewIdent(class)
+parser: expr-obj
+lexer: type
+lexer: (
+lexer: )
+parser: arg-()
+parser: expr-sto
+verbCtor(A)
+Conjugate: fullVerbName: A_$_A_$_
+Conjugate: genericVerbName: A_$_A
+	Conjugated: (1278) /* 1121 */ A_$_A_$_( &_$_mptr0_1)  -> A
+EOL
+parser: expr-asn
+verbAssignment(=)
+ConjugateAssign: fullVerbName: assign_$_A
+Creating new variable class as A
+	Conjugated: (813) IDENT_MPTR_RAW_assign(class,/* 1121 */ A_$_A_$_( &_$_mptr0_1)) at 
+parser: stmt-expr
+lexer: new identifier bb
+parser: s_s-stmt
+statement EOL
+parser: stmts-stmt,s_s
+lexer: assignment
+parser: object-new-identifer
+objectNewIdent(bb)
+parser: expr-obj
+lexer: identifier
+lexer: accessor
+parser: object-identifer
+objectIdent(class)
+Ident full name class
+parser: expr-obj
+lexer: verb
+lexer: (
+lexer: int
+parser: object-int
+objectInt(10)
+parser: expr-obj
+lexer: ParamComma
+lexer: int
+parser: object-int
+objectInt(20)
+parser: expr-obj
+lexer: )
+parser: arg-(x)
+parser: arg(x,y)
+parser: arg(...)
+parser: expr-.vo
+verbIdent(prtwat)
+Conjugate: fullVerbName: A_$_prtwat_$_int_$_int
+Conjugate: genericVerbName: A_$_prtwat_$_Generic_$$_$_Generic_$$
+	Conjugated: (1278) /* 1121 */ A_$_prtwat_$_int_$_int( /* 1141 */ class, /* 1178 */ 10, /* 1178 */ 20)  -> int
+EOL
+parser: expr-asn
+verbAssignment(=)
+ConjugateAssign: fullVerbName: assign_$_int
+Creating new variable bb as int
+	Conjugated: (813) bb = /* 1121 */ A_$_prtwat_$_int_$_int( /* 1141 */ class, /* 1178 */ 10, /* 1178 */ 20) at 
+parser: stmt-expr
+lexer: new identifier cc
+parser: s_s-stmt
+statement EOL
+parser: stmts-stmt,s_s
+lexer: assignment
+parser: object-new-identifer
+objectNewIdent(cc)
+parser: expr-obj
+lexer: string
+parser: object-string
+objectString("hella")
+parser: expr-obj
+EOL
+parser: expr-asn
+verbAssignment(=)
+ConjugateAssign: fullVerbName: assign_$_String
+Creating new variable cc as String
+	Conjugated: (813) IDENT_MPTR_RAW_assign(cc,String_$_stringlit("hella",&_$_mptr0_2)) at 
+parser: stmt-expr
+lexer: verb
+parser: s_s-stmt
+statement EOL
+parser: stmts-stmt,s_s
+lexer: (
+lexer: identifier
+lexer: )
+parser: object-identifer
+objectIdent(bb)
+Ident full name bb
+parser: expr-obj
+parser: arg-(x)
+parser: arg(...)
+parser: expr- vo
+verbIdent(print)
+Conjugate: fullVerbName: print_$_int
+Conjugate: genericVerbName: print_$_Generic_$$
+	Conjugated: (1278) /* 1121 */ print_$_int( /* 1178 */ bb)  -> int
+EOL
+parser: stmt-expr
+lexer: verb
+parser: s_s-stmt
+statement EOL
+parser: stmts-stmt,s_s
+lexer: (
+lexer: identifier
+lexer: )
+parser: object-identifer
+objectIdent(cc)
+Ident full name cc
+parser: expr-obj
+parser: arg-(x)
+parser: arg(...)
+parser: expr- vo
+verbIdent(print)
+Conjugate: fullVerbName: print_$_String
+Conjugate: genericVerbName: print_$_Generic_$$
+	Conjugated: (1278) /* 1121 */ print_$_String( /* 1178 */ cc)  -> int
+EOL
+parser: stmt-expr
+parser: s_s-stmt
+statement EOL
+parser: stmts-stmt,s_s
+parser: rix-stmts
+parser: rix-EOF
+Forward decling prthuh_$_
+Looking up function prthuh_$_
+	  searched prthuh_$_'s parent(RootScope) and found int_$_Number
+Looking up category int
+Line736 prthuh_$_
+Forward decling A_$_prtwat_$_int_$_int
+Looking up function A_$_prtwat_$_int_$_int
+Looking up category int
+Line736 A_$_prtwat_$_int_$_int
+Forward decling A_$_destructor_$_
+Looking up function A_$_destructor_$_
+Looking up category _$_mptr
+Line736 A_$_destructor_$_
+Forward decling A_$_A_$_
+Looking up function A_$_A_$_
+Looking up category A
+Line736 A_$_A_$_
+Writing function prthuh_$_
+Looking up function prthuh_$_
+	  searched prthuh_$_'s parent(RootScope) and found int_$_Number
+Looking up category int
+Line736 prthuh_$_
+	  searched prthuh_$_'s parent(RootScope) and found int_$_Number
+Writing function A_$_prtwat_$_int_$_int
+Looking up function A_$_prtwat_$_int_$_int
+Looking up category int
+Line736 A_$_prtwat_$_int_$_int
+Writing function A_$_destructor_$_
+Looking up function A_$_destructor_$_
+Looking up category _$_mptr
+Line736 A_$_destructor_$_
+Writing function A_$_A_$_
+Looking up function A_$_A_$_
+Looking up category A
+Line736 A_$_A_$_

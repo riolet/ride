@@ -36,8 +36,12 @@ public:
 
     int getTotalLines();
 
+    const QString getAllText();
+
 private: // Private functions
     void setWrapMode(bool enable);
+
+    void handleFoundErrors(); //incomplete function
 
 signals:
     void textChanged();
