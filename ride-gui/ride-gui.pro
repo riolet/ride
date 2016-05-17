@@ -1,8 +1,11 @@
 QT += widgets core gui
-CONFIG      += debug qscintilla2
+#CONFIG      += qscintilla2
 TARGET = RIDE
 TEMPLATE = app
 LIBS += -lfl
+DEPENDPATH += ../
+INCLUDEPATH += ../
+LIBS += ../libqscintilla2.so
 
 SOURCES += \
     main.cpp \
