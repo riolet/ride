@@ -3,6 +3,7 @@
 #include <math.h>
 #include <string.h>
 #include "lexershare.h"
+RixLexer *_lex;
 int col_number = 0;
 
 

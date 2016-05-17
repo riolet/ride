@@ -2,9 +2,9 @@
 
 ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
 {
+    _lex = new RixLexer;
     _filename = QString("untitled");
     _editText = new QsciScintilla;
-    _lex = new RixLexer;
     _isBlank = true;
     _modified = false;
     _filepath = QString("");
@@ -14,8 +14,6 @@ ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
     {
         _lex->editor()->SendScintilla(QsciScintilla::SCI_STYLESETFORE,
                                       i, syntaxColors[i]);
-        qDebug() << syntaxColors[i];
-
     }
 
     connect(_editText, SIGNAL(textChanged()),

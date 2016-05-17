@@ -4,6 +4,7 @@
 #include <QTextStream>
 #include <QFileInfo>
 #include <QMessageBox>
+#include "globals.h"
 #include "lexershare.h"
 
 #define ZOOM_FACTOR 2
