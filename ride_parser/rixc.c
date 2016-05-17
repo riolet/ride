@@ -1747,14 +1747,22 @@ void stdprintobj(Object *in) {
 int errorDetect(Error **err, int *errnum, const char * doc) {
 
     FILE *ritTempFile;
+    FILE *ifile;
     int numline = 0;
     g_headerLines = 0;
 
-    if (fin == NULL) {
+    ifile = fopen("temp_parse_file.rit", "r+");
+    int result = fputs(doc, ifile);
+    if(result == 0) {
+        perror("fopen");
+        return 1;
+    }
+    fseek(ifile, 0, SEEK_SET);
+    if (ifile == NULL) {
         errorMsg("No file to compile\n");
         criticalError(ERROR_ParseError, "No file to compile specified");
     } else {
-        file = fopen(fin, "r");
+        file = fopen(ifile, "r");
     }
 
 /*    char oMainFileName[BUFFLEN];
@@ -1780,7 +1788,8 @@ int errorDetect(Error **err, int *errnum, const char * doc) {
     current = scopeStack[scope_idx];
     defineRSLSymbols(root);
 
-    ritTempFile = fopen("rix_temp_file.rit", "w");
+    ritTempFile = fopen("rix_temp_file.rit", "w
+i");
     if (ritTempFile == 0) {
         perror("fopen");
         return 1;
@@ -1838,6 +1847,7 @@ void sendError(Error *e) {
     }
 
     errors_array = errs;
+    free(errs);
 }
 
 int main_old(int argc, char **argv) {
