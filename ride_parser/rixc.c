@@ -35,10 +35,6 @@ bool external = false;
 int retVarNumber = 0;
 int codeBlockNumber = 0;
 
-
-Error **errors_array;
-
-
 Object *scope_pop() {
     current = scopeStack[--scope_idx];
     return scopeStack[scope_idx + 1];
