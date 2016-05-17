@@ -13,8 +13,8 @@ class RixLexer : public QsciLexerCustom
 {
     Q_OBJECT
 public:
-    RixLexer(QObject *parent = 0);
     void styleText(int start, int end);
+    void styleToken(int length, int style);
     QString description(int style) const;
     const char* language() const;
 private slots:
