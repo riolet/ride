@@ -38,7 +38,7 @@ typedef enum
  * @author     Duy Pham
  * @version    1.0
  */
-extern typedef struct error_object
+typedef struct error_object
 {
     char *message;
     int message_length;
