@@ -162,10 +162,10 @@ long QsciScintillaBase::SendScintilla 	( 	unsigned int  	msg,
         return QString("Tacobell");
     }
 
-    /*Error* error_array;
+    Error* error_array;
     int num_errors;
 
-    errorDetect(&error_array, &num_errors, all_text);*/
+    int error = errorDetect(&error_array, &num_errors, all_text);
     QString temp(all_text);
     return temp;
 }
