@@ -35,13 +35,17 @@ bool external = false;
 int retVarNumber = 0;
 int codeBlockNumber = 0;
 
+
+Error **errors_array;
+
+
 Object *scope_pop() {
     current = scopeStack[--scope_idx];
     return scopeStack[scope_idx + 1];
 }
 
 void scope_push(Object *val) {
-    
+
     current = scopeStack[++scope_idx] = val;
 }
 
@@ -66,7 +70,7 @@ Object *beginClass(char *className, char *parentName, Object *typeArgs, bool isP
     if (parent == 0) {
         char error[BUFFLEN];
         snprintf(error, BUFFLEN, "Cannot find definition for '%s'\n", parentName);
-        criticalError(ERROR_ParseError, error);
+        criticalError(ERROR_ParseError, error, parentName);
     }
 
     snprintf(codename, BUFFLEN, "%s", className);
@@ -1632,6 +1636,7 @@ Object *conjugateAccessorIdent(Object *subject, char *field){
         } else {
             errorMsg("No generic type for %s\n", subCodeValue);
             criticalError(ERROR_ParseError, "Generic Type not found\n");
+
         }
     }
 
@@ -1667,7 +1672,7 @@ Object *conjugateAccessorIdent(Object *subject, char *field){
         } else {
             break;
         }
-    }
+    }43
 
     if (!oField) {
         char error[BUFFLEN];
@@ -1739,7 +1744,112 @@ void stdprintobj(Object *in) {
     printf("%s \n", in->paramTypes->value);
 }
 
-int main(int argc, char **argv) {
+int errorDetect(Error **err, int *errnum, const char * doc) {
+
+    FILE *ritTempFile;
+    FILE *ifile;
+    int numline = 0;
+    g_headerLines = 0;
+
+    ifile = fopen("temp_parse_file.rit", "r+");
+    int result = fputs(doc, ifile);
+    if(result == 0) {
+        perror("fopen");
+        return 1;
+    }
+    fseek(ifile, 0, SEEK_SET);
+    if (ifile == NULL) {
+        errorMsg("No file to compile\n");
+        criticalError(ERROR_ParseError, "No file to compile specified");
+    } else {
+        file = fopen(ifile, "r");
+    }
+
+/*    char oMainFileName[BUFFLEN];
+    char oHeaderFileName[BUFFLEN];
+    char oMakeFileName[BUFFLEN];
+    char oCompilerLogFileName[BUFFLEN];
+
+    if (ofile == NULL) {
+        strcpy(oMainFileName, "out.c");
+        strcpy(oHeaderFileName, "out.h");
+        strcpy(oMakeFileName, "out.sh");
+        strcpy(oCompilerLogFileName, "out.log");
+    } else {
+        snprintf(oMainFileName, BUFFLEN, "%s.c", ofile);
+        snprintf(oHeaderFileName, BUFFLEN, "%s.h", ofile);
+        snprintf(oMakeFileName, BUFFLEN, "%s.sh", ofile);
+        snprintf(oCompilerLogFileName, BUFFLEN, "%s.log", ofile);
+    }*/
+
+    root = CreateObject("RootScope", "RootScope", 0, CodeBlock, "int");
+
+    scopeStack[scope_idx] = root;
+    current = scopeStack[scope_idx];
+    defineRSLSymbols(root);
+
+    ritTempFile = fopen("rix_temp_file.rit", "w
+i");
+    if (ritTempFile == 0) {
+        perror("fopen");
+        return 1;
+    }
+
+/*    outCompilerLogFile = fopen(oCompilerLogFileName, "w");
+    compilerDebugPrintf("%s\n", ifile);*/
+
+    //Read RSL   //**err = []
+
+    readFile("rsl/rsl.rit", ritTempFile, &numline);
+
+    //compilerDebugPrintf("Lines read %d\n", numline);
+
+    g_headerLines = numline;
+    //Read mainfile
+    readFile(ifile, ritTempFile, &numline);
+    //compilerDebugPrintf("Lines read %d\n",numline);
+
+    fprintf(ritTempFile, "\n"); //END OF FILE GUARANTEE!
+    fclose(ritTempFile);
+
+    file = fopen("rix_temp_file.rit", "r+");
+
+    yyin = file;
+
+/*    outMainFile = fopen(oMainFileName, "w");
+    outHeaderFile = fopen(oHeaderFileName, "w");
+    outMakeFile = fopen(oMakeFileName, "w");*/
+
+    hitEOF = false;
+    while (!hitEOF) {
+        yyparse();
+    }
+
+    err = errors_array
+    errnum = e_count;
+
+}
+
+void sendError(Error *e) {
+
+    int i;
+    int used = 0;
+    int size = e_count;
+    Error *errs[e_count] = (Error **) malloc(sizeof(int)*e_count);
+
+    for(i=0; i<size; i++) {
+        if(i == (size-1))
+            *errs[size-1] = &e;
+        else
+            *errs[i] = &errors_array[i];
+        used++;
+    }
+
+    errors_array = errs;
+    free(errs);
+}
+
+int main_old(int argc, char **argv) {
     int c, i, fd, old_stdout;
     int errflg = 0;
     int printTreeBool = 0;
@@ -1786,7 +1896,6 @@ int main(int argc, char **argv) {
 
     if (ifile == NULL) {
         errorMsg("No file to compile\n");
-     // file = fopen("helloworld.rit", "r");
         criticalError(ERROR_ParseError, "No file to compile specified");
     } else {
         file = fopen(ifile, "r");

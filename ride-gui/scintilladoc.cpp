@@ -137,31 +137,22 @@ int ScintillaDoc::getTotalLines()
 
 const QString ScintillaDoc::getAllText()
 {
-    //
-    /*
-    SCI_GETTEXT, SCI_GETTEXTLENGTH
-    This message gets the text of the document.
-    wParam is size of the buffer that the text is copied to.
-    lParam is the address of the buffer that the text is copied to.
-
-long QsciScintillaBase::SendScintilla 	( 	unsigned int  	msg,
-                                            unsigned long  	wParam = 0,
-                                            long  	lParam = 0
-                                        ) 		const
-    len  = _editText->SendScintilla(SCI_GETTEXTLENGTH);
-    pants = _editText->SendScintilla(SCI_GETTEXT,
-    http://pyqt.sourceforge.net/Docs/QScintilla2/classQsciScintillaBase.html#ab7599500a82c87cf303643005ea78e79a4bc0cd151979992bc5015852c5dbfbfe
-    */
     long num_total = _editText->SendScintilla(QsciScintilla::SCI_GETTEXTLENGTH);
     char all_text[num_total];
     long num_copied = _editText->SendScintilla(QsciScintilla::SCI_GETTEXT, num_total, all_text);
 
-    if(num_copied != num_total)
+    if( (num_copied+1) != num_total)
     {
         // Error occured, the total characters available was not copied correctly.
         return QString("Tacobell");
     }
 
+    /* Placeholder code for detecting errors.
+    Error* error_array;
+    int num_errors;
+
+    int error = errorDetect(&error_array, &num_errors, all_text);
+    */
     QString temp(all_text);
     return temp;
 }
@@ -176,6 +167,11 @@ void ScintillaDoc::setWrapMode(bool enable)
     {
         _editText->setWrapMode(_editText->WrapNone);
     }
+}
+
+void ScintillaDoc::handleFoundErrors()
+{
+    // TODO: implement error wrapping functionality.
 }
 
 void ScintillaDoc::scintillaTextChanged()
