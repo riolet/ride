@@ -68,6 +68,9 @@ void MainWindow::setupFileTree()
     tree = ui->tree_project_directory;
     tree->setModel(model);
     tree->setRootIndex(model->index(curDir.path()));
+    tree->hideColumn(1);
+    tree->hideColumn(2);
+    tree->hideColumn(3);
 }
 
 void MainWindow::setupShortcuts()

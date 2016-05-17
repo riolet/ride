@@ -72,6 +72,12 @@
       <property name="horizontalScrollMode">
        <enum>QAbstractItemView::ScrollPerPixel</enum>
       </property>
+      <attribute name="headerVisible">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="headerMinimumSectionSize">
+       <number>80</number>
+      </attribute>
      </widget>
     </item>
     <item row="4" column="1" colspan="2">
@@ -154,6 +160,9 @@
           <kerning>true</kerning>
          </font>
         </property>
+        <property name="toolTip">
+         <string extracomment="New Document">New Document</string>
+        </property>
         <property name="styleSheet">
          <string notr="true"/>
         </property>
@@ -183,6 +192,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="button_open">
+        <property name="toolTip">
+         <string extracomment="Open Document">Open Document</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -206,6 +218,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="button_save">
+        <property name="toolTip">
+         <string extracomment="Save">Save</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -223,6 +238,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="button_saveall">
+        <property name="toolTip">
+         <string extracomment="Save All">Save All</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -240,6 +258,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="button_zoom_in">
+        <property name="toolTip">
+         <string extracomment="Zoom in">Zoom in</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -257,6 +278,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="button_zoom_out">
+        <property name="toolTip">
+         <string extracomment="Zoom out">Zoom out</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -274,6 +298,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="button_run">
+        <property name="toolTip">
+         <string extracomment="Build and run">Build and run</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -299,7 +326,7 @@
      <x>0</x>
      <y>0</y>
      <width>1120</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
    <property name="font">
