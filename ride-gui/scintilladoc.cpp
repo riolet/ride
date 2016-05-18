@@ -1,6 +1,8 @@
 #include "scintilladoc.h"
 #include "rixparser.h"
 
+Error** errors;
+
 ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
 {
     _lex = new RixLexer;
@@ -160,9 +162,12 @@ void ScintillaDoc::parseError()
 {
     QString text = getAllText();
     char* doc = text.toLocal8Bit().data();
-    int err_num;
+    int* err_num = NULL;
 
     //Detect_errors(errors, &err_num, doc);
+    while(err_num == NULL) ;
+
+
 }
 
 void ScintillaDoc::setWrapMode(bool enable)
