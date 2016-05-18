@@ -43,8 +43,6 @@ public:
 private: // Private functions
     void setWrapMode(bool enable);
 
-    void handleFoundErrors(); //incomplete function
-
 signals:
     void textChanged();
 
@@ -52,6 +50,8 @@ private slots:
 
     // Stops signals from being sent too many times.
     void scintillaTextChanged();
+
+    void handleFoundErrors(); //incomplete function
 
 public: // public variables
     QsciScintilla*  _editText;
