@@ -178,16 +178,17 @@ void MainWindow::newFile()
     }
     else
     {
+        bool clearDoc = false;
         // Force user to make a decision on keeping or discarding changes.
-        bool flag = false;
-        do
-        {
-            flag = saveAs();
-        } while(!flag);
 
-        // Simply just clean up the current blank document.
-        cur_doc->clearTextArea();
-        setDocumentModified(false);
+        clearDoc = displayUnsavedChanges();
+
+        if(clearDoc)
+        {
+            // Simply just clean up the current blank document.
+            cur_doc->clearTextArea();
+            setDocumentModified(false);
+        }
     }
 }
 
@@ -207,7 +208,16 @@ void MainWindow::gotoLine()
 
 void MainWindow::runCompiler()
 {
-    compiler->compileRixFile();
+    clearCompilerMessages();
+    if(cur_doc->isBlank())
+    {
+        compiler->compileRixFile();
+    }
+    else
+    {
+        compiler->compileRixFile(cur_doc);
+    }
+
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -238,6 +248,11 @@ void MainWindow::readCompilerOutputLine(const QString& line)
     ui->text_output->appendPlainText(line);
 }
 
+void MainWindow::readCompilerErrorLine(const QString &err)
+{
+    ui->text_issues->appendPlainText(err);
+}
+
 void MainWindow::setDocumentModified(bool modified)
 {
     QString tabtext = cur_doc->_filename;
@@ -250,13 +265,21 @@ void MainWindow::setDocumentModified(bool modified)
 
 void MainWindow::setupCompiler()
 {
+    clearCompilerMessages();
     compiler = new CompilerHandler(this);
     connect(compiler, SIGNAL(compilerOutput(QString)), this, SLOT(readCompilerOutputLine(QString)));
+    connect(compiler, SIGNAL(compilerError(QString)),  this, SLOT(readCompilerErrorLine(QString)));
 }
 
 void MainWindow::setupTheme()
 {
     themer = new ThemeHandler();
+}
+
+void MainWindow::clearCompilerMessages()
+{
+    ui->text_issues->setPlainText("");
+    ui->text_output->setPlainText("");
 }
 
 void MainWindow::displayAboutRix()

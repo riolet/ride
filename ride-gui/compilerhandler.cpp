@@ -13,47 +13,94 @@ CompilerHandler::CompilerHandler(QObject *parent) : QObject(parent)
 
 void CompilerHandler::compileRixFile(ScintillaDoc *doc)
 {
-    //system("rix test.rit");
-    //system("echo $RIX_HOME");
+    FILE *fp;
+    FILE *output = fopen("output_temp.tmp", "w+");
+    FILE *error  = fopen("error_temp.tmp",  "w+");
+    QString filename("test.rit");
+    QString cmd;
 
     if(doc != NULL)
     {
-        //TODO: Take in the document's information and read it.
-        return;
+        filename = doc->_filepath;
     }
 
+    cmd = QString("rix %1 >output_temp.tmp 2>error_temp.tmp").arg(filename);
 
     emit compilerOutput(compile_begin);
 
-    FILE *fp;
-    char buffer[BUFSIZE];
-
-    /* Open the command for reading. */
-    fp = popen("rix test.rit 2>&1", "r"); // Debugging, all cout/cerr to output
-    //fp = popen("rix test.rit", "r");    // cout only to output, errors stay on Qt
-    if (fp == NULL)
+    if(output == NULL || error == NULL)
     {
-        QString error("Rix compilation unable to proceed.");
+        QString error("Cannot create temporary files for writing...");
         emit compilerOutput(error);
     }
-    else
-    {
-        /* Read the output a line at a time - output it. */
-        int i = 1;
-        while (fgets(buffer, BUFSIZE-1, fp) != NULL)
-        {
-            QString line(buffer);
-            QString num;
-            num.setNum(i).append('}').prepend('{');
-            line.prepend(num);
-            emit compilerOutput(line);
 
-            ++i;
-        }
+    /* Open the command for reading. */
+    fp = popen(cmd.toStdString().c_str(), "r");  // Close standard output
+    if (fp == NULL)
+    {
+        QString err("Rix compilation unable to proceed.");
+        emit compilerOutput(err);
+
+        pclose(fp);
+        fclose(output);
+        fclose(error);
+
+        return;
     }
+
+    readCompilerOutput(output, error);
+
+    pclose(fp);
+    fclose(output);
+    fclose(error);
 
     emit compilerOutput(compile_end);
 
+    system("rm output_temp.tmp error_temp.tmp");
+
     /* close */
-    pclose(fp);
+
+
+}
+
+void CompilerHandler::readCompilerOutput(FILE* output, FILE* error)
+{
+    char buffer[BUFSIZE];
+    bool flag = false;
+
+    while(true)
+    {
+        if(!flag)
+            fseek(output, 0, SEEK_SET);
+
+        if(fgets(buffer, BUFSIZE-1, output) != NULL)
+        {
+            flag = true;
+        }
+        else
+        {
+            flag = false;
+        }
+
+        if(strstr(buffer, "...END...") != NULL)
+        {
+            break;
+        }
+    }
+
+    //Output is ready
+    fseek(output, 0, SEEK_SET);
+    while (fgets(buffer, BUFSIZE-1, output) != NULL)
+    {
+        QString line(buffer);
+        emit compilerOutput(line);
+    }
+
+    /* Read the output one line at a time - output it. */
+    fseek(error, 0, SEEK_SET);
+    while (fgets(buffer, BUFSIZE-1, error) != NULL)
+    {
+        QString err(buffer);
+        emit compilerError(err);
+    }
 }
