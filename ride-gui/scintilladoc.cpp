@@ -1,7 +1,7 @@
 #include "scintilladoc.h"
 #include "rixparser.h"
 
-Error** errors;
+struct error_object** errors;
 
 ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
 {
