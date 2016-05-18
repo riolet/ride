@@ -55,6 +55,12 @@ int g_headerLines;
 int errorMsg(const char *format, ...);
 int warningMsg(const char *format, ...);
 void criticalError(ErrorCode code, char *message);
+
+/**
+ * @brief      Initialize an error object
+ *
+ * @param      message  The message of the error
+ */
 void errorInitial( char *message );
 
 #endif

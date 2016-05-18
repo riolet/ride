@@ -19,6 +19,7 @@ FILE *outMainFile;
 FILE *outHeaderFile;
 FILE *outMakeFile;
 
+Error** errors_array;
 
 bool hitEOF;
 
@@ -34,10 +35,6 @@ int prev_idx = 0;
 bool external = false;
 int retVarNumber = 0;
 int codeBlockNumber = 0;
-
-
-Error **errors_array;
-
 
 Object *scope_pop() {
     current = scopeStack[--scope_idx];
@@ -1754,18 +1751,18 @@ int errorDetect(Error **err, int *errnum, const char * doc) {
     ifile = fopen("temp_parse_file.rit", "r+");
     int result = fputs(doc, ifile);
     if(result == 0) {
-        perror("fopen");
-        return 1;
+        return -1;
     }
+    
     fseek(ifile, 0, SEEK_SET);
     if (ifile == NULL) {
         errorMsg("No file to compile\n");
         criticalError(ERROR_ParseError, "No file to compile specified");
     } else {
-        file = fopen(ifile, "r");
+        file = fopen("temp_parse_file.rit", "r");
     }
 
-/*    char oMainFileName[BUFFLEN];
+    /*    char oMainFileName[BUFFLEN];
     char oHeaderFileName[BUFFLEN];
     char oMakeFileName[BUFFLEN];
     char oCompilerLogFileName[BUFFLEN];
@@ -1788,14 +1785,13 @@ int errorDetect(Error **err, int *errnum, const char * doc) {
     current = scopeStack[scope_idx];
     defineRSLSymbols(root);
 
-    ritTempFile = fopen("rix_temp_file.rit", "w
-i");
+    ritTempFile = fopen("rix_temp_file.rit", "wi");
     if (ritTempFile == 0) {
         perror("fopen");
         return 1;
     }
 
-/*    outCompilerLogFile = fopen(oCompilerLogFileName, "w");
+    /*    outCompilerLogFile = fopen(oCompilerLogFileName, "w");
     compilerDebugPrintf("%s\n", ifile);*/
 
     //Read RSL   //**err = []
@@ -1806,7 +1802,7 @@ i");
 
     g_headerLines = numline;
     //Read mainfile
-    readFile(ifile, ritTempFile, &numline);
+    readFile("rix_temp_file.rit", ritTempFile, &numline);
     //compilerDebugPrintf("Lines read %d\n",numline);
 
     fprintf(ritTempFile, "\n"); //END OF FILE GUARANTEE!
@@ -1816,7 +1812,7 @@ i");
 
     yyin = file;
 
-/*    outMainFile = fopen(oMainFileName, "w");
+    /*    outMainFile = fopen(oMainFileName, "w");
     outHeaderFile = fopen(oHeaderFileName, "w");
     outMakeFile = fopen(oMakeFileName, "w");*/
 
@@ -1825,8 +1821,8 @@ i");
         yyparse();
     }
 
-    err = errors_array
-    errnum = e_count;
+    err = errors_array;
+    *errnum = e_count;
 
 }
 
