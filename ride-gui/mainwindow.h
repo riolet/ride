@@ -2,13 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QQuickView>
 #include <QAction>
 #include <QApplication>
 #include <QCloseEvent>
 
 #include <QFileInfo>
 #include <QFileDialog>
+#include <QInputDialog>
 #include <QIcon>
 #include <QMenu>
 #include <QMenuBar>
@@ -19,13 +19,14 @@
 #include <QStatusBar>
 #include <QTextStream>
 #include <QToolBar>
-#include <QDir>
 #include <QFileSystemModel>
 #include <QTreeView>
 #include <string>
-#include <vector>
 #include "globals.h"
 #include "scintilladoc.h"
+#include "aboutdialog.h"
+#include "compilerhandler.h"
+#include "themehandler.h"
 
 namespace Ui {
     class MainWindow;
@@ -54,12 +55,49 @@ private slots:
 
     void on_button_zoom_out_clicked();
 
+    void on_button_saveall_clicked();
+
+    void on_button_run_clicked();
+
+    void displayAboutRix();
+
+    void displayAboutRide();
+
+    void displayLicense();
+
+    bool displayUnsavedChanges();
+
+    bool saveAs();
+
+    bool save();
+
+    void open();
+
+    void newFile();
+
+    void gotoLine();
+
+    void runCompiler();
+
+    void closeEvent(QCloseEvent *event); // Override of standard Qt M
+
+    void sendCloseEvent();
+
+    void readCompilerOutputLine(const QString& line);
+
+    void readCompilerErrorLine(const QString& err);
+
 private:    //Private Functions
     void setupScintilla();
     void setupFileTree();
     void setupShortcuts(); // Not done yet.
-    void saveAs();
+    void setupMenuActions();
     void setDocumentModified(bool modified);
+    void setupCompiler();
+    void setupTheme();
+    void clearCompilerMessages();
+
+
 
     // Combined MainWindow and Scintilla methods
     void loadFile(QString filename);
@@ -71,6 +109,8 @@ private:    //Private Variables
     QFileSystemModel            *model;         // File Directory View
     QTreeView                   *tree;          // File Directory Tree
     ScintillaDoc                *cur_doc;       // Currently active document
+    ThemeHandler                *themer;        // Text highlighting manager
+    CompilerHandler             *compiler;      // Compilation Handler
 
 };
 

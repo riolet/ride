@@ -26,10 +26,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->tabWidget_scintilla, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
-
     setupFileTree();
     setupScintilla();
+    setupMenuActions();
+    setupTheme();
+    setupCompiler();
     setupShortcuts(); //Not active atm
 }
 
@@ -40,6 +41,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupScintilla()
 {
+    connect(ui->tabWidget_scintilla, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
+
     ScintillaDoc* blank = new ScintillaDoc;
     textEditList.push_back(blank);
     cur_index = 0;
@@ -65,88 +68,93 @@ void MainWindow::setupFileTree()
     tree = ui->tree_project_directory;
     tree->setModel(model);
     tree->setRootIndex(model->index(curDir.path()));
+    tree->hideColumn(1);
+    tree->hideColumn(2);
+    tree->hideColumn(3);
 }
 
 void MainWindow::setupShortcuts()
 {
+    ui->actionGo_to_line->setShortcut(tr("Ctrl+G"));
+    /*
+    cutAct = new QAction(QIcon(":/images/cut.png"), tr("Cu&t"), this);
+    cutAct->setShortcut(tr("Ctrl+X"));
+    cutAct->setStatusTip(tr("Cut the current selection's contents to the "
+                            "clipboard"));
+    connect(cutAct, SIGNAL(triggered()), textEdit, SLOT(cut()))*/
+
     // TODO: connect common keyboard shortcuts to various methods such as Ctrl+S to Save File
 }
 
-void MainWindow::saveAs()
+void MainWindow::setupMenuActions()
+{   
+    connect(ui->actionNew_File,     SIGNAL(triggered()), this, SLOT(newFile()));
+    connect(ui->actionOpen,         SIGNAL(triggered()), this, SLOT(open()));
+    connect(ui->actionSave_File,    SIGNAL(triggered()), this, SLOT(save()));
+    connect(ui->actionSave_As,      SIGNAL(triggered()), this, SLOT(saveAs()));
+    connect(ui->actionGo_to_line,   SIGNAL(triggered()), this, SLOT(gotoLine()));
+    connect(ui->actionLicense,      SIGNAL(triggered()), this, SLOT(displayLicense()));
+    connect(ui->actionAbout_Rix,    SIGNAL(triggered()), this, SLOT(displayAboutRix()));
+    connect(ui->actionAbout_RIDE,   SIGNAL(triggered()), this, SLOT(displayAboutRide()));
+    connect(ui->actionExit,         SIGNAL(triggered()), this, SLOT(sendCloseEvent()));
+}
+
+bool MainWindow::saveAs()
 {
+    bool isSuccessful = false;
+
     QApplication::setOverrideCursor(Qt::WaitCursor);
     QString filepath = QFileDialog::getSaveFileName(this);
 
     if(!cur_doc->saveAs(filepath))
     {
-        QMessageBox::warning(this, tr("Save File Error"),  tr("Cannot save the file %1\n%2.").arg(cur_doc->_filepath).arg(cur_doc->_errorString));
+        isSuccessful = false;
     }
-    ui->tabWidget_scintilla->setTabText(cur_index, cur_doc->_filename);
-
-    setDocumentModified(false);
-    QApplication::restoreOverrideCursor();
-}
-
-void MainWindow::setDocumentModified(bool modified)
-{
-    QString tabtext = cur_doc->_filename;
-    if(modified)
+    else
     {
-        tabtext.prepend(QString("*"));
+        ui->tabWidget_scintilla->setTabText(cur_index, cur_doc->_filename);
+        setDocumentModified(false);
+        isSuccessful = true;
     }
-    ui->tabWidget_scintilla->setTabText(cur_index, tabtext);
-}
 
-void MainWindow::loadFile(QString filepath)
-{
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-    if(!cur_doc->loadFile(filepath))
-    {
-        QMessageBox::warning(this, tr("Load File Error"),  tr("Cannot read file %1\n%2.").arg(cur_doc->_filepath).arg(cur_doc->_errorString));
-        return;
-    }
-    ui->tabWidget_scintilla->setTabText(cur_index, cur_doc->_filename);
-
-    connect(cur_doc->_editText, SIGNAL(textChanged()), this, SLOT(documentWasModified()));
-    statusBar()->showMessage(tr("File loaded"), 2000);
     QApplication::restoreOverrideCursor();
+
+    return isSuccessful;
 }
 
-void MainWindow::on_button_open_clicked()
+bool MainWindow::save()
 {
-    QString fileName = QFileDialog::getOpenFileName(this);
-    if (!fileName.isEmpty())
-        loadFile(fileName);
-}
-
-void MainWindow::on_button_save_clicked()
-{
+    bool isSuccessful = false;
     if(cur_doc->isBlank())
     {
-        saveAs();
-        return;
+        return saveAs();
     }
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
     if(!cur_doc->saveFile())
     {
-        QMessageBox::warning(this, tr("Save File Error"),  tr("Cannot save file %1\n%2.").arg(cur_doc->_filepath).arg(cur_doc->_errorString));
-        statusBar()->showMessage(tr("Error saving the current file..."), 2000);
-        return;
+        isSuccessful = false;
     }
     else
     {
-        // TODO: set modified indicator off
+        isSuccessful = true;
         statusBar()->showMessage(tr("File saved"), 2000);
+        setDocumentModified(false);
     }
 
     QApplication::restoreOverrideCursor();
-    setDocumentModified(false);
+    return isSuccessful;
 }
 
-// Remove the current document and recreate a blank one.
-void MainWindow::on_button_new_file_clicked()
+void MainWindow::open()
+{
+    QString fileName = QFileDialog::getOpenFileName(this);
+    if (!fileName.isEmpty())
+        loadFile(fileName);
+}
+
+void MainWindow::newFile()
 {
     if(!cur_doc->isBlank() && textEditList.size() > 0)
     {
@@ -170,9 +178,191 @@ void MainWindow::on_button_new_file_clicked()
     }
     else
     {
-        cur_doc->clearTextArea();
-        setDocumentModified(false);
+        bool clearDoc = false;
+        // Force user to make a decision on keeping or discarding changes.
+
+        clearDoc = displayUnsavedChanges();
+
+        if(clearDoc)
+        {
+            // Simply just clean up the current blank document.
+            cur_doc->clearTextArea();
+            setDocumentModified(false);
+        }
     }
+}
+
+void MainWindow::gotoLine()
+{
+    QString tacos = cur_doc->getAllText();
+    std::cerr << tacos.toStdString() << std::endl;
+    /*bool ok;
+    int max = cur_doc->getTotalLines();
+    int line = QInputDialog::getInt(this, tr("Go to"), tr("line:"), 1, 1, max, 1, &ok);
+
+    if(ok)
+    {
+        cur_doc->gotoLine(line);
+    }*/
+}
+
+void MainWindow::runCompiler()
+{
+    clearCompilerMessages();
+    if(cur_doc->isBlank())
+    {
+        compiler->compileRixFile();
+    }
+    else
+    {
+        compiler->compileRixFile(cur_doc);
+    }
+
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    bool quit = true;
+
+    if(cur_doc->isModified())
+        quit = displayUnsavedChanges();
+
+    if(quit)
+    {
+        QMainWindow::closeEvent(event);
+        close();
+    }
+    else
+    {
+        event->ignore();
+    }
+}
+
+void MainWindow::sendCloseEvent()
+{
+    closeEvent(new QCloseEvent());
+}
+
+void MainWindow::readCompilerOutputLine(const QString& line)
+{
+    ui->text_output->appendPlainText(line);
+}
+
+void MainWindow::readCompilerErrorLine(const QString &err)
+{
+    ui->text_issues->appendPlainText(err);
+}
+
+void MainWindow::setDocumentModified(bool modified)
+{
+    QString tabtext = cur_doc->_filename;
+    if(modified)
+    {
+        tabtext.prepend(QString("*"));
+    }
+    ui->tabWidget_scintilla->setTabText(cur_index, tabtext);
+}
+
+void MainWindow::setupCompiler()
+{
+    clearCompilerMessages();
+    compiler = new CompilerHandler(this);
+    connect(compiler, SIGNAL(compilerOutput(QString)), this, SLOT(readCompilerOutputLine(QString)));
+    connect(compiler, SIGNAL(compilerError(QString)),  this, SLOT(readCompilerErrorLine(QString)));
+}
+
+void MainWindow::setupTheme()
+{
+    themer = new ThemeHandler();
+}
+
+void MainWindow::clearCompilerMessages()
+{
+    ui->text_issues->setPlainText("");
+    ui->text_output->setPlainText("");
+}
+
+void MainWindow::displayAboutRix()
+{
+    // TODO: Display information about Rix
+}
+
+void MainWindow::displayAboutRide()
+{
+    // TODO: Display information about Ride
+}
+
+void MainWindow::displayLicense()
+{
+    QDir curDir = QDir::current();
+    curDir.cdUp();
+    QFile license(curDir.path() + QString("/LICENSE"));
+
+    if(!license.open(QFile::ReadOnly))
+    {
+        std::cerr << "Couldn't open file" << std::endl;
+        return;
+    }
+
+    QTextStream in(&license);
+    QString body(in.readAll());
+    QString title("GNU License");
+
+    new AboutDialog(title, body);
+}
+
+bool MainWindow::displayUnsavedChanges()
+{
+    bool quit = true;
+    bool flag = false;
+
+    QMessageBox msgBox;
+    msgBox.setText("The document has been modified.");
+    msgBox.setInformativeText("Do you want to save your changes?");
+    msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Save);
+
+    /*
+     * Continous loop to force the user make a decision
+     * between saving / discard / cancel saved changes.
+     */
+    do{
+        int ret = msgBox.exec();
+
+        switch (ret)
+        {
+        case QMessageBox::Save:
+            flag = save();
+            quit = true;
+            statusBar()->showMessage(tr("Error saving the current file..."), 2000);
+            break;
+        case QMessageBox::Discard:
+            flag = true;
+            quit = true;
+            break;
+        case QMessageBox::Cancel:
+            flag = true;
+            quit = false;
+            break;
+        }
+    } while(!flag);
+
+    return quit;
+}
+
+void MainWindow::loadFile(QString filepath)
+{
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    if(!cur_doc->loadFile(filepath))
+    {
+        QMessageBox::warning(this, tr("Load File Error"),  tr("Cannot read file %1\n%2.").arg(cur_doc->_filepath).arg(cur_doc->_errorString));
+        return;
+    }
+    ui->tabWidget_scintilla->setTabText(cur_index, cur_doc->_filename);
+
+    connect(cur_doc->_editText, SIGNAL(textChanged()), this, SLOT(documentWasModified()));
+    statusBar()->showMessage(tr("File loaded"), 2000);
+    QApplication::restoreOverrideCursor();
 }
 
 void MainWindow::documentWasModified()
@@ -186,6 +376,21 @@ void MainWindow::tabChanged(int index)
     cur_doc = textEditList[cur_index];
 }
 
+void MainWindow::on_button_open_clicked()
+{
+    open();
+}
+
+void MainWindow::on_button_save_clicked()
+{
+    save();
+}
+
+void MainWindow::on_button_new_file_clicked()
+{
+    newFile();
+}
+
 void MainWindow::on_button_zoom_in_clicked()
 {
     cur_doc->zoom_in();
@@ -194,4 +399,15 @@ void MainWindow::on_button_zoom_in_clicked()
 void MainWindow::on_button_zoom_out_clicked()
 {
     cur_doc->zoom_out();
+}
+
+void MainWindow::on_button_saveall_clicked()
+{
+    //Dealing with one file only atm, redirect to save file.
+    save();
+}
+
+void MainWindow::on_button_run_clicked()
+{
+    runCompiler();
 }

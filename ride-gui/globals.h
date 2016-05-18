@@ -2,9 +2,12 @@
 #define GLOBALS_H
 
 #include <QFile>
+#include <QDir>
 #include <QString>
-#include <QFile>
 #include <iostream>
+#include <vector>
+#include <QFont>
 #include <Qsci/qsciscintilla.h>
+#include <QDebug>
 
 #endif // GLOBALS_H

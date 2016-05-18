@@ -1,15 +1,24 @@
-QT += widgets qml quick core gui
+QT += widgets core gui
 CONFIG      += debug qscintilla2
 TARGET = RIDE
 TEMPLATE = app
+LIBS += -lfl
 
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    scintilladoc.cpp
+    scintilladoc.cpp \
+    aboutdialog.cpp \
+    compilerhandler.cpp \
+    rixlexer.cpp \
+    themehandler.cpp
+
+FLEXSOURCES = lex.l
+
+OTHER_FILES += \
+    $$FLEXSOURCES
 
 RESOURCES += \
-        qml.qrc \
         icons.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
@@ -19,14 +28,33 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    aboutdialog.ui
 
 HEADERS += \
     mainwindow.h \
     scintilladoc.h \
-    globals.h
+    globals.h \
+    aboutdialog.h \
+    themehandler.h \
+    compilerhandler.h \
+    rixlexer.h \
+    lexershare.h
 
-#unix:!macx: LIBS += -L$$PWD/../QScintilla_gpl-2.9.2/Qt4Qt5/ -lqscintilla2
+flexsource.input = FLEXSOURCES
+flexsource.output = ${QMAKE_FILE_BASE}.cpp
+flexsource.commands = flex --header-file=${QMAKE_FILE_BASE}.h -o ${QMAKE_FILE_BASE}.cpp ${QMAKE_FILE_IN}
+flexsource.variable_out = SOURCES
+flexsource.name = Flex Sources ${QMAKE_FILE_IN}
+flexsource.CONFIG += target_predeps
 
-#INCLUDEPATH += $$PWD/../QScintilla_gpl-2.9.2/Qt4Qt5
-#DEPENDPATH += $$PWD/../QScintilla_gpl-2.9.2/Qt4Qt5
+QMAKE_EXTRA_COMPILERS += flexsource
+
+flexheader.input = FLEXSOURCES
+flexheader.output = ${QMAKE_FILE_BASE}.h
+flexheader.commands = @true
+flexheader.variable_out = HEADERS
+flexheader.name = Flex Headers ${QMAKE_FILE_IN}
+flexheader.CONFIG += target_predeps no_link
+
+QMAKE_EXTRA_COMPILERS += flexheader

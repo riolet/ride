@@ -5,6 +5,7 @@
 #include <QFileInfo>
 #include <QMessageBox>
 #include "globals.h"
+#include "lexershare.h"
 
 #define ZOOM_FACTOR 2
 #define MARGIN_WIDTH QString("123456")
@@ -25,12 +26,22 @@ public:
 
     bool isBlank();
 
+    bool isModified();
+
     void zoom_in();
 
     void zoom_out();
 
-private: // Private functions
+    void gotoLine(int line);
 
+    int getTotalLines();
+
+    const QString getAllText();
+
+private: // Private functions
+    void setWrapMode(bool enable);
+
+    void handleFoundErrors(); //incomplete function
 
 signals:
     void textChanged();
@@ -50,7 +61,6 @@ public: // public variables
 private: // private variables
     bool            _isBlank;
     bool            _modified;
-
 };
 
 #endif // SCINTILLADOC_H
