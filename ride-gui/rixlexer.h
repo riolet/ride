@@ -29,11 +29,11 @@ public:
                         (0 | (0 << 8) | (0 << 16)),     // Class
                         (0 | (0 << 8) | (0 << 16)),     // Scope
                         (0 | (0 << 8) | (0 << 16)),     // Keyword
-                        (0 | (0 << 8) | (0 << 16)),     // Return
+                        (0 | (56 << 8) | (56 << 16)),     // Return
                         (40 | (164 << 8) | (164 << 16)),// Identifier
-                        (0 | (0 << 8) | (0 << 16)),     // Single-line comment
-                        (0 | (0 << 8) | (0 << 16)),     // Multi-line comment (terminated)
-                        (0 | (0 << 8) | (0 << 16))      // Multi-line comment (unterminated)
+                        (0 | (0 << 8) | (255 << 16)),     // Single-line comment
+                        (0 | (0 << 8) | (255 << 16)),     // Multi-line comment (terminated)
+                        (0 | (0 << 8) | (255 << 16))      // Multi-line comment (unterminated)
     };
 
 private slots:
