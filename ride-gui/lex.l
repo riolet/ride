@@ -12,6 +12,7 @@ int col_number = 0;
 
 %option noyywrap
 
+NEWLINE                                 "\n"
 CLASSOP									":::"
 SCOPERESOP								"::"
 DIGIT    								[0-9]
@@ -27,6 +28,7 @@ INT_TYPE								"int"
 IDENTIFIER								[A-Za-z0-9]+
 
 %%
+
 
 
 {DIGIT}+ {
@@ -95,10 +97,14 @@ if|for {
                                         _lex->styleToken(len, 13);
 }
 
+{NEWLINE} {
+                                        size_t len = 1;
+                                        _lex->styleToken(len, 0);
+}
+
 . {
 										size_t len = strlen(yytext);
                                         _lex->styleToken(len, 0);
-             							
 }
 
 
