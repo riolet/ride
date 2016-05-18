@@ -1,7 +1,7 @@
 #include "scintilladoc.h"
 #include "rixparser.h"
 
-Error** errors;
+struct error_object** errors;
 
 ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
 {
@@ -170,9 +170,7 @@ void ScintillaDoc::parseError()
     char* doc = text.toLocal8Bit().data();
     int* err_num = NULL;
 
-    //Detect_errors(errors, &err_num, doc);
-    while(err_num == NULL) ;
-
+    int hi = Detect_errors(errors, err_num, doc);
 
 }
 

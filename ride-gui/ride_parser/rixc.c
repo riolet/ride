@@ -19,7 +19,7 @@ FILE *outMainFile;
 FILE *outHeaderFile;
 FILE *outMakeFile;
 
-Error** errors_array;
+struct error_object** errors_array;
 
 bool hitEOF;
 
@@ -1741,7 +1741,7 @@ void stdprintobj(Object *in) {
     printf("%s \n", in->paramTypes->value);
 }
 
-int errorDetect(Error **err, int *errnum, const char * doc) {
+int errorDetect(struct error_object **err, int *errnum, const char * doc) {
 
     FILE *ritTempFile;
     FILE *ifile;
@@ -1826,12 +1826,12 @@ int errorDetect(Error **err, int *errnum, const char * doc) {
 
 }
 
-void sendError(Error *e) {
+void sendError(struct error_object *e) {
 
     int i;
     int used = 0;
     int size = e_count;
-    Error **errs = (Error **) malloc(sizeof(int)*e_count);
+    struct error_object **errs = (struct error_object **) malloc(sizeof(struct error_object)*size);
 
     for(i=0; i<size; i++) {
         if(i == (size-1))
