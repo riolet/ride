@@ -6,20 +6,6 @@
 #include <string.h>
 #include "../ride-parser/rixc.h"
 
-pthread_mutex_t 		parser_ready_lock;
-extern pthread_cond_t 	ready_to_parse;
-extern pthread_cond_t 	ready_to_return;
-
-/**
- * @brief      <p>This method will start a pthread and set it ready to parse
- *             document</p>
- *
- * @author     Duy Pham
- * @version    1.0
- */
-void startParser();
-
-
 /**
  * @brief      <p>This method is used to control all the mutex and condition. It
  *             only support one parse command at a time by acquire mutex, and
@@ -35,6 +21,7 @@ void startParser();
  * @version    1.0
  */
 int parseDocument(Error **err, int *errnum, const char *doc);
+
 
 
 #endif
