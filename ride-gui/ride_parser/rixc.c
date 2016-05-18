@@ -19,7 +19,7 @@ FILE *outMainFile;
 FILE *outHeaderFile;
 FILE *outMakeFile;
 
-Error** errors_array;
+struct error_object** errors_array;
 
 bool hitEOF;
 
@@ -67,7 +67,7 @@ Object *beginClass(char *className, char *parentName, Object *typeArgs, bool isP
     if (parent == 0) {
         char error[BUFFLEN];
         snprintf(error, BUFFLEN, "Cannot find definition for '%s'\n", parentName);
-        criticalError(ERROR_ParseError, error, parentName);
+        criticalError(ERROR_ParseError, error);
     }
 
     snprintf(codename, BUFFLEN, "%s", className);
@@ -1669,7 +1669,7 @@ Object *conjugateAccessorIdent(Object *subject, char *field){
         } else {
             break;
         }
-    }43
+    }
 
     if (!oField) {
         char error[BUFFLEN];
@@ -1741,7 +1741,7 @@ void stdprintobj(Object *in) {
     printf("%s \n", in->paramTypes->value);
 }
 
-int errorDetect(Error **err, int *errnum, const char * doc) {
+int errorDetect(struct error_object **err, int *errnum, const char * doc) {
 
     FILE *ritTempFile;
     FILE *ifile;
@@ -1826,18 +1826,18 @@ int errorDetect(Error **err, int *errnum, const char * doc) {
 
 }
 
-void sendError(Error *e) {
+void sendError(struct error_object *e) {
 
     int i;
     int used = 0;
     int size = e_count;
-    Error *errs[e_count] = (Error **) malloc(sizeof(int)*e_count);
+    struct error_object **errs = (struct error_object **) malloc(sizeof(struct error_object)*size);
 
     for(i=0; i<size; i++) {
         if(i == (size-1))
-            *errs[size-1] = &e;
+            errs[i] = e;
         else
-            *errs[i] = &errors_array[i];
+            errs[i] = errors_array[i];
         used++;
     }
 
