@@ -1,6 +1,3 @@
-#ifndef ERROR_OBJECT_H
-#define ERROR_OBJECT_H
-
 typedef struct error_object
 {
     char *message;
@@ -10,9 +7,19 @@ typedef struct error_object
     int num_characters;
 } Error;
 
-extern Error** errors;
+#ifndef ERROR_OBJECT_H
+#define ERROR_OBJECT_H
 
-extern int Detect_errors(Error** err, int* err_num, char* doc);
-extern int Return_errors();
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#endif // ERROR_OBJECT_H
+    int Detect_errors(Error** err, int* err_num, char* doc);
+    //int Return_errors();
+
+#ifdef __cplusplus
+}
+#endif
+#endif  // ERROR_OBJECT_H
+
+
