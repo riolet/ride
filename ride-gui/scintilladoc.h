@@ -38,6 +38,8 @@ public:
 
     const QString getAllText();
 
+    void parseError();
+
 private: // Private functions
     void setWrapMode(bool enable);
 

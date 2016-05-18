@@ -1,4 +1,5 @@
 #include "scintilladoc.h"
+#include "rixparser.h"
 
 ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
 {
@@ -151,14 +152,17 @@ const QString ScintillaDoc::getAllText()
         return QString("Tacobell");
     }
 
-    /* Placeholder code for detecting errors.
-    Error* error_array;
-    int num_errors;
-
-    int error = errorDetect(&error_array, &num_errors, all_text);
-    */
     QString temp(all_text);
     return temp;
+}
+
+void ScintillaDoc::parseError()
+{
+    QString text = getAllText();
+    char* doc = text.toLocal8Bit().data();
+    int err_num;
+
+    //Detect_errors(errors, &err_num, doc);
 }
 
 void ScintillaDoc::setWrapMode(bool enable)
