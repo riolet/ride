@@ -1,4 +1,5 @@
 #include "rixlexer.h"
+#include "syntaxcolours.h"
 
 void RixLexer::handleStyleNeeded(int pos)
 {
@@ -7,9 +8,9 @@ void RixLexer::handleStyleNeeded(int pos)
 
     int start   = editor()->SendScintilla(QsciScintillaBase::SCI_GETENDSTYLED);
     int line    = editor()->SendScintilla(QsciScintillaBase::SCI_LINEFROMPOSITION,
-                                            start);
+                                          start);
     start       = editor()->SendScintilla(QsciScintillaBase::SCI_POSITIONFROMLINE,
-                                            line);
+                                          line);
 
     if (start != pos)
         styleText(start, pos);
@@ -17,12 +18,12 @@ void RixLexer::handleStyleNeeded(int pos)
 
 void RixLexer::styleText(int start, int end)
 {
-    if(end < start)
+    if(end < start || !editor())
         return;
 
     char chars[end - start];
     editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE, start, end,
-                                chars);
+                            chars);
 
     startStyling(start);
     scan_string(chars);
@@ -30,7 +31,7 @@ void RixLexer::styleText(int start, int end)
 
 void RixLexer::styleToken(int length, int style)
 {
-    if (style == 0)
+    if (style == SyntaxColours::Default)
     {
         setStyling(length, 32);
         return;
@@ -44,21 +45,35 @@ void RixLexer::handleCharAdded(int pos)
     if (pos <= 0)
         return;
 
-    char charAtPos[1];
-    editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE, pos - 1, pos, charAtPos);
-
-    if (charAtPos[0] == '.')
+    char currentChar[1];
+    int wordEnd = editor()->SendScintilla(QsciScintilla::SCI_GETCURRENTPOS) - 1;
+    editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE, wordEnd, wordEnd + 1, currentChar);
+    if (currentChar[0] == '.')
     {
-        int line        = editor()->SendScintilla(QsciScintillaBase::SCI_LINEFROMPOSITION,
-                                                    pos);
-        int lineStart   = editor()->SendScintilla(QsciScintillaBase::SCI_POSITIONFROMLINE,
-                                                    line);
+        bool onlyWordCharacters = true;
+        int wordStart = editor()->SendScintilla(QsciScintillaBase::SCI_WORDSTARTPOSITION,
+                                                wordEnd, onlyWordCharacters);
 
-        char lineChars[pos - lineStart];
-        editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE, lineStart, pos, lineChars);
+        char word[wordEnd - wordStart + 1];
+        editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE,
+                                wordStart, wordEnd, word);
 
+        // Call function to get methods of "word" here
+        // Return must be a const c-string, with functions
+        // & members separated by spaces
+        const char *testing = "test test1 test2 test3";
 
+        editor()->SendScintilla(QsciScintilla::SCI_AUTOCSHOW, (size_t)0, testing);
     }
+}
+
+void RixLexer::setWordChars(char *chars)
+{
+    if (!editor())
+        return;
+
+    editor()->SendScintilla(QsciScintillaBase::SCI_SETWORDCHARS,
+                            chars);
 }
 
 QString RixLexer::description(int style) const

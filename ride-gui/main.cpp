@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <QApplication>
 
@@ -7,7 +8,7 @@ void sig_chld (int signo)
 {
     pid_t pid;
     int stat;
-    pid = wait (&stat);
+    pid = wait(&stat);
     return;
 }
 
@@ -28,10 +29,7 @@ int main(int argc, char *argv[])
     else
     {
         // Here's the main process
-
         // Initialize shared resources
-
-
         // Run the GUI
         QApplication a(argc, argv);
         MainWindow w;

@@ -1,6 +1,5 @@
 #include "scintilladoc.h"
-#include "rixparser.h"
-#include "rixparser_handler.h"
+#include "syntaxcolours.h"
 
 struct error_object** errors;
 int* err_num;
@@ -8,22 +7,22 @@ char* doc;
 
 ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
 {
-    _lex = new RixLexer;
     _filename = QString("untitled");
     _editText = new QsciScintilla;
+    _lex = new RixLexer;
     _isBlank = true;
     _modified = false;
     _filepath = QString("");
 
     _lex->setEditor(_editText);
-    int numSyntaxColors = (sizeof(_lex->syntaxColors) / sizeof(_lex->syntaxColors[0])) - 1;
+    int numSyntaxColors = sizeof(SyntaxColours::colourValues) / sizeof(SyntaxColours::colourValues[0]);
 
-    qDebug() << "numSyntaxColors:" << numSyntaxColors;
-    for (int i = 1; i <= numSyntaxColors; i++)
+    for (int i = 0; i < numSyntaxColors; i++)
     {
         _lex->editor()->SendScintilla(QsciScintilla::SCI_STYLESETFORE,
-                                      i, _lex->syntaxColors[i]);
+                                      i, SyntaxColours::colourValues[i]);
     }
+    _lex->editor()->SendScintilla(QsciScintilla::SCI_SETCHARSDEFAULT);
 
     connect(_editText,SIGNAL(SCN_CHARADDED(int)),
                  _lex, SLOT(handleCharAdded(int)));
@@ -173,14 +172,8 @@ void ScintillaDoc::parseError()
     doc = text.toLocal8Bit().data();
     err_num = NULL;
 
-    QThread* thread = new QThread;
-    Worker* worker = new Worker(errors, err_num, doc);
-    worker->moveToThread(thread);
-    connect(thread, SIGNAL (started()), worker, SLOT (process()));
-    connect(worker, SIGNAL (finished()), thread, SLOT (quit()));
-    connect(worker, SIGNAL (finished()), worker, SLOT (deleteLater()));
-    connect(thread, SIGNAL (finished()), thread, SLOT (deleteLater()));
-    thread->start();
+    // TODO: write the text to the temporary shared memory here.
+    // afterwards, do a sem wait
 }
 
 void ScintillaDoc::setWrapMode(bool enable)

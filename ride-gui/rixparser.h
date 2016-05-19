@@ -17,18 +17,3 @@ struct error_object
     int num_characters;
 };
 #endif  // ERROR_OBJECT_H
-
-#ifdef __cplusplus
-/**
- * @brief      Trigger the parser to parse the source code and find errors.
- *
- * @param      err      The array of errors
- * @param      err_num  The number of found errors
- * @param      doc      The source document
- *
- * @return     { description_of_the_return_value }
- */
-int Initialize_error_detect_thread(struct error_object **err, int *err_num, char *doc);
-
-extern "C" int errorDetect(struct error_object **err, int *err_num, char *doc);
-#endif

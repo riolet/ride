@@ -13,9 +13,11 @@ extern void scan_string(const char* str);
 class RixLexer : public QsciLexerCustom
 {
     Q_OBJECT
+
 public:
     void styleText(int start, int end);
     void styleToken(int length, int style);
+    void setWordChars(char *chars);
     QString description(int style) const;
     const char* language() const;
     const char* lexer() const;
