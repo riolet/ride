@@ -1,10 +1,7 @@
 #include "rixparser.h"
-#include "ride_parser/rixc.h"
+#include "rixparser_handler.h"
 
-int Detect_errors(struct error_object** err, int* err_num, char* doc)
+int Initialize_error_detect_thread(struct error_object** err, int* err_num, char* doc)
 {
-
-
-
-    return 1;
+    errorDetect(err, err_num, doc);
 }

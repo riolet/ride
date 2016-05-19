@@ -16,7 +16,8 @@ SOURCES += \
     compilerhandler.cpp \
     rixlexer.cpp \
     themehandler.cpp \
-    rixparser.c
+    rixparser.c \
+    rixparser_handler.cpp
 
 FLEXSOURCES = lex.l
 
@@ -45,7 +46,8 @@ HEADERS += \
     compilerhandler.h \
     rixlexer.h \
     lexershare.h \
-    rixparser.h
+    rixparser.h \
+    rixparser_handler.h
 
 flexsource.input = FLEXSOURCES
 flexsource.output = ${QMAKE_FILE_BASE}.cpp

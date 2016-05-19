@@ -16,23 +16,19 @@ struct error_object
     int column_start;
     int num_characters;
 };
+#endif  // ERROR_OBJECT_H
 
 #ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
- * @brief      { function_description }
+ * @brief      Trigger the parser to parse the source code and find errors.
  *
- * @param      err      The err
- * @param      err_num  The err num
- * @param      doc      The doc
+ * @param      err      The array of errors
+ * @param      err_num  The number of found errors
+ * @param      doc      The source document
  *
  * @return     { description_of_the_return_value }
  */
-    int Detect_errors(struct error_object** err, int* err_num, char* doc);
+int Initialize_error_detect_thread(struct error_object **err, int *err_num, char *doc);
 
-#ifdef __cplusplus
-}
+extern "C" int errorDetect(struct error_object **err, int *err_num, char *doc);
 #endif
-#endif  // ERROR_OBJECT_H
