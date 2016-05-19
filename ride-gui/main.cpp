@@ -1,8 +1,26 @@
-#include "mainwindow.h"
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <sys/mman.h>
+#include <sys/stat.h>        // For mode constants
+#include <fcntl.h>           // For O_* constants
+#include <stdio.h>
 #include <QApplication>
+#include "mainwindow.h"
+#include "globals.h"
+
+#define SHARED_CODE     "/code"
+#define SHARED_ERROR    "/error"
+#define SEM_CODE        "/codesem"
+#define SEM_ERROR       "/errsem"
+
+int      fd_doc;     // File descriptor for the shared memory for the code.
+int      fd_error;   // File descriptor for the shared memory for error structs.
+char*    temp_doc;   // Pointer to the temporary document memory.
+char*    temp_error;  // Pointer to the temporary error memory.
+
+struct semaphore sem_doc;
+struct semaphore sem_error;
 
 void sig_chld (int signo)
 {
@@ -18,22 +36,72 @@ int main(int argc, char *argv[])
     signal (SIGCHLD, sig_chld);
     if (fork() == 0)
     {
-        // Here's the child process
+        // Duy/Phill, put your c compilation stuff here if you want.
+        //system("gcc YOURFILEHERE.c -o EXE_NAME -lrl");
+        //execl("./EXE_NAME", (char*)0);
 
-        // Wait for
-
-        // Do something here, consider "exec" the parser
-
+        //execl("./parser", (char*)0);
+        // THE CHILD WILL NEVER REACH HERE, IT IS REPLACED ENTIRELY
         return 0;
     }
-    else
+
+    sem_doc.sem   = sem_open(SEM_CODE, O_CREAT, 0600, 1);
+    sem_error.sem = sem_open(SEM_ERROR, O_CREAT, 0600, 1);
+
+    if (sem_doc.sem == SEM_FAILED || sem_error.sem == SEM_FAILED)
     {
-        // Here's the main process
-        // Initialize shared resources
-        // Run the GUI
-        QApplication a(argc, argv);
-        MainWindow w;
-        w.show();
-        return a.exec();
+        perror("Sema:");
+        return 1;
     }
+
+    sem_wait(sem_doc.sem);
+    sem_wait(sem_error.sem);
+
+    perror("Sema:");
+
+    //Parent
+    sem_doc.fd   = shm_open(SHARED_CODE,  O_RDWR | O_CREAT | O_TRUNC, 0666);
+    sem_error.fd = shm_open(SHARED_ERROR, O_RDWR | O_CREAT | O_TRUNC, 0666);
+
+    if (sem_doc.fd == -1 || sem_error.fd == -1)
+    {
+        std::cerr << "The program could not start, error with shared memory." << std::endl;
+        return 1;
+    }
+
+    int potatoe;
+    int err = sem_getvalue(sem_doc.sem, &potatoe);
+
+    printf("Opening shared memory\n");
+
+    ftruncate(sem_doc.fd,   10240);
+    ftruncate(sem_error.fd, 10240);
+
+    sem_doc.content   = (char *)mmap(0, 10240, PROT_WRITE, MAP_SHARED, sem_doc.fd,   0);
+    sem_error.content = (char *)mmap(0, 10240, PROT_WRITE, MAP_SHARED, sem_error.fd, 0);
+
+    printf("Writing to shared memory\n");
+
+    sprintf(sem_doc.content,   "This is the test doc!\n");
+    sprintf(sem_error.content, "Error, this is the error doc!\n");
+
+    sleep(20);
+
+    printf("Shutting down\n");
+
+    sem_post(sem_doc.sem);
+    sem_post(sem_error.sem);
+
+    printf("Out of loop");
+
+    sem_destroy(sem_doc.sem);
+    sem_destroy(sem_error.sem);
+
+    return 1;
+
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+    return a.exec();
+
 }
