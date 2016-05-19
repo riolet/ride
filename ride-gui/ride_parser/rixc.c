@@ -7,7 +7,6 @@
 #include "rixc.h"
 #include "crsl.h"
 
-
 #define BUFFLEN 1024
 #define LABELMAX 8096
 #define STACKDEP 1024
@@ -20,7 +19,6 @@ FILE *outHeaderFile;
 FILE *outMakeFile;
 
 struct error_object** errors_array;
-
 bool hitEOF;
 
 Object *root;
@@ -1741,8 +1739,7 @@ void stdprintobj(Object *in) {
     printf("%s \n", in->paramTypes->value);
 }
 
-int errorDetect(struct error_object **err, int *errnum, const char * doc) {
-
+int errorDetect(struct error_object **err, int *errnum, const char * doc, int *work_status) {
     FILE *ritTempFile;
     FILE *ifile;
     int numline = 0;
@@ -1751,7 +1748,7 @@ int errorDetect(struct error_object **err, int *errnum, const char * doc) {
     ifile = fopen("temp_parse_file.rit", "r+");
     int result = fputs(doc, ifile);
     if(result == 0) {
-        return -1;
+        return 0;
     }
     
     fseek(ifile, 0, SEEK_SET);
@@ -1762,23 +1759,6 @@ int errorDetect(struct error_object **err, int *errnum, const char * doc) {
         file = fopen("temp_parse_file.rit", "r");
     }
 
-    /*    char oMainFileName[BUFFLEN];
-    char oHeaderFileName[BUFFLEN];
-    char oMakeFileName[BUFFLEN];
-    char oCompilerLogFileName[BUFFLEN];
-
-    if (ofile == NULL) {
-        strcpy(oMainFileName, "out.c");
-        strcpy(oHeaderFileName, "out.h");
-        strcpy(oMakeFileName, "out.sh");
-        strcpy(oCompilerLogFileName, "out.log");
-    } else {
-        snprintf(oMainFileName, BUFFLEN, "%s.c", ofile);
-        snprintf(oHeaderFileName, BUFFLEN, "%s.h", ofile);
-        snprintf(oMakeFileName, BUFFLEN, "%s.sh", ofile);
-        snprintf(oCompilerLogFileName, BUFFLEN, "%s.log", ofile);
-    }*/
-
     root = CreateObject("RootScope", "RootScope", 0, CodeBlock, "int");
 
     scopeStack[scope_idx] = root;
@@ -1787,23 +1767,16 @@ int errorDetect(struct error_object **err, int *errnum, const char * doc) {
 
     ritTempFile = fopen("rix_temp_file.rit", "wi");
     if (ritTempFile == 0) {
-        perror("fopen");
-        return 1;
+        return 0;
     }
-
-    /*    outCompilerLogFile = fopen(oCompilerLogFileName, "w");
-    compilerDebugPrintf("%s\n", ifile);*/
-
-    //Read RSL   //**err = []
 
     readFile("rsl/rsl.rit", ritTempFile, &numline);
 
     //compilerDebugPrintf("Lines read %d\n", numline);
-
     g_headerLines = numline;
+    
     //Read mainfile
     readFile("rix_temp_file.rit", ritTempFile, &numline);
-    //compilerDebugPrintf("Lines read %d\n",numline);
 
     fprintf(ritTempFile, "\n"); //END OF FILE GUARANTEE!
     fclose(ritTempFile);
@@ -1812,18 +1785,17 @@ int errorDetect(struct error_object **err, int *errnum, const char * doc) {
 
     yyin = file;
 
-    /*    outMainFile = fopen(oMainFileName, "w");
-    outHeaderFile = fopen(oHeaderFileName, "w");
-    outMakeFile = fopen(oMakeFileName, "w");*/
-
     hitEOF = false;
     while (!hitEOF) {
         yyparse();
     }
 
+    // Reassign input pointer
     err = errors_array;
     *errnum = e_count;
-
+    if (e_count > 0)
+        *work_status = 0;
+    return 1;
 }
 
 void sendError(struct error_object *e) {
@@ -1842,7 +1814,6 @@ void sendError(struct error_object *e) {
     }
 
     errors_array = errs;
-    free(errs);
 }
 
 int main_old(int argc, char **argv) {

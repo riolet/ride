@@ -1,37 +1,39 @@
 #include "mainwindow.h"
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <QApplication>
 
-#define SNAME "parser/sem"
-
-//sem_t *sem;
+void sig_chld (int signo)
+{
+    pid_t pid;
+    int stat;
+    pid = wait(&stat);
+    return;
+}
 
 int main(int argc, char *argv[])
 {
-    pid_t pid;
-
-    // Create shared memory
-
-
-    pid = fork();
-    if(pid == 0)
+    // Signaling method, call it to wait for the child if it terminate
+    signal (SIGCHLD, sig_chld);
+    if (fork() == 0)
     {
-        printf("I'm a child");
-        //sleep for 3 seconds
-        //sem = sem_open(SNAME, O_CREAT, 0644, 0); /* Initial value is 3. */
+        // Here's the child process
 
-        //system("./rixparser");
+        // Wait for
+
+        // Do something here, consider "exec" the parser
+
+        return 0;
     }
     else
     {
-        //sem = sem_open(SNAME, 0);
+        // Here's the main process
+        // Initialize shared resources
+        // Run the GUI
         QApplication a(argc, argv);
         MainWindow w;
         w.show();
-
-        a.exec();
+        return a.exec();
     }
-
-    // shem unlink here
-    return 1;
 }

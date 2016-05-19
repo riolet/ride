@@ -16,23 +16,4 @@ struct error_object
     int column_start;
     int num_characters;
 };
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-/**
- * @brief      { function_description }
- *
- * @param      err      The err
- * @param      err_num  The err num
- * @param      doc      The doc
- *
- * @return     { description_of_the_return_value }
- */
-    int Detect_errors(struct error_object** err, int* err_num, char* doc);
-
-#ifdef __cplusplus
-}
-#endif
 #endif  // ERROR_OBJECT_H
