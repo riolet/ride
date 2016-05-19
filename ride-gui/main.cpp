@@ -17,7 +17,7 @@
 int      fd_doc;     // File descriptor for the shared memory for the code.
 int      fd_error;   // File descriptor for the shared memory for error structs.
 char*    temp_doc;   // Pointer to the temporary document memory.
-char*    temp_error;  // Pointer to the temporary error memory.
+char*    temp_error; // Pointer to the temporary error memory.
 
 struct semaphore sem_doc;
 struct semaphore sem_error;
@@ -32,6 +32,15 @@ void sig_chld (int signo)
 
 int main(int argc, char *argv[])
 {
+    /*sem_doc.sem   = sem_open(SEM_CODE, O_CREAT, 0600, 1);
+    sem_error.sem = sem_open(SEM_ERROR,O_CREAT, 0600, 1);
+
+    if (sem_doc.sem == SEM_FAILED || sem_error.sem == SEM_FAILED)
+    {
+        perror("Sema:");
+        return 1;
+    }
+
     // Signaling method, call it to wait for the child if it terminate
     signal (SIGCHLD, sig_chld);
     if (fork() == 0)
@@ -41,23 +50,24 @@ int main(int argc, char *argv[])
         system("gcc ../parser.c -lpthread -lrt -o parser");
         execl("./parser", (char*)0);
 
-        //execl("./parser", (char*)0);
         // THE CHILD WILL NEVER REACH HERE, IT IS REPLACED ENTIRELY
         return 0;
     }
 
-    sem_doc.sem   = sem_open(SEM_CODE, O_CREAT, 0600, 1);
-    sem_error.sem = sem_open(SEM_ERROR, O_CREAT, 0600, 1);
-
-    if (sem_doc.sem == SEM_FAILED || sem_error.sem == SEM_FAILED)
-    {
-        perror("Sema:");
-        return 1;
-    }
+    int doc, err;
 
     printf("Waiting");
+    // Note: Use this ONLY for a HARD reset, you can easily screw up expected behaviour here.
+    if(doc < 1) // Sometimes semaphores screw up, use this to reset it back to normal
+    {
+        sem_post(sem_doc.sem);
+    }
 
-    int doc, err;
+    if(err < 1) // Sometimes semaphores screw up, use this to reset it back to normal
+    {
+        sem_post(sem_error.sem);
+    }
+
 
     sem_getvalue(sem_doc.sem, &doc);
     sem_getvalue(sem_doc.sem, &err);
@@ -110,7 +120,7 @@ int main(int argc, char *argv[])
     sem_destroy(sem_doc.sem);
     sem_destroy(sem_error.sem);
 
-    return 1;
+    return 1;*/
 
     QApplication a(argc, argv);
     MainWindow w;

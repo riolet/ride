@@ -17,7 +17,8 @@ SOURCES += \
     aboutdialog.cpp \
     compilerhandler.cpp \
     rixlexer.cpp \
-    themehandler.cpp
+    themehandler.cpp \
+    customscintilla.cpp
 
 FLEXSOURCES = lex.l
 
@@ -26,9 +27,6 @@ OTHER_FILES += \
 
 RESOURCES += \
         icons.qrc
-
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
 
 # Default rules for deployment.
 include(deployment.pri)
@@ -47,7 +45,8 @@ HEADERS += \
     rixlexer.h \
     lexershare.h \
     syntaxcolours.h \
-    rixparser.h
+    rixparser.h \
+    customscintilla.h
 
 flexsource.input = FLEXSOURCES
 flexsource.output = ${QMAKE_FILE_BASE}.cpp

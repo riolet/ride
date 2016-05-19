@@ -3,12 +3,11 @@
 
 struct error_object** errors;
 int* err_num;
-char* doc;
 
-ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
+ScintillaDoc::ScintillaDoc(QWidget *parent) : QWidget(parent)
 {
     _filename = QString("untitled");
-    _editText = new QsciScintilla;
+    _editText = new CustomScintilla(this);
     _lex = new RixLexer;
     _isBlank = true;
     _modified = false;
@@ -37,6 +36,9 @@ ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
     _editText->setFont(fixedfont);
     _editText->setMarginLineNumbers(1, true);
     _editText->setMarginWidth(1, MARGIN_WIDTH); // 6 characters wide.
+
+    installEventFilter(_editText);
+
 }
 
 bool ScintillaDoc::loadFile(QString filepath)
@@ -159,7 +161,7 @@ const QString ScintillaDoc::getAllText()
     if( (num_copied+1) != num_total)
     {
         // Error occured, the total characters available was not copied correctly.
-        return QString("Tacobell");
+        return QString("");
     }
 
     QString temp(all_text);
@@ -169,11 +171,32 @@ const QString ScintillaDoc::getAllText()
 void ScintillaDoc::parseError()
 {
     QString text = getAllText();
-    doc = text.toLocal8Bit().data();
-    err_num = NULL;
+    if(text.isEmpty() || text.isNull())
+    {
+        return;
+    }
 
-    // TODO: write the text to the temporary shared memory here.
-    // afterwards, do a sem wait
+    // START WRITING TO TEMP DOC
+    printf("Sem wait, writing to document.\n");
+
+    printf("Writing to shared memory\n");
+    sprintf(sem_doc.content, text.toStdString().c_str());
+    printf("Sem post, finished writing to document.\n");
+
+    sem_post(sem_doc.sem);
+    // END OF TEMP DOC WRITING
+
+
+    // GRAB THE ERROR HERE
+    sem_wait(sem_error.sem);
+
+    //TODO: Grab error from semaphore here.
+
+    // END OF ERROR GRABBING
+
+    //Handle error here.
+
+    return 1;
 }
 
 void ScintillaDoc::setWrapMode(bool enable)

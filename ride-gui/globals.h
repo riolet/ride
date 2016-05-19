@@ -1,7 +1,6 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#include <semaphore.h>
 #include <QFile>
 #include <QDir>
 #include <QString>
@@ -10,11 +9,14 @@
 #include <QFont>
 #include <Qsci/qsciscintilla.h>
 #include <QDebug>
-
-extern int      fd_doc;     // File descriptor for the shared memory for the code.
-extern int      fd_error;   // File descriptor for the shared memory for error structs.
-extern char*    temp_doc;   // Pointer to the temporary document memory.
-extern char*    temp_error;  // Pointer to the temporary error memory.
+#include <semaphore.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <sys/stat.h>        // For mode constants
+#include <fcntl.h>           // For O_* constants
+#include <stdio.h>
 
 struct semaphore
 {

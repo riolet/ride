@@ -6,15 +6,18 @@
 #include <QMessageBox>
 #include "globals.h"
 #include "lexershare.h"
+#include "customscintilla.h"
 
 #define ZOOM_FACTOR 2
 #define MARGIN_WIDTH QString("123456")
 
-class ScintillaDoc : public QObject
+class CustomScintilla;
+
+class ScintillaDoc : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ScintillaDoc(QObject *parent = 0);
+    explicit ScintillaDoc(QWidget *parent = 0);
 
     bool loadFile(QString filepath);
 
@@ -54,11 +57,11 @@ private slots:
     void handleFoundErrors(); //incomplete function
 
 public: // public variables
-    QsciScintilla*  _editText;
-    QString         _filename;
-    QString         _filepath;
-    QString         _errorString;
-    QFile*          _file;
+    CustomScintilla*    _editText;
+    QString             _filename;
+    QString             _filepath;
+    QString             _errorString;
+    QFile*              _file;
 
 private: // private variables
     bool            _isBlank;
