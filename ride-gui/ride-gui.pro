@@ -44,6 +44,7 @@ HEADERS += \
     compilerhandler.h \
     rixlexer.h \
     lexershare.h \
+    syntaxcolours.h \
     rixparser.h
 
 flexsource.input = FLEXSOURCES
