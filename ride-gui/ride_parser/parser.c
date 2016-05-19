@@ -1,43 +1,12 @@
-#include <semaphore.h>
+#include <stdio.h>
+#include <unistd.h>
 #include <sys/mman.h>
 #include <sys/stat.h>        /* For mode constants */
 #include <fcntl.h>           /* For O_* constants */
-#include <unistd.h>
-#include <stdio.h>
+#include "parser_sem.h"
 
-#define SHARED_CODE     "/code"
-#define SHARED_ERROR    "/error"
-#define SEM_CODE        "/codesem"
-#define SEM_ERROR       "/errsem"
-
-struct semaphore // Delete this entire structure and follow instructions below.
+int main(int argc, char **argv)
 {
-    int     fd;
-    char*   content;
-    sem_t*  sem;
-} sem_doc, sem_error;
-
-/*
-Put this in a globally shared file:
-
-struct semaphore
-{
-    int     fd;
-    char*   content;
-    sem_t*  sem;
-};
-
-extern struct semaphore sem_doc;
-extern struct semaphore sem_error;
-
-// After putting that somewhere shared globally, DECLARE IT ONCE in any of the c files. This makes sure that there is only one copy of sem_doc/sem_error.
-*/
-
-int main(int argc, char** argv) 
-{
-    printf("Sleeping\n");
-    sleep(5);
-    printf("Done sleeping\n");
     char  word_doc[1024];
     char  word_error[1024];
 
@@ -66,5 +35,5 @@ int main(int argc, char** argv)
     sem_post(sem_doc.sem);
     sem_post(sem_error.sem);
 
-	return 1;	
+    return 1;
 }
