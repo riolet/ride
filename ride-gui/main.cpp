@@ -37,8 +37,9 @@ int main(int argc, char *argv[])
     if (fork() == 0)
     {
         // Duy/Phill, put your c compilation stuff here if you want.
-        //system("gcc YOURFILEHERE.c -o EXE_NAME -lrl");
-        //execl("./EXE_NAME", (char*)0);
+        printf("Ghosts\n");
+        system("gcc ../parser.c -lpthread -lrt -o parser");
+        execl("./parser", (char*)0);
 
         //execl("./parser", (char*)0);
         // THE CHILD WILL NEVER REACH HERE, IT IS REPLACED ENTIRELY
@@ -54,10 +55,26 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    printf("Waiting");
+
+    int doc, err;
+
+    sem_getvalue(sem_doc.sem, &doc);
+    sem_getvalue(sem_doc.sem, &err);
+
+    // Note: Use this ONLY for a HARD reset, you can easily screw up expected behaviour here.
+    if(doc < 1) // Sometimes semaphores screw up, use this to reset it back to normal
+    {
+        sem_post(sem_doc.sem);
+    }
+
+    if(err < 1) // Sometimes semaphores screw up, use this to reset it back to normal
+    {
+        sem_post(sem_error.sem);
+    }
+
     sem_wait(sem_doc.sem);
     sem_wait(sem_error.sem);
-
-    perror("Sema:");
 
     //Parent
     sem_doc.fd   = shm_open(SHARED_CODE,  O_RDWR | O_CREAT | O_TRUNC, 0666);
@@ -68,9 +85,6 @@ int main(int argc, char *argv[])
         std::cerr << "The program could not start, error with shared memory." << std::endl;
         return 1;
     }
-
-    int potatoe;
-    int err = sem_getvalue(sem_doc.sem, &potatoe);
 
     printf("Opening shared memory\n");
 
@@ -85,13 +99,12 @@ int main(int argc, char *argv[])
     sprintf(sem_doc.content,   "This is the test doc!\n");
     sprintf(sem_error.content, "Error, this is the error doc!\n");
 
-    sleep(20);
+    sleep(10);
 
     printf("Shutting down\n");
 
     sem_post(sem_doc.sem);
     sem_post(sem_error.sem);
-
     printf("Out of loop");
 
     sem_destroy(sem_doc.sem);
