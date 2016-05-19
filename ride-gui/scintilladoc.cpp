@@ -1,7 +1,10 @@
 #include "scintilladoc.h"
 #include "rixparser.h"
+#include "rixparser_handler.h"
 
 struct error_object** errors;
+int* err_num;
+char* doc;
 
 ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
 {
@@ -167,11 +170,17 @@ const QString ScintillaDoc::getAllText()
 void ScintillaDoc::parseError()
 {
     QString text = getAllText();
-    char* doc = text.toLocal8Bit().data();
-    int* err_num = NULL;
+    doc = text.toLocal8Bit().data();
+    err_num = NULL;
 
-    int hi = Initialize_error_detect_thread(errors, err_num, doc);
-
+    QThread* thread = new QThread;
+    Worker* worker = new Worker(errors, err_num, doc);
+    worker->moveToThread(thread);
+    connect(thread, SIGNAL (started()), worker, SLOT (process()));
+    connect(worker, SIGNAL (finished()), thread, SLOT (quit()));
+    connect(worker, SIGNAL (finished()), worker, SLOT (deleteLater()));
+    connect(thread, SIGNAL (finished()), thread, SLOT (deleteLater()));
+    thread->start();
 }
 
 void ScintillaDoc::setWrapMode(bool enable)

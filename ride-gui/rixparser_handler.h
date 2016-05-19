@@ -6,7 +6,7 @@ class Worker : public QObject
 {
     Q_OBJECT
 public:
-    Worker();
+    Worker(struct error_object** err, int* err_num, char* doc);
     ~Worker();
 public slots:
     void process();

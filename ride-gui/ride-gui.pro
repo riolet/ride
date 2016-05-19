@@ -16,7 +16,8 @@ SOURCES += \
     compilerhandler.cpp \
     rixlexer.cpp \
     themehandler.cpp \
-    rixparser.c
+    rixparser.c \
+    rixparser_handler.cpp
 
 FLEXSOURCES = lex.l
 

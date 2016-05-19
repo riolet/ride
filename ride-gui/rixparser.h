@@ -16,11 +16,9 @@ struct error_object
     int column_start;
     int num_characters;
 };
+#endif  // ERROR_OBJECT_H
 
 #ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * @brief      Trigger the parser to parse the source code and find errors.
  *
@@ -32,7 +30,5 @@ extern "C" {
  */
 int Initialize_error_detect_thread(struct error_object **err, int *err_num, char *doc);
 
-#ifdef __cplusplus
-}
+extern "C" int errorDetect(struct error_object **err, int *err_num, char *doc);
 #endif
-#endif  // ERROR_OBJECT_H
