@@ -170,7 +170,7 @@ void ScintillaDoc::parseError()
     char* doc = text.toLocal8Bit().data();
     int* err_num = NULL;
 
-    int hi = Detect_errors(errors, err_num, doc);
+    int hi = Initialize_error_detect_thread(errors, err_num, doc);
 
 }
 
