@@ -1,6 +1,8 @@
 #include "scintilladoc.h"
 #include "syntaxcolours.h"
 
+struct error_object** errors;
+
 ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
 {
     _filename = QString("untitled");
@@ -158,14 +160,18 @@ const QString ScintillaDoc::getAllText()
         return QString("Tacobell");
     }
 
-    /* Placeholder code for detecting errors.
-    Error* error_array;
-    int num_errors;
-
-    int error = errorDetect(&error_array, &num_errors, all_text);
-    */
     QString temp(all_text);
     return temp;
+}
+
+void ScintillaDoc::parseError()
+{
+    QString text = getAllText();
+    char* doc = text.toLocal8Bit().data();
+    int* err_num = NULL;
+
+    int hi = Detect_errors(errors, err_num, doc);
+
 }
 
 void ScintillaDoc::setWrapMode(bool enable)

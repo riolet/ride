@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setupTheme();
     setupCompiler();
     setupShortcuts(); //Not active atm
+
+    cur_doc->parseError();
 }
 
 MainWindow::~MainWindow()
@@ -178,36 +180,46 @@ void MainWindow::newFile()
     }
     else
     {
+        bool clearDoc = false;
         // Force user to make a decision on keeping or discarding changes.
-        bool flag = false;
-        do
-        {
-            flag = saveAs();
-        } while(!flag);
 
-        // Simply just clean up the current blank document.
-        cur_doc->clearTextArea();
-        setDocumentModified(false);
+        clearDoc = displayUnsavedChanges();
+
+        if(clearDoc)
+        {
+            // Simply just clean up the current blank document.
+            cur_doc->clearTextArea();
+            setDocumentModified(false);
+        }
     }
 }
 
 void MainWindow::gotoLine()
 {
-    QString tacos = cur_doc->getAllText();
-    std::cerr << tacos.toStdString() << std::endl;
-    /*bool ok;
+    //QString tacos = cur_doc->getAllText();
+    //std::cerr << tacos.toStdString() << std::endl;
+    bool ok;
     int max = cur_doc->getTotalLines();
     int line = QInputDialog::getInt(this, tr("Go to"), tr("line:"), 1, 1, max, 1, &ok);
 
     if(ok)
     {
         cur_doc->gotoLine(line);
-    }*/
+    }
 }
 
 void MainWindow::runCompiler()
 {
-    compiler->compileRixFile();
+    clearCompilerMessages();
+    if(cur_doc->isBlank())
+    {
+        compiler->compileRixFile();
+    }
+    else
+    {
+        compiler->compileRixFile(cur_doc);
+    }
+
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -238,6 +250,11 @@ void MainWindow::readCompilerOutputLine(const QString& line)
     ui->text_output->appendPlainText(line);
 }
 
+void MainWindow::readCompilerErrorLine(const QString &err)
+{
+    ui->text_issues->appendPlainText(err);
+}
+
 void MainWindow::setDocumentModified(bool modified)
 {
     QString tabtext = cur_doc->_filename;
@@ -250,13 +267,21 @@ void MainWindow::setDocumentModified(bool modified)
 
 void MainWindow::setupCompiler()
 {
+    clearCompilerMessages();
     compiler = new CompilerHandler(this);
     connect(compiler, SIGNAL(compilerOutput(QString)), this, SLOT(readCompilerOutputLine(QString)));
+    connect(compiler, SIGNAL(compilerError(QString)),  this, SLOT(readCompilerErrorLine(QString)));
 }
 
 void MainWindow::setupTheme()
 {
     themer = new ThemeHandler();
+}
+
+void MainWindow::clearCompilerMessages()
+{
+    ui->text_issues->setPlainText("");
+    ui->text_output->setPlainText("");
 }
 
 void MainWindow::displayAboutRix()

@@ -85,6 +85,8 @@ private slots:
 
     void readCompilerOutputLine(const QString& line);
 
+    void readCompilerErrorLine(const QString& err);
+
 private:    //Private Functions
     void setupScintilla();
     void setupFileTree();
@@ -93,6 +95,7 @@ private:    //Private Functions
     void setDocumentModified(bool modified);
     void setupCompiler();
     void setupTheme();
+    void clearCompilerMessages();
 
 
 

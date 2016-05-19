@@ -1,8 +1,12 @@
 QT += widgets core gui
-CONFIG      += debug qscintilla2
+CONFIG += debug
+CONFIG += qscintilla2
 TARGET = RIDE
 TEMPLATE = app
 LIBS += -lfl
+#DEPENDPATH += ../
+#INCLUDEPATH += ../
+#LIBS += ../libqscintilla2.so
 
 SOURCES += \
     main.cpp \
@@ -11,7 +15,8 @@ SOURCES += \
     aboutdialog.cpp \
     compilerhandler.cpp \
     rixlexer.cpp \
-    themehandler.cpp
+    themehandler.cpp \
+    rixparser.c
 
 FLEXSOURCES = lex.l
 
@@ -40,7 +45,8 @@ HEADERS += \
     compilerhandler.h \
     rixlexer.h \
     lexershare.h \
-    syntaxcolours.h
+    syntaxcolours.h \
+    rixparser.h
 
 flexsource.input = FLEXSOURCES
 flexsource.output = ${QMAKE_FILE_BASE}.cpp
