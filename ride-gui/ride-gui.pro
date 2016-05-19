@@ -15,8 +15,7 @@ SOURCES += \
     aboutdialog.cpp \
     compilerhandler.cpp \
     rixlexer.cpp \
-    themehandler.cpp \
-    rixparser.c
+    themehandler.cpp
 
 FLEXSOURCES = lex.l
 

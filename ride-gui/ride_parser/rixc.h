@@ -5,6 +5,7 @@
 #include "preproc.h"
 #include "errors.h"
 #include "ctype.h"
+#include "../rixparser.h"
 
 #define COMPILER_SEP "_$_"
 #define GENERIC_PARAM "Generic_$$"
@@ -78,7 +79,7 @@ Object *createCodeBlock(Object * expression);
 float simplifyfloat(float left, char *op, float right);
 int simplifyInt(int left, char *op, int right);
 
-int errorDetect(struct error_object **err, int *errnum, const char * doc);
+int errorDetect(struct error_object **err, int *errnum, const char * doc, int *working);
 void sendError(struct error_object *e);
 
 #endif

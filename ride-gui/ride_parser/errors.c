@@ -84,7 +84,7 @@ void criticalError(ErrorCode code, char *message)
         fprintf(stderr, "\t");
         fprintf(stderr, "%s", message);
     }
-    // exit((int)code);
+    //exit(0)
 }
 
 /**
@@ -94,7 +94,7 @@ void criticalError(ErrorCode code, char *message)
  */
 void errorInitial( char *message )
 {
-    Error *e = malloc(sizeof(Error));
+    struct error_object *e = malloc(sizeof(struct error_object));
 
     //add to errList
 

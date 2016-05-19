@@ -2,6 +2,8 @@
 #include "syntaxcolours.h"
 
 struct error_object** errors;
+int* err_num;
+char* doc;
 
 ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
 {
@@ -167,11 +169,11 @@ const QString ScintillaDoc::getAllText()
 void ScintillaDoc::parseError()
 {
     QString text = getAllText();
-    char* doc = text.toLocal8Bit().data();
-    int* err_num = NULL;
+    doc = text.toLocal8Bit().data();
+    err_num = NULL;
 
-    int hi = Detect_errors(errors, err_num, doc);
-
+    // TODO: write the text to the temporary shared memory here.
+    // afterwards, do a sem wait
 }
 
 void ScintillaDoc::setWrapMode(bool enable)
