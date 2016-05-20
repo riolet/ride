@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
     {
 
         //system("gcc ../parser.c -lpthread -lrt -o parser");
-        execl("./parser", (char *)0);
+        ("./parser", (char *)0);
 
         // THE CHILD WILL NEVER REACH HERE, IT IS REPLACED ENTIRELY
         return 0;
