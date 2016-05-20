@@ -33,7 +33,7 @@ namespace SyntaxColours {
         (0 | (0 << 8) | (0 << 16)),     // Scope
         (0 | (0 << 8) | (255 << 16)),   // Keyword
         (0 | (0 << 8) | (255 << 16)),   // Return
-        (0 | (0 << 8) | (0 << 16)), // Identifier
+        (0 | (0 << 8) | (0 << 16)),     // Identifier
         (0 | (0 << 8) | (0 << 16)),     // Comm
         (0 | (0 << 8) | (0 << 16)),     // MultiComm
         (0 | (0 << 8) | (0 << 16)),     // UnterMultiComm
