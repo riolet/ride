@@ -12,6 +12,7 @@
 extern int yylex();
 extern int yyparse();
 extern FILE *yyin;
+extern Error **errors_array;
 
 void defineRSLSymbols(Object *);
 
@@ -20,33 +21,33 @@ Object *findFunctionByFullName(char *name);
 
 void handleEOF();
 
-Object *completeExpression(Object * expression);
-Object *finalize(Object * expression);
+Object *completeExpression(Object *expression);
+Object *finalize(Object *expression);
 void closeBrace();
-Object *makeReturn(Object * expression);
+Object *makeReturn(Object *expression);
 void checkPrevExists();
 void incPrev();
 void decPrev();
 
 Object *beginClass(char *className, char *parentName, Object *typeArgs, bool isPrimitive);
-void doneClass(Object * tree);
-Object *beginFunction(char *returnType, char *funcName, Object * parameters);
-void doneFunction(Object * tree);
-Object *beginConstructor(Object * parameters);
-void doneConstructor(Object * tree);
-Object *beginDestructor(Object * parameters);
-void doneDestructor(Object * tree);
+void doneClass(Object *tree);
+Object *beginFunction(char *returnType, char *funcName, Object *parameters);
+void doneFunction(Object *tree);
+Object *beginConstructor(Object *parameters);
+void doneConstructor(Object *tree);
+Object *beginDestructor(Object *parameters);
+void doneDestructor(Object *tree);
 
-void stdprintf(char* in);
-void stdprintobj(Object * in);
+void stdprintf(char *in);
+void stdprintobj(Object *in);
 
-Object *funcParameters(Object * tree, char *paramType, char *paramName);
-Object *concatParams(Object * existing, Object * newParam);
+Object *funcParameters(Object *tree, char *paramType, char *paramName);
+Object *concatParams(Object *existing, Object *newParam);
 Object *declareVariable(char *name, char *type);
 
-Object *conjugateAssign(Object * subject, Object * verb, Object * objects);
-Object *conjugate(Object * lhs, Object * verb, Object * rhs);
-Object *conjugateConditional(Object * lhs, Object * verb, Object * rhs);
+Object *conjugateAssign(Object *subject, Object *verb, Object *objects);
+Object *conjugate(Object *lhs, Object *verb, Object *rhs);
+Object *conjugateConditional(Object *lhs, Object *verb, Object *rhs);
 Object *injectC(char *code);
 
 Object *verbAssignment(char *verb);
@@ -60,7 +61,7 @@ Object *verbGetObjAtIdx();
 Object *verbPutObjAtIdx();
 Object *sVerbIdent(char *staticVerb);
 Object *verbCtor(char *type, char *ytype);
-Object *parenthesize(Object * expr);
+Object *parenthesize(Object *expr);
 Object *objectIdent(char *ident);
 Object *objectNewIdent(char *ident);
 Object *objectUnmarkedNewIdent(char *ident);
@@ -73,12 +74,27 @@ Object *objectPlaceHolderType(char *ident);
 Object *objectString(char *string);
 Object *conjugateAccessorIdent(Object *subject, char *field);
 
-Object *createCodeBlock(Object * expression);
+Object *createCodeBlock(Object *expression);
 
 float simplifyfloat(float left, char *op, float right);
 int simplifyInt(int left, char *op, int right);
 
-int errorDetect(struct error_object **err, int *errnum, const char * doc);
-void sendError(struct error_object *e);
+/**
+ * @brief      Parse a document text and detect error if it's existed
+ *
+ * @param      err     the array errors
+ * @param      errnum  the number of errors
+ * @param[in]  doc     the original document
+ *
+ * @return     { description_of_the_return_value }
+ */
+int errorDetect(Error **err, int *errnum, const char *doc);
+
+/**
+ * @brief      This is a callback method for error class. This method add an error into global error array and update the counter.
+ *
+ * @param      e     the error that is returned from the parser
+ */
+void sendError(Error *e);
 
 #endif

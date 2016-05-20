@@ -2,8 +2,9 @@
 #include "syntaxcolours.h"
 
 struct error_object** errors;
+int* err_num;
 
-ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
+ScintillaDoc::ScintillaDoc(QWidget *parent) : QWidget(parent)
 {
     _filename = QString("untitled");
     _editText = new QsciScintilla;
@@ -13,6 +14,8 @@ ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
     _filepath = QString("");
 
     _lex->setEditor(_editText);
+    _lex->setScintilladoc(this);
+
     int numSyntaxColors = sizeof(SyntaxColours::colourValues) / sizeof(SyntaxColours::colourValues[0]);
 
     for (int i = 0; i < numSyntaxColors; i++)
@@ -35,6 +38,9 @@ ScintillaDoc::ScintillaDoc(QObject *parent) : QObject(parent)
     _editText->setFont(fixedfont);
     _editText->setMarginLineNumbers(1, true);
     _editText->setMarginWidth(1, MARGIN_WIDTH); // 6 characters wide.
+
+    installEventFilter(_editText);
+
 }
 
 bool ScintillaDoc::loadFile(QString filepath)
@@ -151,13 +157,18 @@ int ScintillaDoc::getTotalLines()
 const QString ScintillaDoc::getAllText()
 {
     long num_total = _editText->SendScintilla(QsciScintilla::SCI_GETTEXTLENGTH);
+    if(num_total < 1)
+    {
+        return QString("");
+    }
+
     char all_text[num_total];
     long num_copied = _editText->SendScintilla(QsciScintilla::SCI_GETTEXT, num_total, all_text);
 
     if( (num_copied+1) != num_total)
     {
         // Error occured, the total characters available was not copied correctly.
-        return QString("Tacobell");
+        return QString("");
     }
 
     QString temp(all_text);
@@ -167,11 +178,25 @@ const QString ScintillaDoc::getAllText()
 void ScintillaDoc::parseError()
 {
     QString text = getAllText();
-    char* doc = text.toLocal8Bit().data();
-    int* err_num = NULL;
+    if(text.isEmpty() || text.isNull())
+    {
+        return;
+    }
 
-    int hi = Detect_errors(errors, err_num, doc);
+    // START WRITING TO TEMP DOC
+    printf("Sem wait, writing to document.\n");
 
+    printf("Writing to shared memory\n");
+    sprintf(sem_doc.content, text.toStdString().c_str());
+    printf("Sem post, finished writing to document.\n");
+
+    sem_post(sem_doc.sem);
+    // END OF TEMP DOC WRITING
+
+
+    // GRAB THE ERROR HERE
+    sem_wait(sem_error.sem);
+    //FIN
 }
 
 void ScintillaDoc::setWrapMode(bool enable)
@@ -184,11 +209,6 @@ void ScintillaDoc::setWrapMode(bool enable)
     {
         _editText->setWrapMode(_editText->WrapNone);
     }
-}
-
-void ScintillaDoc::handleFoundErrors()
-{
-    // TODO: implement error wrapping functionality.
 }
 
 void ScintillaDoc::scintillaTextChanged()

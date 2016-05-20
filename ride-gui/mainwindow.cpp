@@ -32,8 +32,6 @@ MainWindow::MainWindow(QWidget *parent) :
     setupTheme();
     setupCompiler();
     setupShortcuts(); //Not active atm
-
-    cur_doc->parseError();
 }
 
 MainWindow::~MainWindow()
@@ -229,6 +227,13 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if(cur_doc->isModified())
         quit = displayUnsavedChanges();
 
+    // Ensure that the doc is garbage before we post it.
+    sprintf(sem_doc.content, "\0\0\0\0\0");
+
+    Error** temp = sem_error.content;
+    sem_post(sem_doc.sem); // Unblock the child.
+    //kill(child, SIGTERM);
+
     if(quit)
     {
         QMainWindow::closeEvent(event);
@@ -238,6 +243,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
     {
         event->ignore();
     }
+
+    wait(NULL);
+
+    sem_destroy(sem_doc.sem);
+    sem_destroy(sem_error.sem);
 }
 
 void MainWindow::sendCloseEvent()

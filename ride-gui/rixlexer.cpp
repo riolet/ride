@@ -16,6 +16,11 @@ void RixLexer::handleStyleNeeded(int pos)
         styleText(start, pos);
 }
 
+void RixLexer::setScintilladoc(ScintillaDoc *sd)
+{
+    _scint = sd;
+}
+
 void RixLexer::styleText(int start, int end)
 {
     if(end < start || !editor())
@@ -64,6 +69,39 @@ void RixLexer::handleCharAdded(int pos)
         const char *testing = "test test1 test2 test3";
 
         editor()->SendScintilla(QsciScintilla::SCI_AUTOCSHOW, (size_t)0, testing);
+    }
+    else if(currentChar[0] == '\n')
+    {
+        _scint->parseError();
+        handleFoundErrors();
+    }
+}
+
+void RixLexer::handleFoundErrors()
+{
+    Error*  cur_error;
+    char*   msg;
+    int     len;
+    int     line;
+    int     start;
+    int     num;
+
+    int errors = sem_error.errNumber;
+
+    while(errors > 0)
+    {
+        cur_error = sem_error.content[0];
+
+        msg = cur_error->message;
+        line = cur_error->line_number;
+        start = cur_error->column_start;
+        num = cur_error->num_characters;
+        len = cur_error->message_length;
+
+        // TODO: Call highlight method here.
+        //method(msg, len, line, start, num);
+
+        errors--; // Decrement errors here.
     }
 }
 

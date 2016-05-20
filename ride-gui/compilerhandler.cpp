@@ -92,6 +92,8 @@ void CompilerHandler::readCompilerOutput(FILE* output, FILE* error)
     fseek(output, 0, SEEK_SET);
     while (fgets(buffer, BUFSIZE-1, output) != NULL)
     {
+        int newline = strlen(buffer);
+        buffer[newline-1] = '\0'; //Remove newline character.
         QString line(buffer);
         emit compilerOutput(line);
     }
@@ -100,6 +102,8 @@ void CompilerHandler::readCompilerOutput(FILE* output, FILE* error)
     fseek(error, 0, SEEK_SET);
     while (fgets(buffer, BUFSIZE-1, error) != NULL)
     {
+        int newline = strlen(buffer);
+        buffer[newline-1] = '\0'; //Remove newline character.
         QString err(buffer);
         emit compilerError(err);
     }

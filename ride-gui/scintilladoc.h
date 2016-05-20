@@ -10,11 +10,11 @@
 #define ZOOM_FACTOR 2
 #define MARGIN_WIDTH QString("123456")
 
-class ScintillaDoc : public QObject
+class ScintillaDoc : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ScintillaDoc(QObject *parent = 0);
+    explicit ScintillaDoc(QWidget *parent = 0);
 
     bool loadFile(QString filepath);
 
@@ -43,8 +43,6 @@ public:
 private: // Private functions
     void setWrapMode(bool enable);
 
-    void handleFoundErrors(); //incomplete function
-
 signals:
     void textChanged();
 
@@ -54,11 +52,11 @@ private slots:
     void scintillaTextChanged();
 
 public: // public variables
-    QsciScintilla*  _editText;
-    QString         _filename;
-    QString         _filepath;
-    QString         _errorString;
-    QFile*          _file;
+    QsciScintilla*      _editText;
+    QString             _filename;
+    QString             _filepath;
+    QString             _errorString;
+    QFile*              _file;
 
 private: // private variables
     bool            _isBlank;

@@ -8,7 +8,7 @@ int warningMsg(const char *format, ...)
     va_list arg;
     va_start(arg, format);
     ret = vfprintf(stderr, format, arg);
-    
+
     // In case we want to grab the error and modify it
     char buffer[1024];
     vsnprintf(buffer, 1024, format, arg);
@@ -84,7 +84,7 @@ void criticalError(ErrorCode code, char *message)
         fprintf(stderr, "\t");
         fprintf(stderr, "%s", message);
     }
-    // exit((int)code);
+    //exit(0)
 }
 
 /**
@@ -94,7 +94,7 @@ void criticalError(ErrorCode code, char *message)
  */
 void errorInitial( char *message )
 {
-    Error *e = malloc(sizeof(Error));
+    Error *e = (Error *) malloc(sizeof(Error));
 
     //add to errList
 
