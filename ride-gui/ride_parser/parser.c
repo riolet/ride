@@ -30,34 +30,56 @@ int main(int argc, char **argv)
     int        *error_number;
     int doc, err;
 
+
+    while (true)
+    {
+        /**
+        * Start to map semaphore struc with shared memory
+        */
+        sem_doc.sem         = sem_open(SEM_CODE,  0);
+        sem_doc.fd          = shm_open(SHARED_CODE, O_RDONLY, 0666);
+        sem_doc.content     = (char *) mmap(0, 10240, PROT_READ, MAP_SHARED, sem_doc.fd,   0);
+
+        sem_error.sem       = sem_open(SEM_ERROR, 0);
+        sem_error.fd        = shm_open(SHARED_ERROR, O_RDONLY, 0666);
+        sem_error.errNumber = shm_open(SHARED_ERR_NUM, O_RDWR | O_TRUNC, 0666);
+        sem_error.content   = (Error **) mmap(0, 10240, PROT_READ, MAP_SHARED, sem_error.fd, 0);
+
+
+        // Checking for error
+        if (sem_doc.sem == SEM_FAILED
+                || sem_error.sem == SEM_FAILED
+                || sem_doc.fd == -1
+                || sem_error.fd == -1
+                || sem_error.errNumber == -1)
+        {
+            fprintf(stderr, "The program could not start, error with shared memory.\n");
+            return 1;
+        }
+        else
+        {
+            break;
+        }
+
+    }
+
+
     /**
-     * Initialize both semephore
+     * Parser start to parse the code continuously
      */
-    sem_doc.sem   = sem_open(SEM_CODE,  0);
-    sem_error.sem = sem_open(SEM_ERROR, 0);
-
-    if (sem_doc.sem == SEM_FAILED || sem_error.sem == SEM_FAILED)
+    while (true)
     {
-        fprintf(stderr, "The program could not start, error with shared memory.\n");
-        return 1;
+        sem_wait(sem_doc.sem);
+
+        // Truncate memory
+        ftruncate(sem_error.errNumber, sizeof(int *));
+        ftruncate(sem_error.content, 10240);
+
+        // Doing stuff
+        errorDetect(sem_error.content, sem_error.errNumber, sem_doc.content);
+
+        sem_post(sem_error.sem);
     }
-
-    sem_wait(sem_doc.sem);
-
-    sem_doc.fd     = shm_open(SHARED_CODE, O_RDONLY, 0666);
-    
-    sem_error.fd   = shm_open(SHARED_ERROR, O_RDWR | O_TRUNC, 0666);
-
-    if (sem_doc.fd == -1 || sem_error.fd == -1)
-    {
-        fprintf(stderr, "The program could not start, error with shared memory.\n");
-        return 1;
-    }
-
-    sem_doc.content   = (char *) mmap(0, 10240, PROT_READ, MAP_SHARED, sem_doc.fd,   0);
-    sem_error.content = (Error**) mmap(0, 10240, PROT_READ, MAP_SHARED, sem_error.fd, 0);
-
-    sem_post(sem_error.sem);
 
     return 1;
 }

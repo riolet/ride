@@ -6,7 +6,7 @@
 
 #define SHARED_CODE     "/code"
 #define SHARED_ERROR    "/error"
-#define SHARED_ERR_NUM	"/error_num"
+#define SHARED_ERR_NUM  "/error_num"
 #define SEM_CODE        "/codesem"
 #define SEM_ERROR       "/errsem"
 
@@ -15,8 +15,8 @@
  */
 struct semaphore_request
 {
-    int     fd;
     sem_t   *sem;
+    int     fd;     // fd is the start position of content in the shared memory block
     char    *content;
 };
 
@@ -25,8 +25,8 @@ struct semaphore_request
  */
 struct semaphore_response
 {
-    int     fd;
     sem_t   *sem;
+    int     fd;     // fd is the start position of content in the shared memory block
     int     *errNumber;
     Error   **content;
 };
