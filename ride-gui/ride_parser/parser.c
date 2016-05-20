@@ -71,12 +71,10 @@ int main(int argc, char **argv)
     {
         sem_wait(sem_doc.sem);
 
-        // Truncate memory
-        ftruncate(sem_error.errNumber, sizeof(int *));
-        ftruncate(sem_error.content, 10240);
+        error_number = &(sem_error.errNumber);
 
         // Doing stuff
-        errorDetect(sem_error.content, sem_error.errNumber, sem_doc.content);
+        errorDetect(sem_error.content, error_number, sem_doc.content);
 
         sem_post(sem_error.sem);
     }
