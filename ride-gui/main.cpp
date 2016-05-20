@@ -22,6 +22,8 @@ void sig_chld (int signo)
 
 int main(int argc, char *argv[])
 {
+    int* err_num;
+
     sem_doc.sem   = sem_open(SEM_CODE,  O_CREAT, 0600, 0);
     sem_error.sem = sem_open(SEM_ERROR, O_CREAT, 0600, 0);
 
@@ -77,6 +79,7 @@ int main(int argc, char *argv[])
     printf("Manipulating shared memory size.\n");
     ftruncate(sem_doc.fd,   10240);
     ftruncate(sem_error.fd, 10240);
+    ftruncate(sem_error.errNumber, sizeof(int));
 
     sem_doc.content   = (char *)  mmap(0, 10240, PROT_WRITE, MAP_SHARED, sem_doc.fd,   0);
     sem_error.content = (Error **)mmap(0, 10240, PROT_WRITE, MAP_SHARED, sem_error.fd, 0);
@@ -103,6 +106,9 @@ int main(int argc, char *argv[])
     signal (SIGCHLD, sig_chld);
     if (fork() == 0)
     {
+
+        system("make rider-parser/make parser");
+        ("./parser", (char *)0);
 
         //system("gcc ../parser.c -lpthread -lrt -o parser");
         execl("./ride_parser/parser", (char *)0);

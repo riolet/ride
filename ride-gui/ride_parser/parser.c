@@ -27,15 +27,13 @@ int main(int argc, char **argv)
 {
     char        word_doc_buffer[10023];
     Error     **error_array;
-    int        *error_number;
-    int doc, err;
 
-
+    /**
+    * Start to map semaphore struc with shared memory
+    */
     while (true)
     {
-        /**
-        * Start to map semaphore struc with shared memory
-        */
+
         sem_doc.sem         = sem_open(SEM_CODE,  0);
         sem_doc.fd          = shm_open(SHARED_CODE, O_RDONLY, 0666);
         sem_doc.content     = (char *) mmap(0, 10240, PROT_READ, MAP_SHARED, sem_doc.fd,   0);
@@ -52,8 +50,8 @@ int main(int argc, char **argv)
                 || sem_error.fd == -1
                 || sem_error.errNumber == -1)
         {
-            fprintf(stderr, "The program could not start, error with shared memory.\n");
-            return 1;
+            fprintf(stderr, "Parser could not start, error with shared memory.\n");
+            // return 1;
         }
         else
         {
