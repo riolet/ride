@@ -722,7 +722,9 @@ Object *makeReturn(Object *expression)
     {
         //remove last semicolon
         if (line->value[strlen(line->value) - 1] == ';')
+        {
             line->value[strlen(line->value) - 1] = '\0';
+        }
         snprintf(newCode, BUFFLEN, IDENT_MPTR "_prepare(%s, " IDENT_MPTR "_in);\n"
                  "return " IDENT_MPTR "_in;", line->value);
         free(line->value);
@@ -1263,7 +1265,9 @@ Object *conjugate(Object *subject, Object *verb, Object *objects)
             snprintf(error, BUFFLEN, "Type \"%s\" doesn't have member function \"%s\".\n",
                      subject->returnType, &verbname[strlen(subject->returnType) + 1]);
         else
+        {
             snprintf(error, BUFFLEN, "Cannot find function named %s %d.\n", verbname, __LINE__);
+        }
         criticalError(ERROR_UndefinedVerb, error);
     }
     else if (!realVerb)
@@ -1340,10 +1344,14 @@ Object *conjugate(Object *subject, Object *verb, Object *objects)
     {
         if (realVerb->genericType)
             //Preset return category
+        {
             returnType = strdup(realVerb->genericType);
+        }
         else
             //Positional return category
+        {
             returnType = paramTypes[realVerb->genericTypeArgPos - 1];
+        }
     }
 
     result = CreateObject(0, 0, 0, Expression, returnType);
@@ -1758,7 +1766,9 @@ Object *objectUnmarkedNewIdent(char *ident)
                          identifier->returnType);
         addParam(result, identifier->returnType);
         if (identifier->genericType)
+        {
             addParam(result, identifier->genericType);
+        }
     }
     addCode(result, identifier ? identifier->fullname : ident);
     // compilerDebugPrintf("Result at %d = %d\n",__LINE__,result);
@@ -1788,7 +1798,9 @@ Object *objectIdent(char *ident)
                          identifier->returnType);
         addParam(result, identifier->returnType);
         if (identifier->genericType)
+        {
             result->genericType = strdup(identifier->genericType);
+        }
     }
     compilerDebugPrintf("Ident full name %s\n", identifier->fullname);
     addCode(result, identifier ? identifier->fullname : ident);
@@ -2034,21 +2046,6 @@ Object *directive(char *key, char *value)
     return result;
 }
 
-/**
-Object :
-    char *name;                 //symbol name     ("myint", "calcTotalArea ", "Rectangle")
-    char *fullname;             //symbol fullname ("myint", "int_calcTotalArea_Rectangle_Rectangle", "BaseType_Rectangle")
-    Object *parentClass;
-    Object *parentScope;        //parent scope    (global scope, global scope, BaseType)
-    OBJ_TYPE category;          //What is this?   (Variable, Function, Class)
-    char *returnType;           //What value category?(int,  int,  NULL)
-    char *genericType;          //What value category if the returnType is Generic?(int,  int,  NULL)
-    int genericTypeArgPos;      //What value category if the returnType is Generic?(int,  int,  NULL)
-    ListString *paramTypes;     //parameters?     (NULL,     [int, int], NULL)
-    ListObject *definedSymbols; //Things inside?  (NULL, [Rectangle "r1", Rectangle "r2", int "a1", int "a2"], [int "w", int "h", Constructor "Rectangle", Function "Area"])
-    ListString *code;           //CodeBlock       (NULL, "int ...calcTotalArea...(...) {...", "typedef struct...")
-    int flags;
- */
 void stdprintobj(Object *in)
 {
     printf("OUTPUTTING OBJECT\n");
@@ -2058,92 +2055,8 @@ void stdprintobj(Object *in)
     printf("%s \n", in->paramTypes->value);
 }
 
-int errorDetect(Error **err, int *errnum, const char *doc, int *work_status)
-{
-    FILE *ritTempFile;
-    FILE *ifile;
-    int numline = 0;
-    g_headerLines = 0;
-
-    ifile = fopen("temp_parse_file.rit", "r+");
-    int result = fputs(doc, ifile);
-    if(result == 0)
-    {
-        return 0;
-    }
-
-    fseek(ifile, 0, SEEK_SET);
-    if (ifile == NULL)
-    {
-        errorMsg("No file to compile\n");
-        criticalError(ERROR_ParseError, "No file to compile specified");
-    }
-    else
-    {
-        file = fopen("temp_parse_file.rit", "r");
-    }
-
-    root = CreateObject("RootScope", "RootScope", 0, CodeBlock, "int");
-
-    scopeStack[scope_idx] = root;
-    current = scopeStack[scope_idx];
-    defineRSLSymbols(root);
-
-    ritTempFile = fopen("rix_temp_file.rit", "wi");
-    if (ritTempFile == 0)
-    {
-        return 0;
-    }
-
-    readFile("rsl/rsl.rit", ritTempFile, &numline);
-
-    //compilerDebugPrintf("Lines read %d\n", numline);
-    g_headerLines = numline;
-
-    //Read mainfile
-    readFile("rix_temp_file.rit", ritTempFile, &numline);
-
-    fprintf(ritTempFile, "\n"); //END OF FILE GUARANTEE!
-    fclose(ritTempFile);
-
-    file = fopen("rix_temp_file.rit", "r+");
-
-    yyin = file;
-
-    hitEOF = false;
-    while (!hitEOF)
-    {
-        yyparse();
-    }
-
-    // Reassign input pointer
-    err = errors_array;
-    *errnum = e_count;
-    if (e_count > 0)
-        *work_status = 0;
-    return 1;
-}
-
-void sendError(Error *e)
-{
-
-    int i;
-    int used = 0;
-    int size = e_count;
-    Error **errs = (Error **) malloc(sizeof(Error) * size);
-
-    for(i = 0; i < size; i++)
-    {
-        if(i == (size - 1))
-            errs[i] = e;
-        else
-            errs[i] = errors_array[i];
-        used++;
-    }
-
-    errors_array = errs;
-}
-
+/** This is the old main method. Uncomment for modified purpose */
+/*
 int main_old(int argc, char **argv)
 {
     int c, i, fd, old_stdout;
@@ -2171,7 +2084,7 @@ int main_old(int argc, char **argv)
             ofile = optarg;
             break;
 
-        case ':':              /* -f or -o without operand */
+        case ':':              // -f or -o without operand
             fprintf(stderr, "Option -%c requires an operand\n", optopt);
             errflg++;
             break;
@@ -2305,4 +2218,94 @@ int main_old(int argc, char **argv)
     //compilerDebugPrintf("\n%s compiled successfully.\n", ifile);
 
     return 0;
+}*/
+
+
+/** MODIFIED METHODS START HERE **/
+int errorDetect(Error **err, int *errnum, const char *doc)
+{
+    FILE *ritTempFile;
+    FILE *ifile;
+    int numline = 0;
+    g_headerLines = 0;
+
+    ifile = fopen("temp_parse_file.rit", "r+");
+    int result = fputs(doc, ifile);
+    if(result == 0)
+    {
+        return 0;
+    }
+
+    fseek(ifile, 0, SEEK_SET);
+    if (ifile == NULL)
+    {
+        errorMsg("No file to compile\n");
+        criticalError(ERROR_ParseError, "No file to compile specified");
+    }
+    else
+    {
+        file = fopen("temp_parse_file.rit", "r");
+    }
+
+    root = CreateObject("RootScope", "RootScope", 0, CodeBlock, "int");
+
+    scopeStack[scope_idx] = root;
+    current = scopeStack[scope_idx];
+    defineRSLSymbols(root);
+
+    ritTempFile = fopen("rix_temp_file.rit", "wi");
+    if (ritTempFile == 0)
+    {
+        return 0;
+    }
+
+    readFile("rsl/rsl.rit", ritTempFile, &numline);
+
+    //compilerDebugPrintf("Lines read %d\n", numline);
+    g_headerLines = numline;
+
+    //Read mainfile
+    readFile("rix_temp_file.rit", ritTempFile, &numline);
+
+    fprintf(ritTempFile, "\n"); //END OF FILE GUARANTEE!
+    fclose(ritTempFile);
+
+    file = fopen("rix_temp_file.rit", "r+");
+
+    yyin = file;
+
+    hitEOF = false;
+    while (!hitEOF)
+    {
+        yyparse();
+    }
+
+    // Reassign input pointer
+    err = errors_array;
+    *errnum = e_count;
+    return 1;
+}
+
+void sendError(Error *e)
+{
+
+    int i;
+    int used = 0;
+    int size = e_count;
+    Error **errs = (Error **) malloc(sizeof(Error) * size);
+
+    for(i = 0; i < size; i++)
+    {
+        if(i == (size - 1))
+        {
+            errs[i] = e;
+        }
+        else
+        {
+            errs[i] = errors_array[i];
+        }
+        used++;
+    }
+
+    errors_array = errs;
 }
