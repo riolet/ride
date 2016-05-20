@@ -30,13 +30,14 @@ int main(int argc, char **argv)
     int        *error_number;
     int doc, err;
 
-    printf("Running parser.\n");
-    
+    printf("Running parser!\n");
+
+    /**
+    * Start to map semaphore struc with shared memory
+    */
     while (true)
     {
-        /**
-        * Start to map semaphore struc with shared memory
-        */
+
         sem_doc.sem         = sem_open(SEM_CODE,  0);
         sem_doc.fd          = shm_open(SHARED_CODE, O_RDONLY, 0666);
         sem_doc.content     = (char *) mmap(0, 10240, PROT_READ, MAP_SHARED, sem_doc.fd,   0);
@@ -53,8 +54,8 @@ int main(int argc, char **argv)
                 || sem_error.fd == -1
                 || sem_error.errNumber == -1)
         {
-            fprintf(stderr, "The program could not start, error with shared memory.\n");
-            return 1;
+            fprintf(stderr, "Parser could not start, error with shared memory.\n");
+            // return 1;
         }
         else
         {
@@ -69,11 +70,12 @@ int main(int argc, char **argv)
      */
     while (true)
     {
+        printf("Waiting on document.\n");
         sem_wait(sem_doc.sem);
-
+        printf("Woken up.\n");
         // Doing stuff
         errorDetect(sem_error.content, &(sem_error.errNumber), sem_doc.content);
-
+        printf("Error detection finished.\n");
         sem_post(sem_error.sem);
     }
 

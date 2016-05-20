@@ -11,6 +11,7 @@
 
 struct semaphore_request  sem_doc;
 struct semaphore_response sem_error;
+pid_t child;
 
 void sig_chld (int signo)
 {
@@ -22,6 +23,8 @@ void sig_chld (int signo)
 
 int main(int argc, char *argv[])
 {
+    int* err_num;
+
     sem_doc.sem   = sem_open(SEM_CODE,  O_CREAT, 0600, 0);
     sem_error.sem = sem_open(SEM_ERROR, O_CREAT, 0600, 0);
 
@@ -51,8 +54,8 @@ int main(int argc, char *argv[])
 
     do // Sometimes semaphores screw up, use this to reset it back to normal
     {
-        sem_getvalue(sem_doc.sem, &err);
-        if(err < 1)
+        sem_getvalue(sem_error.sem, &err);
+        if(err < 0)
         {
             sem_post(sem_error.sem);
         }
@@ -62,7 +65,7 @@ int main(int argc, char *argv[])
         }
 
     }
-    while(doc != 0);
+    while(err != 0);
 
     //Parent
     sem_doc.fd   = shm_open(SHARED_CODE,  O_RDWR | O_CREAT | O_TRUNC, 0666);
@@ -101,18 +104,21 @@ int main(int argc, char *argv[])
 
     // Signaling method, call it to wait for the child if it terminate
     signal (SIGCHLD, sig_chld);
-    if (fork() == 0)
+
+    /*child = fork();
+    if (child == 0)
     {
 
+        //system("make rider-parser/make parser");
+        //("./parser", ">cout.txt", "2>cerr.txt",(char *)0);
+
         //system("gcc ../parser.c -lpthread -lrt -o parser");
-        execl("./../ride_gui/ride_parser/rixc", (char *)0);
+        printf("Go.\n");
+        execl("./parser >cout.txt 2>cerr.txt", (char *)0);
 
         // THE CHILD WILL NEVER REACH HERE, IT IS REPLACED ENTIRELY
         return 0;
-    }
-
-    //sem_destroy(sem_doc.sem);
-    //sem_destroy(sem_error.sem);
+    }*/
 
     QApplication a(argc, argv);
     MainWindow w;

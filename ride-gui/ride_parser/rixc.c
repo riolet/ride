@@ -2229,8 +2229,14 @@ int errorDetect(Error **err, int *errnum, const char *doc)
     int numline = 0;
     g_headerLines = 0;
 
-    ifile = fopen("temp_parse_file.rit", "r+");
-    int result = fputs(doc, ifile);
+    ifile = fopen("temp_parse_file.rit", "w+");
+    
+    if(ifile == NULL)
+    {
+        perror("ifile");
+    }
+    
+    int result = fprintf(ifile, "%s", doc);
     if(result == 0)
     {
         return 0;
@@ -2245,6 +2251,11 @@ int errorDetect(Error **err, int *errnum, const char *doc)
     else
     {
         file = fopen("temp_parse_file.rit", "r");
+        if(file == NULL)
+        {
+            fprintf(stderr, "Failed to open the temp_parse_file for reading.\n");
+            return 0;
+        }
     }
 
     root = CreateObject("RootScope", "RootScope", 0, CodeBlock, "int");
@@ -2253,12 +2264,18 @@ int errorDetect(Error **err, int *errnum, const char *doc)
     current = scopeStack[scope_idx];
     defineRSLSymbols(root);
 
-    ritTempFile = fopen("rix_temp_file.rit", "wi");
-    if (ritTempFile == 0)
+    ritTempFile = fopen("rix_temp_file.rit", "w+");
+    if (ritTempFile == NULL)
     {
+        fprintf(stderr, "Failed to open the rix_temp_file for writing.\n");
         return 0;
     }
 
+    outCompilerLogFile  = fopen("out.log",  "w");
+    outMainFile         = fopen("out.c",    "w");
+    outHeaderFile       = fopen("out.h",    "w");
+    outMakeFile         = fopen("out.log",  "w");    
+    
     readFile("rsl/rsl.rit", ritTempFile, &numline);
 
     //compilerDebugPrintf("Lines read %d\n", numline);
@@ -2271,6 +2288,11 @@ int errorDetect(Error **err, int *errnum, const char *doc)
     fclose(ritTempFile);
 
     file = fopen("rix_temp_file.rit", "r+");
+    if(file == NULL)
+    {
+        fprintf(stderr, "failed to open rix_temp_file.rit.\n");
+        return 0;
+    }
 
     yyin = file;
 
@@ -2282,7 +2304,15 @@ int errorDetect(Error **err, int *errnum, const char *doc)
 
     // Reassign input pointer
     err = errors_array;
+    printf("Changed error count to: [%d].\n", e_count);
     *errnum = e_count;
+    printf("errnum is: [%d].\n", *errnum);
+
+    fclose(file);
+    fclose(outMainFile);
+    fclose(outHeaderFile);
+    fclose(outMakeFile);
+
     return 1;
 }
 
