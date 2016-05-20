@@ -69,9 +69,8 @@ int main(int argc, char *argv[])
     //Parent
     sem_doc.fd   = shm_open(SHARED_CODE,  O_RDWR | O_CREAT | O_TRUNC, 0666);
     sem_error.fd = shm_open(SHARED_ERROR, O_RDWR | O_CREAT | O_TRUNC, 0666);
-    sem_error.errNumber = shm_open(SHARED_ERR_NUM, O_RDWR | O_CREAT | O_TRUNC, 0666);
 
-    if (sem_doc.fd == -1 || sem_error.fd == -1 || sem_error.errNumber == -1)
+    if (sem_doc.fd == -1 || sem_error.fd == -1)
     {
         perror("Shared memory creation");
         return 1;
@@ -110,6 +109,9 @@ int main(int argc, char *argv[])
 
         system("make rider-parser/make parser");
         ("./parser", (char *)0);
+
+        //system("gcc ../parser.c -lpthread -lrt -o parser");
+        execl("./ride_parser/parser", (char *)0);
 
         // THE CHILD WILL NEVER REACH HERE, IT IS REPLACED ENTIRELY
         return 0;

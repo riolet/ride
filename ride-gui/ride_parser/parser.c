@@ -27,8 +27,6 @@ int main(int argc, char **argv)
 {
     char        word_doc_buffer[10023];
     Error     **error_array;
-    int        *error_number;
-
 
     /**
     * Start to map semaphore struc with shared memory
@@ -41,8 +39,7 @@ int main(int argc, char **argv)
         sem_doc.content     = (char *) mmap(0, 10240, PROT_READ, MAP_SHARED, sem_doc.fd,   0);
 
         sem_error.sem       = sem_open(SEM_ERROR, 0);
-        sem_error.fd        = shm_open(SHARED_ERROR, O_RDONLY, 0666);
-        sem_error.errNumber = shm_open(SHARED_ERR_NUM, O_RDWR | O_TRUNC, 0666);
+        sem_error.fd        = shm_open(SHARED_ERROR, O_RDWR, 0666);
         sem_error.content   = (Error **) mmap(0, 10240, PROT_READ, MAP_SHARED, sem_error.fd, 0);
 
 
@@ -71,10 +68,8 @@ int main(int argc, char **argv)
     {
         sem_wait(sem_doc.sem);
 
-        error_number = &(sem_error.errNumber);
-
         // Doing stuff
-        errorDetect(sem_error.content, error_number, sem_doc.content);
+        errorDetect(sem_error.content, &(sem_error.errNumber), sem_doc.content);
 
         sem_post(sem_error.sem);
     }
