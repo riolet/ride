@@ -30,7 +30,8 @@ int main(int argc, char **argv)
     int        *error_number;
     int doc, err;
 
-
+    printf("Running parser.\n");
+    
     while (true)
     {
         /**
