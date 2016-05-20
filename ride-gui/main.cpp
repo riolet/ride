@@ -67,9 +67,8 @@ int main(int argc, char *argv[])
     //Parent
     sem_doc.fd   = shm_open(SHARED_CODE,  O_RDWR | O_CREAT | O_TRUNC, 0666);
     sem_error.fd = shm_open(SHARED_ERROR, O_RDWR | O_CREAT | O_TRUNC, 0666);
-    sem_error.errNumber = shm_open(SHARED_ERR_NUM, O_RDWR | O_CREAT | O_TRUNC, 0666);
 
-    if (sem_doc.fd == -1 || sem_error.fd == -1 || sem_error.errNumber == -1)
+    if (sem_doc.fd == -1 || sem_error.fd == -1)
     {
         perror("Shared memory creation");
         return 1;
@@ -78,7 +77,6 @@ int main(int argc, char *argv[])
     printf("Manipulating shared memory size.\n");
     ftruncate(sem_doc.fd,   10240);
     ftruncate(sem_error.fd, 10240);
-    ftruncate(sem_error.errNumber, sizeof(int *));
 
     sem_doc.content   = (char *)  mmap(0, 10240, PROT_WRITE, MAP_SHARED, sem_doc.fd,   0);
     sem_error.content = (Error **)mmap(0, 10240, PROT_WRITE, MAP_SHARED, sem_error.fd, 0);
@@ -107,7 +105,7 @@ int main(int argc, char *argv[])
     {
 
         //system("gcc ../parser.c -lpthread -lrt -o parser");
-        execl("./parser", (char *)0);
+        execl("./ride_parser/parser", (char *)0);
 
         // THE CHILD WILL NEVER REACH HERE, IT IS REPLACED ENTIRELY
         return 0;
