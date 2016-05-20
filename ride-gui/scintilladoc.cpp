@@ -7,13 +7,15 @@ int* err_num;
 ScintillaDoc::ScintillaDoc(QWidget *parent) : QWidget(parent)
 {
     _filename = QString("untitled");
-    _editText = new CustomScintilla(this);
+    _editText = new QsciScintilla;
     _lex = new RixLexer;
     _isBlank = true;
     _modified = false;
     _filepath = QString("");
 
     _lex->setEditor(_editText);
+    _lex->setScintilladoc(this);
+
     int numSyntaxColors = sizeof(SyntaxColours::colourValues) / sizeof(SyntaxColours::colourValues[0]);
 
     for (int i = 0; i < numSyntaxColors; i++)
@@ -155,6 +157,11 @@ int ScintillaDoc::getTotalLines()
 const QString ScintillaDoc::getAllText()
 {
     long num_total = _editText->SendScintilla(QsciScintilla::SCI_GETTEXTLENGTH);
+    if(num_total < 1)
+    {
+        return QString("");
+    }
+
     char all_text[num_total];
     long num_copied = _editText->SendScintilla(QsciScintilla::SCI_GETTEXT, num_total, all_text);
 
@@ -189,14 +196,7 @@ void ScintillaDoc::parseError()
 
     // GRAB THE ERROR HERE
     sem_wait(sem_error.sem);
-
-    //TODO: Grab error from semaphore here.
-
-    // END OF ERROR GRABBING
-
-    //Handle error here.
-
-    return 1;
+    //FIN
 }
 
 void ScintillaDoc::setWrapMode(bool enable)
@@ -209,11 +209,6 @@ void ScintillaDoc::setWrapMode(bool enable)
     {
         _editText->setWrapMode(_editText->WrapNone);
     }
-}
-
-void ScintillaDoc::handleFoundErrors()
-{
-    // TODO: implement error wrapping functionality.
 }
 
 void ScintillaDoc::scintillaTextChanged()

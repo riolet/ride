@@ -32,8 +32,6 @@ MainWindow::MainWindow(QWidget *parent) :
     setupTheme();
     setupCompiler();
     setupShortcuts(); //Not active atm
-
-    cur_doc->parseError();
 }
 
 MainWindow::~MainWindow()

@@ -6,12 +6,9 @@
 #include <QMessageBox>
 #include "globals.h"
 #include "lexershare.h"
-#include "customscintilla.h"
 
 #define ZOOM_FACTOR 2
 #define MARGIN_WIDTH QString("123456")
-
-class CustomScintilla;
 
 class ScintillaDoc : public QWidget
 {
@@ -54,10 +51,8 @@ private slots:
     // Stops signals from being sent too many times.
     void scintillaTextChanged();
 
-    void handleFoundErrors(); //incomplete function
-
 public: // public variables
-    CustomScintilla*    _editText;
+    QsciScintilla*      _editText;
     QString             _filename;
     QString             _filepath;
     QString             _errorString;
