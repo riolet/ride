@@ -21,7 +21,7 @@ public:
     QString description(int style) const;
     const char* language() const;
     const char* lexer() const;
-    \
+
 private slots:
     void handleStyleNeeded(int pos);
     void handleCharAdded(int pos);
