@@ -12,6 +12,7 @@
 extern int yylex();
 extern int yyparse();
 extern FILE *yyin;
+extern Error **errors_array;
 
 void defineRSLSymbols(Object *);
 
@@ -78,7 +79,22 @@ Object *createCodeBlock(Object *expression);
 float simplifyfloat(float left, char *op, float right);
 int simplifyInt(int left, char *op, int right);
 
-int errorDetect(Error **err, int *errnum, const char *doc, int *working);
+/**
+ * @brief      Parse a document text and detect error if it's existed
+ *
+ * @param      err     the array errors
+ * @param      errnum  the number of errors
+ * @param[in]  doc     the original document
+ *
+ * @return     { description_of_the_return_value }
+ */
+int errorDetect(Error **err, int *errnum, const char *doc);
+
+/**
+ * @brief      This is a callback method for error class. This method add an error into global error array and update the counter.
+ *
+ * @param      e     the error that is returned from the parser
+ */
 void sendError(Error *e);
 
 #endif

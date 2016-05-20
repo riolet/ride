@@ -18,4 +18,6 @@
 #include <stdio.h>
 #include "ride_parser/parser_sem.h" //Contains the semaphores for the parser.
 
+extern pid_t child;
+
 #endif // GLOBALS_H
