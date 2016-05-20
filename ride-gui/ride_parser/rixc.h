@@ -12,6 +12,7 @@
 extern int yylex();
 extern int yyparse();
 extern FILE *yyin;
+extern Error **errors_array;
 
 void defineRSLSymbols(Object *);
 

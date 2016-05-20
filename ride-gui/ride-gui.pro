@@ -43,8 +43,7 @@ HEADERS += \
     compilerhandler.h \
     rixlexer.h \
     lexershare.h \
-    syntaxcolours.h \
-    ride_parser/parser_sem.h
+    syntaxcolours.h
 
 flexsource.input = FLEXSOURCES
 flexsource.output = ${QMAKE_FILE_BASE}.cpp

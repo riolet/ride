@@ -86,7 +86,7 @@ void RixLexer::handleFoundErrors()
     int     start;
     int     num;
 
-    int errors = (*sem_error.errNumber);
+    int errors = sem_error.errNumber;
 
     while(errors > 0)
     {

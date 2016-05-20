@@ -27,6 +27,10 @@ int main(int argc, char **argv)
 {
     char        word_doc_buffer[10023];
     Error     **error_array;
+    int        *error_number;
+    int doc, err;
+
+    printf("Running parser!\n");
 
     /**
     * Start to map semaphore struc with shared memory
@@ -66,11 +70,12 @@ int main(int argc, char **argv)
      */
     while (true)
     {
+        printf("Waiting on document.\n");
         sem_wait(sem_doc.sem);
-
+        printf("Woken up.\n");
         // Doing stuff
         errorDetect(sem_error.content, &(sem_error.errNumber), sem_doc.content);
-
+        printf("Error detection finished.\n");
         sem_post(sem_error.sem);
     }
 
