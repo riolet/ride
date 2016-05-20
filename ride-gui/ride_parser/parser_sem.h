@@ -6,6 +6,7 @@
 
 #define SHARED_CODE     "/code"
 #define SHARED_ERROR    "/error"
+#define SHARED_ERR_NUM	"/error_num"
 #define SEM_CODE        "/codesem"
 #define SEM_ERROR       "/errsem"
 
@@ -30,7 +31,7 @@ struct semaphore_response
     Error   **content;
 };
 
-
 extern struct semaphore_request sem_doc;
 extern struct semaphore_response sem_error;
+
 #endif //PARSER_SEM_H

@@ -2144,6 +2144,7 @@ void sendError(Error *e)
     errors_array = errs;
 }
 
+/*
 int main_old(int argc, char **argv)
 {
     int c, i, fd, old_stdout;
@@ -2306,3 +2307,4 @@ int main_old(int argc, char **argv)
 
     return 0;
 }
+*/
