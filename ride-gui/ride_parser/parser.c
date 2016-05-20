@@ -31,8 +31,8 @@ int main(int argc, char **argv)
 
 
     /**
-           * Start to map semaphore struc with shared memory
-           */
+    * Start to map semaphore struc with shared memory
+    */
     while (true)
     {
 
