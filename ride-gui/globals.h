@@ -9,5 +9,13 @@
 #include <QFont>
 #include <Qsci/qsciscintilla.h>
 #include <QDebug>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <sys/stat.h>        // For mode constants
+#include <fcntl.h>           // For O_* constants
+#include <stdio.h>
+#include "ride_parser/parser_sem.h" //Contains the semaphores for the parser.
 
 #endif // GLOBALS_H
