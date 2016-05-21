@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
 
         //system("gcc ../parser.c -lpthread -lrt -o parser");
         printf("Go.\n");
-        execl("./parser >cout.txt 2>cerr.txt", (char *)0);
+        execl("./parser", (char *)0);
 
         // THE CHILD WILL NEVER REACH HERE, IT IS REPLACED ENTIRELY
         return 0;
