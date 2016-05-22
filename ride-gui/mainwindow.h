@@ -23,10 +23,10 @@
 #include <QTreeView>
 #include <string>
 #include "globals.h"
-#include "scintilladoc.h"
+#include "Scintilla/scintilladoc.h"
 #include "aboutdialog.h"
-#include "compilerhandler.h"
-#include "themehandler.h"
+#include "Compiler/compilerhandler.h"
+#include "Scintilla/themehandler.h"
 
 namespace Ui {
     class MainWindow;
@@ -67,6 +67,10 @@ private slots:
 
     bool displayUnsavedChanges();
 
+    bool displaySaveOrIgnoreChanges();
+
+    void displayErrorMessage(const QString &title, const QString &msg);
+
     bool saveAs();
 
     bool save();
@@ -77,7 +81,7 @@ private slots:
 
     void gotoLine();
 
-    void runCompiler();
+    bool runCompiler();
 
     void closeEvent(QCloseEvent *event); // Override of standard Qt M
 

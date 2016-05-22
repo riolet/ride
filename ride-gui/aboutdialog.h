@@ -12,7 +12,9 @@ class AboutDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AboutDialog(const QString &title, const QString &body, QWidget *parent = 0);
+    explicit AboutDialog(const QString &title,
+                         const QString &body,
+                         QWidget *parent = 0);
     ~AboutDialog();
 
 private:

@@ -206,18 +206,22 @@ void MainWindow::gotoLine()
     }
 }
 
-void MainWindow::runCompiler()
+bool MainWindow::runCompiler()
 {
     clearCompilerMessages();
+
     if(cur_doc->isBlank())
     {
-        compiler->compileRixFile();
+        displayErrorMessage(QString("Compiler"), QString("Save your file before compiling."));
+        return false;
     }
-    else
+    else if(cur_doc->isModified())
     {
-        compiler->compileRixFile(cur_doc);
+        displaySaveOrIgnoreChanges();
     }
 
+    compiler->compileRixFile(cur_doc);
+    return true;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -360,6 +364,36 @@ bool MainWindow::displayUnsavedChanges()
     } while(!flag);
 
     return quit;
+}
+
+bool MainWindow::displaySaveOrIgnoreChanges()
+{
+    bool savedChanges = false;
+
+    QMessageBox msgBox;
+    msgBox.setText("The document has been previously modified.");
+    msgBox.setInformativeText("Do you want to save your changes?");
+    msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Ignore);
+    msgBox.setDefaultButton(QMessageBox::Save);
+
+    int ret = msgBox.exec();
+    switch(ret)
+    {
+    case QMessageBox::Save:
+        savedChanges = save();
+        break;
+
+    case QMessageBox::Ignore:
+        savedChanges = false;
+        break;
+    }
+
+    return savedChanges;
+}
+
+void MainWindow::displayErrorMessage(const QString &title, const QString &msg)
+{
+    QMessageBox::warning(this, title, msg);
 }
 
 void MainWindow::loadFile(QString filepath)

@@ -103,7 +103,7 @@ bool ScintillaDoc::saveFile(QString newFilePath)
 
 bool ScintillaDoc::saveAs(QString filepath)
 {
-    if (filepath.isEmpty())
+    if (filepath.isEmpty() || filepath.isNull())
         return false;
 
     _file = new QFile(filepath);
@@ -199,6 +199,7 @@ void ScintillaDoc::parseError()
     //FIN
 }
 
+// Working but it is not implemented yet.
 void ScintillaDoc::setWrapMode(bool enable)
 {
     if(enable)

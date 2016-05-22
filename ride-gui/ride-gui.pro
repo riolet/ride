@@ -13,13 +13,13 @@ LIBS += -lpthread
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    scintilladoc.cpp \
+    Scintilla/scintilladoc.cpp \
     aboutdialog.cpp \
-    compilerhandler.cpp \
-    rixlexer.cpp \
-    themehandler.cpp
+    Compiler/compilerhandler.cpp \
+    Scintilla/rixlexer.cpp \
+    Scintilla/themehandler.cpp
 
-FLEXSOURCES = lex.l
+FLEXSOURCES = Scintilla/lex.l
 
 OTHER_FILES += \
     $$FLEXSOURCES
@@ -36,14 +36,14 @@ FORMS += \
 
 HEADERS += \
     mainwindow.h \
-    scintilladoc.h \
+    Scintilla/scintilladoc.h \
     globals.h \
     aboutdialog.h \
-    themehandler.h \
-    compilerhandler.h \
-    rixlexer.h \
-    lexershare.h \
-    syntaxcolours.h
+    Scintilla/themehandler.h \
+    Compiler/compilerhandler.h \
+    Scintilla/rixlexer.h \
+    Scintilla/lexershare.h \
+    Scintilla/syntaxcolours.h
 
 flexsource.input = FLEXSOURCES
 flexsource.output = ${QMAKE_FILE_BASE}.cpp
