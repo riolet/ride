@@ -72,8 +72,8 @@ void RixLexer::handleCharAdded(int pos)
     }
     else if(currentChar[0] == '\n')
     {
-        _scint->parseError();
-        handleFoundErrors();
+        //_scint->parseError();
+        //handleFoundErrors();
     }
 }
 
@@ -144,6 +144,12 @@ QString RixLexer::description(int style) const
         return "Terminated multi-line comment";
     case 13:
         return "Unterminated multi-line comment";
+    case 14:
+        return "Function declaration";
+    case 15:
+        return "Return type";
+    case 16:
+        return "Function call";
     default:
         return "Unknown";
     }

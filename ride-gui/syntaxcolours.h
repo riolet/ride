@@ -3,26 +3,26 @@
 
 namespace SyntaxColours {
 
-    static int Default          = -1;
-    static int Noncoloured      = 0;
-    static int Integer          = 1;
-    static int Float            = 2;
-    static int Int              = 3;
-    static int String           = 4;
-    static int Char             = 5;
-    static int Class            = 6;
-    static int Scope            = 7;
-    static int Keyword          = 8;
-    static int Return           = 9;
-    static int Identifier       = 10;
-    static int Comm             = 11;
-    static int MultiComm        = 12;
-    static int UnterMultiComm   = 13;
-    static int FunctionDecl     = 14;
-    static int ReturnType       = 15;
-    static int FunctionCall     = 16;
+    const int Default          = -1;
+    const int Noncoloured      = 0;
+    const int Integer          = 1;
+    const int Float            = 2;
+    const int Int              = 3;
+    const int String           = 4;
+    const int Char             = 5;
+    const int Class            = 6;
+    const int Scope            = 7;
+    const int Keyword          = 8;
+    const int Return           = 9;
+    const int Identifier       = 10;
+    const int Comm             = 11;
+    const int MultiComm        = 12;
+    const int UnterMultiComm   = 13;
+    const int FunctionDecl     = 14;
+    const int ReturnType       = 15;
+    const int FunctionCall     = 16;
 
-    static int colourValues[17] = {
+    const int colourValues[17] = {
         (0 | (0 << 8) | (0 << 16)),     // Noncoloured
         (0 | (0 << 8) | (255 << 16)),   // Integer
         (0 | (0 << 8) | (255 << 16)),   // Float
@@ -33,7 +33,7 @@ namespace SyntaxColours {
         (0 | (0 << 8) | (0 << 16)),     // Scope
         (0 | (0 << 8) | (255 << 16)),   // Keyword
         (0 | (0 << 8) | (255 << 16)),   // Return
-        (0 | (0 << 8) | (0 << 16)), // Identifier
+        (0 | (0 << 8) | (0 << 16)),     // Identifier
         (0 | (0 << 8) | (0 << 16)),     // Comm
         (0 | (0 << 8) | (0 << 16)),     // MultiComm
         (0 | (0 << 8) | (0 << 16)),     // UnterMultiComm

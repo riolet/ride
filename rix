@@ -3,7 +3,6 @@
 #   IN THE COMPILED RIX FOLDER
 RIX_HOME=${RIX_HOME:-.}
 RIX_FILE=${1}
-echo "...BEGIN..."
 #Grab the rix file's fullpath and directory
 RIX_FILE_PATH=$( readlink -f "$RIX_FILE" )
 RIX_FILE_DIR=$( dirname "$RIX_FILE" )
@@ -12,7 +11,6 @@ RIX_FILE_DIR=$( dirname "$RIX_FILE" )
 
 #Tyler's modifications
 ${RIX_HOME}/rixc -q -o ${RIX_FILE_PATH} ${RIX_FILE}
-echo "$RIX_FILE"
 if [ $? -eq 0 ]; then
 	chmod +x ${RIX_FILE}.sh
 	${RIX_FILE}.sh

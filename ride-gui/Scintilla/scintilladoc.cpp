@@ -1,3 +1,36 @@
+/*===============================================================================
+SOURCE FILE:    scintilladoc.cpp 
+                    Definition file dedicated to handling all operations within 
+                    the scintilla document and the files that represent them.
+
+PROGRAM:        Ride
+
+FUNCTIONS:      explicit ScintillaDoc(QWidget *parent = 0);
+                bool loadFile(QString filepath);
+                bool saveFile(QString newFilePath = QString(""));
+                bool saveAs(QString filepath);
+                void clearTextArea();
+                bool isBlank();
+                bool isModified();
+                void zoom_in();
+                void zoom_out();
+                void gotoLine(int line);
+                int getTotalLines();
+                const QString getAllText();
+                void setWrapMode(bool enable);
+                void scintillaTextChanged();
+
+QT SIGNALS:     void textChanged();
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+NOTES:
+This source file defines all of the functions that are declared inside of the
+scintilla.h file. The purpose of this class is to encapsulate all methods
+that deal with the text edit surface, seperating the concerns of the 
+mainwindow and scintilla.
+===============================================================================*/
+
 #include "scintilladoc.h"
 #include "syntaxcolours.h"
 
@@ -103,7 +136,7 @@ bool ScintillaDoc::saveFile(QString newFilePath)
 
 bool ScintillaDoc::saveAs(QString filepath)
 {
-    if (filepath.isEmpty())
+    if (filepath.isEmpty() || filepath.isNull())
         return false;
 
     _file = new QFile(filepath);
@@ -187,7 +220,7 @@ void ScintillaDoc::parseError()
     printf("Sem wait, writing to document.\n");
 
     printf("Writing to shared memory\n");
-    sprintf(sem_doc.content, text.toStdString().c_str());
+    sprintf(sem_doc.content, "%s", text.toStdString().c_str());
     printf("Sem post, finished writing to document.\n");
 
     sem_post(sem_doc.sem);
@@ -199,6 +232,7 @@ void ScintillaDoc::parseError()
     //FIN
 }
 
+// Working but it is not implemented yet.
 void ScintillaDoc::setWrapMode(bool enable)
 {
     if(enable)
