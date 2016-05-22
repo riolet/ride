@@ -156,6 +156,8 @@ void MainWindow::open()
 
 void MainWindow::newFile()
 {
+
+    // Prompt for user action
     bool flag = false;
     if(cur_doc->isModified())
     {
@@ -164,7 +166,17 @@ void MainWindow::newFile()
         if(!flag) // User decided to cancel this operation.
             return;
     }
+    else if(!cur_doc->isBlank() && !cur_doc->isModified())
+    {
+        QString title("Close the current file");
+        QString msg("Are you sure you want to close the current file?");
+        flag = displayAreYouSure(title, msg);
 
+        if(!flag) // User decided to cancel this operation.
+            return;
+    }
+
+    // Accomplish the task of clearing the scintilla text field.
     if(!cur_doc->isBlank() && textEditList.size() > 0)
     {
         // Removes all old documents
@@ -366,6 +378,31 @@ bool MainWindow::displayUnsavedChanges()
     } while(!flag);
 
     return quit;
+}
+
+bool MainWindow::displayAreYouSure(const QString &title, const QString &msg)
+{
+    bool flag = false;
+
+    QMessageBox msgBox;
+    msgBox.setText(title);
+    msgBox.setInformativeText(msg);
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+
+    int ret = msgBox.exec();
+    switch(ret)
+    {
+    case QMessageBox::Yes:
+        flag = true;
+        break;
+
+    case QMessageBox::No:
+        flag = false;
+        break;
+    }
+
+    return flag;
 }
 
 bool MainWindow::displaySaveOrIgnoreChanges()

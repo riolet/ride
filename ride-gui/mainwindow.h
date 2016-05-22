@@ -302,6 +302,22 @@ Prompts the user with three actions:
 ===============================================================================*/
     bool displayUnsavedChanges();
 
+/*===============================================================================
+FUNCTION:       display Are You Sure
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      bool displayAreYouSure (const QString &title,
+                                        const QString &msg)
+
+RETURNS:        Void
+
+NOTES:
+Prompts the user with a yes or no question. Uses the title and the message to
+construct the message box.
+===============================================================================*/
+     bool displayAreYouSure(const QString &title, const QString &msg);
+
     
 /************************************* 
         Standard IDE functions

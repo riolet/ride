@@ -51,7 +51,7 @@ NOTES:
 Creates a child process to carry out the rix file compilation and reads in the
 newly creating compilation messages.
 ===============================================================================*/
-    void compileRixFile(ScintillaDoc* doc = NULL);
+    bool compileRixFile(ScintillaDoc* doc = NULL);
 
 /*===============================================================================
 FUNCTION: 		Read Compiler Output
