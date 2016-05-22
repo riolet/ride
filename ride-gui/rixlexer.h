@@ -8,7 +8,7 @@
 #include <Qsci/qscistyle.h>
 #include <stdio.h>
 
-#include "scintilladoc.h"
+#include "Scintilla/scintilladoc.h"
 
 extern void scan_string(const char* str);
 class ScintillaDoc;

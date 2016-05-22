@@ -156,10 +156,31 @@ void MainWindow::open()
 
 void MainWindow::newFile()
 {
+
+    // Prompt for user action
+    bool flag = false;
+    if(cur_doc->isModified())
+    {
+        flag = displayUnsavedChanges();
+
+        if(!flag) // User decided to cancel this operation.
+            return;
+    }
+    else if(!cur_doc->isBlank() && !cur_doc->isModified())
+    {
+        QString title("Close the current file");
+        QString msg("Are you sure you want to close the current file?");
+        flag = displayAreYouSure(title, msg);
+
+        if(!flag) // User decided to cancel this operation.
+            return;
+    }
+
+    // Accomplish the task of clearing the scintilla text field.
     if(!cur_doc->isBlank() && textEditList.size() > 0)
     {
-        int last_ele = ui->tabWidget_scintilla->count() - 1;
         // Removes all old documents
+        int last_ele = ui->tabWidget_scintilla->count() - 1;
         do
         {
             ui->tabWidget_scintilla->removeTab(last_ele);
@@ -178,17 +199,9 @@ void MainWindow::newFile()
     }
     else
     {
-        bool clearDoc = false;
-        // Force user to make a decision on keeping or discarding changes.
-
-        clearDoc = displayUnsavedChanges();
-
-        if(clearDoc)
-        {
-            // Simply just clean up the current blank document.
-            cur_doc->clearTextArea();
-            setDocumentModified(false);
-        }
+        // Simply just clean up the current blank document.
+        cur_doc->clearTextArea();
+        setDocumentModified(false);
     }
 }
 
@@ -206,18 +219,21 @@ void MainWindow::gotoLine()
     }
 }
 
-void MainWindow::runCompiler()
+bool MainWindow::runCompiler()
 {
     clearCompilerMessages();
+
     if(cur_doc->isBlank())
     {
-        compiler->compileRixFile();
+        displayErrorMessage(QString("Compiler"), QString("Save your file before compiling."));
+        return false;
     }
-    else
+    else if(cur_doc->isModified())
     {
-        compiler->compileRixFile(cur_doc);
+        displaySaveOrIgnoreChanges();
     }
 
+    return compiler->compileRixFile(cur_doc);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -230,7 +246,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
     // Ensure that the doc is garbage before we post it.
     sprintf(sem_doc.content, "\0\0\0\0\0");
 
-    Error** temp = sem_error.content;
+    Error** temp = sem_error.content; //Used to see the contents of sem_error
+    Q_UNUSED(temp)
+
     sem_post(sem_doc.sem); // Unblock the child.
     //kill(child, SIGTERM);
 
@@ -360,6 +378,61 @@ bool MainWindow::displayUnsavedChanges()
     } while(!flag);
 
     return quit;
+}
+
+bool MainWindow::displayAreYouSure(const QString &title, const QString &msg)
+{
+    bool flag = false;
+
+    QMessageBox msgBox;
+    msgBox.setText(title);
+    msgBox.setInformativeText(msg);
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+
+    int ret = msgBox.exec();
+    switch(ret)
+    {
+    case QMessageBox::Yes:
+        flag = true;
+        break;
+
+    case QMessageBox::No:
+        flag = false;
+        break;
+    }
+
+    return flag;
+}
+
+bool MainWindow::displaySaveOrIgnoreChanges()
+{
+    bool savedChanges = false;
+
+    QMessageBox msgBox;
+    msgBox.setText("The document has been previously modified.");
+    msgBox.setInformativeText("Do you want to save your changes?");
+    msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Ignore);
+    msgBox.setDefaultButton(QMessageBox::Save);
+
+    int ret = msgBox.exec();
+    switch(ret)
+    {
+    case QMessageBox::Save:
+        savedChanges = save();
+        break;
+
+    case QMessageBox::Ignore:
+        savedChanges = false;
+        break;
+    }
+
+    return savedChanges;
+}
+
+void MainWindow::displayErrorMessage(const QString &title, const QString &msg)
+{
+    QMessageBox::warning(this, title, msg);
 }
 
 void MainWindow::loadFile(QString filepath)
