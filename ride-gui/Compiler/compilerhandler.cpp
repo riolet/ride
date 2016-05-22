@@ -33,7 +33,7 @@ CompilerHandler::CompilerHandler(QObject *parent) : QObject(parent)
     compile_end     = QString("End of compilation...");
 }
 
-void CompilerHandler::compileRixFile(ScintillaDoc *doc)
+bool CompilerHandler::compileRixFile(ScintillaDoc *doc)
 {
     FILE *fp;
     FILE *output = fopen("output_temp.tmp", "w+");
@@ -68,7 +68,7 @@ void CompilerHandler::compileRixFile(ScintillaDoc *doc)
         fclose(output);
         fclose(error);
 
-        return;
+        return false;
     }
 
     readCompilerOutput(output, error);
@@ -81,6 +81,7 @@ void CompilerHandler::compileRixFile(ScintillaDoc *doc)
 
     // Remove the newly created output and error temp files.
     system("rm output_temp.tmp error_temp.tmp");
+    return true;
 }
 
 void CompilerHandler::readCompilerOutput(FILE* output, FILE* error)

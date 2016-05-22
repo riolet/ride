@@ -27,7 +27,7 @@ PROGRAMMER(S):  Tyler Trepanier-Bracken
 NOTES:
 This header file declares all of the functions that are defined inside of the
 scintilla.cpp file. The purpose of this class is to encapsulate all methods
-that deal with the text edit surface, seperating the concerns of the overall
+that deal with the text edit surface, seperating the concerns of the 
 mainwindow and scintilla.
 ===============================================================================*/
 

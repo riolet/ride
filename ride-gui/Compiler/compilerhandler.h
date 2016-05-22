@@ -6,7 +6,7 @@ HEADER FILE:	compilerhandler.h
 PROGRAM:		Ride
 
 FUNCTIONS:		explicit CompilerHandler(QObject *parent);
-    			void compileRixFile(ScintillaDoc* doc = NULL);
+                bool compileRixFile(ScintillaDoc* doc = NULL);
     			void readCompilerOutput(FILE* output, FILE* error);
 
 QT SIGNALS:    	void compilerOutput(const QString& line);
@@ -39,15 +39,17 @@ FUNCTION: 		Compile Rix File
 
 PROGRAMMER(S):	Tyler Trepanier-Bracken
 
-INTERFACE:		void compileRixFile(ScintillaDoc* doc = NULL)
+INTERFACE:		bool compileRixFile(ScintillaDoc* doc = NULL)
 
 PARAMETERS:		ScintillaDoc* doc
 					Document that will have its contents compiled and executed.
 
-RETURNS:		Void
+RETURNS:        -TRUE   : Able to run the compiler.
+                -FALSE  : Unable to run the compiler.
 
 NOTES:
-No requirement for a return  
+Creates a child process to carry out the rix file compilation and reads in the
+newly creating compilation messages.
 ===============================================================================*/
     void compileRixFile(ScintillaDoc* doc = NULL);
 
