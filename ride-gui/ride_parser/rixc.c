@@ -19,6 +19,7 @@ FILE *outHeaderFile;
 FILE *outMakeFile;
 
 Error **errors_array;
+
 bool hitEOF;
 
 Object *root;
@@ -2056,8 +2057,7 @@ void stdprintobj(Object *in)
 }
 
 /** This is the old main method. Uncomment for modified purpose */
-/*
-int main_old(int argc, char **argv)
+/*int main(int argc, char **argv)
 {
     int c, i, fd, old_stdout;
     int errflg = 0;
@@ -2225,15 +2225,18 @@ int main_old(int argc, char **argv)
 int errorDetect(Error **err, int *errnum, const char *doc)
 {
     FILE *ritTempFile;
-    FILE *ifile;
+    char *ifile = NULL;
+    char *ofile = NULL;
     int numline = 0;
     g_headerLines = 0;
+    e_count = 0;
 
-    ifile = fopen("temp_parse_file.rit", "w+");
-    
-    if(ifile == NULL)
+    // Retrieve document and write it to a temp file
+    file = fopen("Joyce-Collingwood.rit", "w+");
+
+    if(file == NULL)
     {
-        perror("ifile");
+        perror("Can not initialize temp file");
     }
     
     int result = fprintf(ifile, "%s", doc);
@@ -2242,20 +2245,15 @@ int errorDetect(Error **err, int *errnum, const char *doc)
         return 0;
     }
 
-    fseek(ifile, 0, SEEK_SET);
-    if (ifile == NULL)
+    fclose(file);
+
+    // Re-open document again
+
+    file = fopen("Joyce-Collingwood.rit.rit", "r");
+    if(file == NULL)
     {
-        errorMsg("No file to compile\n");
-        criticalError(ERROR_ParseError, "No file to compile specified");
-    }
-    else
-    {
-        file = fopen("temp_parse_file.rit", "r");
-        if(file == NULL)
-        {
-            fprintf(stderr, "Failed to open the temp_parse_file for reading.\n");
-            return 0;
-        }
+        fprintf(stderr, "Failed to open the temp_parse_file for reading.\n");
+        return 0;
     }
 
     root = CreateObject("RootScope", "RootScope", 0, CodeBlock, "int");
@@ -2318,9 +2316,8 @@ int errorDetect(Error **err, int *errnum, const char *doc)
 
 void sendError(Error *e)
 {
-
     int i;
-    int used = 0;
+    int usageed = 0;
     int size = e_count;
     Error **errs = (Error **) malloc(sizeof(Error) * size);
 
@@ -2334,7 +2331,7 @@ void sendError(Error *e)
         {
             errs[i] = errors_array[i];
         }
-        used++;
+        usageed++;
     }
 
     errors_array = errs;

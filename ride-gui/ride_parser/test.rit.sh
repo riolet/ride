@@ -1,1 +1,0 @@
-gcc -lm -I ${RIX_HOME} -ggdb -o test.rit.out test.rit.c ${RIX_HOME}/rsl/rsl.c ${RIX_HOME}/errors.c ${RIX_HOME}/"rsl/RSL_Array.c" ${RIX_HOME}/"rsl/RSL_String.c" ${RIX_HOME}/"rsl/RSL_Stream.c"  -lm
