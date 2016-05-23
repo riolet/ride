@@ -36,13 +36,30 @@ void RixLexer::styleText(int start, int end)
 
 void RixLexer::styleToken(int length, int style)
 {
-    if (style == SyntaxColours::Default)
+    int totLen = editor()->SendScintilla(QsciScintilla::SCI_GETTEXTLENGTH);
+    int cur = editor()->SendScintilla(QsciScintilla::SCI_GETENDSTYLED);
+    if (cur == totLen) {
+        return;
+    }
+    else if (style == SyntaxColours::Default)
     {
         setStyling(length, 32);
         return;
     }
+    else if (length == -2)
+    {
+        length = totLen - cur;
+    }
 
     setStyling(length, style);
+}
+
+void RixLexer::styleError(int start, int length)
+{
+    if (!editor())
+        return;
+
+    editor()->SendScintilla(QsciScintilla::SCI_INDICATORFILLRANGE, start, length);
 }
 
 void RixLexer::handleCharAdded(int pos)
@@ -72,8 +89,8 @@ void RixLexer::handleCharAdded(int pos)
     }
     else if(currentChar[0] == '\n')
     {
-        _scint->parseError();
-        handleFoundErrors();
+        //_scint->parseError();
+        //handleFoundErrors();
     }
 }
 
@@ -99,7 +116,7 @@ void RixLexer::handleFoundErrors()
         len = cur_error->message_length;
 
         // TODO: Call highlight method here.
-        //method(msg, len, line, start, num);
+
 
         errors--; // Decrement errors here.
     }
@@ -112,6 +129,22 @@ void RixLexer::setWordChars(char *chars)
 
     editor()->SendScintilla(QsciScintillaBase::SCI_SETWORDCHARS,
                             chars);
+}
+
+void RixLexer::setErrorStyle(int style)
+{
+    if (!editor() || style < 0 || style > 17)
+        return;
+
+    editor()->SendScintilla(QsciScintillaBase::SCI_INDICSETSTYLE, 0, style);
+}
+
+void RixLexer::setErrorColor(int hexColor)
+{
+    if (!editor() || hexColor < 0x000000 || hexColor > 0xffffff)
+        return;
+
+    editor()->SendScintilla(QsciScintillaBase::SCI_INDICSETFORE, 0, hexColor);
 }
 
 QString RixLexer::description(int style) const

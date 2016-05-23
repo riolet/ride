@@ -21,7 +21,10 @@ public:
     void setScintilladoc(ScintillaDoc *sd);
     void styleText(int start, int end);
     void styleToken(int length, int style);
+    void styleError(int start, int length);
     void setWordChars(char *chars);
+    void setErrorStyle(int style);
+    void setErrorColor(int hexColor);
     QString description(int style) const;
     const char* language() const;
     const char* lexer() const;

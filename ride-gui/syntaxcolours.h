@@ -34,9 +34,9 @@ namespace SyntaxColours {
         (0 | (0 << 8) | (255 << 16)),   // Keyword
         (0 | (0 << 8) | (255 << 16)),   // Return
         (0 | (0 << 8) | (0 << 16)),     // Identifier
-        (0 | (0 << 8) | (0 << 16)),     // Comm
-        (0 | (0 << 8) | (0 << 16)),     // MultiComm
-        (0 | (0 << 8) | (0 << 16)),     // UnterMultiComm
+        (0 | (180 << 8) | (0 << 16)),   // Comm
+        (0 | (180 << 8) | (0 << 16)),     // MultiComm
+        (0 | (180 << 8) | (0 << 16)),     // UnterMultiComm
         (0 | (255 << 8) | (255 << 16)), // FunctionDecl
         (255 | (0 << 8) | (255 << 16)), // ReturnType
         (0 | (255 << 8) | (255 << 16))  // FunctionCall
