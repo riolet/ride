@@ -94,7 +94,11 @@ void criticalError(ErrorCode code, char *message)
  */
 void errorInitial( char *message )
 {
-    Error *e = (Error *) malloc(sizeof(Error));
+    Error *e;
+
+    printf("A wild error has appeared\n");
+
+    e = (Error *) malloc(sizeof(Error));
 
     //add to errList
 
@@ -103,7 +107,6 @@ void errorInitial( char *message )
     e->line_number      = g_lineNum - g_headerLines;
     e->column_start     = g_lineCol;
     e->num_characters   = 0;
-
     e_count++;
     sendError(e);
 }
