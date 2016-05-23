@@ -1,8 +1,8 @@
 prthuh -> int () 
-	#i = 5
+	#i = 123
 	->i
 
-#aa = prthuh()
+#aa = prthuha()
 print( aa )
 
 A :: BaseType

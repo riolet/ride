@@ -4,11 +4,12 @@
 #include <semaphore.h>
 #include "parser_error.h"
 
-#define SHARED_CODE     "/code"
-#define SHARED_ERROR    "/error"
-#define SHARED_ERR_NUM  "/error_num"
-#define SEM_CODE        "/codesem"
-#define SEM_ERROR       "/errsem"
+#define SEM_CODE        		"/codesem"
+#define SHARED_CODE     		"/code"
+
+#define SEM_ERROR       		"/errsem"
+#define SHARED_ERROR    		"/error"
+#define SHARED_NUMBER_ERROR		"/error_num"
 
 /**
  * @brief      GUI parse request struct

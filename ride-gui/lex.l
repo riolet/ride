@@ -32,6 +32,10 @@ IDENTIFIER								[A-Za-z0-9]+
 /*
  * Fix and implement:
  *
+ *                                                         | |<--- remove these two parentheses
+ *                                                         | |     when re-implementing
+ML_COMMENT  							[/][*][^*]*[*]+([^*(/)][^*]*[*]+)*[/]
+ML_UNTERMINATED_COMMENT					[/][*]
 FUNCTION_DECLARATION                    {IDENTIFIER}[ \t]*{RET}
 FUNCTION_CALL                           {IDENTIFIER}[ \t]*"("
 RETURN_TYPE                             {RET}[ \t]*{IDENTIFIER}"("

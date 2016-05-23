@@ -20,14 +20,14 @@ class RixLexer : public QsciLexerCustom
 public:
     void setScintilladoc(ScintillaDoc *sd);
     void styleText(int start, int end);
-    void styleToken(int length, int style);
-    void styleError(int start, int length);
+    void styleToken(unsigned int length, int style);
+    void styleError(unsigned int line, unsigned int offset, unsigned int length);
     void setWordChars(char *chars);
-    void setErrorStyle(int style);
-    void setErrorColor(int hexColor);
+    void setErrorStyle(unsigned int indic, unsigned int style, unsigned int hexColour);
     QString description(int style) const;
     const char* language() const;
     const char* lexer() const;
+
 private slots:
     void handleStyleNeeded(int pos);
     void handleCharAdded(int pos);
