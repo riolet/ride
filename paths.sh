@@ -4,6 +4,6 @@
 #execute this command inside of the rix folder:
 #   $./paths.sh
 
-RIX_PATH=${pwd}
+RIX_PATH=$(pwd)
 export  RIX_HOME=${RIX_PATH}
 sudo ln -s "$RIX_HOME/rix" /usr/bin/
