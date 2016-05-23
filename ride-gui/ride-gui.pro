@@ -13,11 +13,11 @@ LIBS += -lpthread
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    scintilladoc.cpp \
+    Scintilla/scintilladoc.cpp \
     aboutdialog.cpp \
-    compilerhandler.cpp \
+    Compiler/compilerhandler.cpp \
     rixlexer.cpp \
-    themehandler.cpp
+    Scintilla/themehandler.cpp
 
 FLEXSOURCES = lex.l
 
@@ -36,11 +36,11 @@ FORMS += \
 
 HEADERS += \
     mainwindow.h \
-    scintilladoc.h \
+    Scintilla/scintilladoc.h \
     globals.h \
     aboutdialog.h \
-    themehandler.h \
-    compilerhandler.h \
+    Scintilla/themehandler.h \
+    Compiler/compilerhandler.h \
     rixlexer.h \
     lexershare.h \
     syntaxcolours.h

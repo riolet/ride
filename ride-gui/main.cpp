@@ -13,18 +13,8 @@ struct semaphore_request  sem_doc;
 struct semaphore_response sem_error;
 pid_t child;
 
-void sig_chld (int signo)
-{
-    pid_t pid;
-    int stat;
-    pid = wait(&stat);
-    return;
-}
-
 int main(int argc, char *argv[])
 {
-    int* err_num;
-
     sem_doc.sem   = sem_open(SEM_CODE,  O_CREAT, 0600, 0);
     sem_error.sem = sem_open(SEM_ERROR, O_CREAT, 0600, 0);
 
@@ -102,9 +92,6 @@ int main(int argc, char *argv[])
     sem_error.content = &error;
     */
 
-    // Signaling method, call it to wait for the child if it terminate
-    signal (SIGCHLD, sig_chld);
-
     /*child = fork();
     if (child == 0)
     {
@@ -114,7 +101,7 @@ int main(int argc, char *argv[])
 
         //system("gcc ../parser.c -lpthread -lrt -o parser");
         printf("Go.\n");
-        execl("./parser >cout.txt 2>cerr.txt", (char *)0);
+        execl("./parser", (char *)0);
 
         // THE CHILD WILL NEVER REACH HERE, IT IS REPLACED ENTIRELY
         return 0;

@@ -1,3 +1,30 @@
+/*===============================================================================
+SOURCE FILE:    themehandler.cpp 
+                    Class dedicated to handling the colouring scheme of the 
+                    scintilla document in regards to variables, integers, etc.
+
+PROGRAM:        Ride
+
+FUNCTIONS:      explicit ThemeHandler(QWidget *parent = 0);
+                bool readDefaultFile();
+                bool readFile(QFile* file);
+                void parseFileContents(const QStringList &contents);
+                void assignColorString(const QString &keyword, const QString &input);
+                void setToAbsoluteDefault();
+
+QT SIGNALS:     void textChanged();
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+NOTES:
+This theme handler first reads in the default configuration file and allows
+the user to change the colour theme. 
+
+THIS CLASS IS CURRENTLY UNFINISHED BUT STILL PARSES THE CONFIG FILE CORRECTLY.
+Requires:
+-changing rix lexer colours using this class
+===============================================================================*/
+
 #include "themehandler.h"
 
 ThemeHandler::ThemeHandler(const QString &filepath)
