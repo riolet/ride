@@ -39,12 +39,12 @@ int* err_num;
 
 ScintillaDoc::ScintillaDoc(QWidget *parent) : QWidget(parent)
 {
-    _filename = QString("untitled");
-    _editText = new QsciScintilla;
-    _lex = new RixLexer;
-    _isBlank = true;
-    _modified = false;
-    _filepath = QString("");
+    _filename   = QString("untitled");
+    _editText   = new QsciScintilla;
+    _lex        = new RixLexer;
+    _isBlank    = true;
+    _modified   = false;
+    _filepath   = QString("");
 
     _lex->setEditor(_editText);
     _lex->setScintilladoc(this);
@@ -71,15 +71,13 @@ ScintillaDoc::ScintillaDoc(QWidget *parent) : QWidget(parent)
     _editText->setFont(fixedfont);
     _editText->setMarginLineNumbers(1, true);
     _editText->setMarginWidth(1, MARGIN_WIDTH); // 6 characters wide.
-
-    installEventFilter(_editText);
-
 }
 
 bool ScintillaDoc::loadFile(QString filepath)
 {
-    _file = new QFile(filepath);
-    _filepath = _file->fileName();
+    _file       = new QFile(filepath);
+    _filepath   = _file->fileName();
+
     if (!_file->open(QFile::ReadOnly))
     {
         delete _file;
@@ -94,7 +92,8 @@ bool ScintillaDoc::loadFile(QString filepath)
     _editText->setText(in.readAll());
 
     _file->close();
-    _isBlank = false;
+
+    _isBlank  = false;
     _modified = false;
 
     return true;
@@ -139,12 +138,12 @@ bool ScintillaDoc::saveAs(QString filepath)
     if (filepath.isEmpty() || filepath.isNull())
         return false;
 
-    _file = new QFile(filepath);
-    _filename = QFileInfo(_file->fileName()).fileName();
-    _filepath = filepath;
+    _file       = new QFile(filepath);
+    _filename   = QFileInfo(_file->fileName()).fileName();
+    _filepath   = filepath;
 
-    _isBlank = false;
-    _modified = false;
+    _isBlank    = false;
+    _modified   = false;
 
     return saveFile(filepath);
 }
@@ -153,7 +152,7 @@ void ScintillaDoc::clearTextArea()
 {
     _editText->clear();
     _filename = QString("untitled");
-    _isBlank = true;
+    _isBlank  = true;
     _modified = false;
 }
 

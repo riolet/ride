@@ -209,7 +209,7 @@ Copy the selected text.
         void copy();
 
 /*===============================================================================
-FUNCTION:       Go to Line
+FUNCTION:       Cut
 
 PROGRAMMER(S):  Tyler Trepanier-Bracken
 
@@ -221,7 +221,7 @@ Cut the selected text.
         void cut();
 
 /*===============================================================================
-FUNCTION:       Go to Line
+FUNCTION:       Paste
 
 PROGRAMMER(S):  Tyler Trepanier-Bracken
 

@@ -41,11 +41,11 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    sem_post(sem_error.sem);
+    //sem_post(sem_error.sem);
 
     /* ------------------------------------------------------------------------------------ */
 
-    sem_wait(sem_doc.sem);
+    //sem_wait(sem_doc.sem);
     printf("Map file descriptor\n");
     sem_doc.fd          = shm_open(SHARED_CODE, O_RDWR, 0666);
     sem_error.fd        = shm_open(SHARED_ERROR, O_RDWR, 0666);
@@ -57,20 +57,20 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    sem_post(sem_error.sem);
+    //sem_post(sem_error.sem);
 
     /* ------------------------------------------------------------------------------------ */
 
-    sem_wait(sem_doc.sem);
+    //sem_wait(sem_doc.sem);
     printf("Map contents with file descriptor\n");
     sem_doc.content     = (char *) mmap(0, 10240, PROT_READ, MAP_SHARED, sem_doc.fd,   0);
     sem_error.content   = (Error **) mmap(0, 10240, PROT_WRITE, MAP_SHARED, sem_error.fd, 0);
 
-    sem_post(sem_error.sem);
+    //sem_post(sem_error.sem);
 
     /**
      * Parser start to parse the code continuously
-     */
+     */ 
     while (true)
     {
         printf("Waiting on document.\n");

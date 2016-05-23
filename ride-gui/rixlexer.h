@@ -28,6 +28,18 @@ public:
 private slots:
     void handleStyleNeeded(int pos);
     void handleCharAdded(int pos);
+
+/*===============================================================================
+FUNCTION:       Handle Found Errors
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken, Micah Willems
+
+INTERFACE:      void handleFoundErrors()
+
+NOTES:
+Uses the global Error Array and highlights them according to their line,
+column and number of characters afflicted.
+===============================================================================*/
     void handleFoundErrors();
 
 private:
