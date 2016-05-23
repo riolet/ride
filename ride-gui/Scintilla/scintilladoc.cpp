@@ -48,9 +48,12 @@ ScintillaDoc::ScintillaDoc(QWidget *parent) : QWidget(parent)
 
     _lex->setEditor(_editText);
     _lex->setScintilladoc(this);
+    _lex->setErrorStyle(0, 1, 0x000099); // 1 = INDIC_SQUIGGLE
 
     int numSyntaxColors = sizeof(SyntaxColours::colourValues) / sizeof(SyntaxColours::colourValues[0]);
 
+    // Sets the styles for each syntax type.
+    // Can't do this inside RixLexer; application crashes
     for (int i = 0; i < numSyntaxColors; i++)
     {
         _lex->editor()->SendScintilla(QsciScintilla::SCI_STYLESETFORE,

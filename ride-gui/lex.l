@@ -12,6 +12,7 @@ int* find_return_token_pos(const char* token);
 
 %}
 
+%x C_COMMENT
 
 %option noyywrap
 
@@ -21,8 +22,6 @@ SCOPERESOP								"::"
 DIGIT    								[0-9]
 RET      								"->"
 SL_COMMENT 								"//".*
-ML_COMMENT  							[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]
-ML_UNTERMINATED_COMMENT					[/][*] 
 STRING        							\"(\\.|[^\\"])*\"
 CHAR        							\'(\\.|[^\\'])+\'
 
@@ -33,10 +32,28 @@ IDENTIFIER								[A-Za-z0-9]+
 /*
  * Fix and implement:
  *
+ *                                                         | |<--- remove these two parentheses
+ *                                                         | |     when re-implementing
+ML_COMMENT  							[/][*][^*]*[*]+([^*(/)][^*]*[*]+)*[/]
+ML_UNTERMINATED_COMMENT					[/][*]
 FUNCTION_DECLARATION                    {IDENTIFIER}[ \t]*{RET}
 FUNCTION_CALL                           {IDENTIFIER}[ \t]*"("
 RETURN_TYPE                             {RET}[ \t]*{IDENTIFIER}"("
 
+"/*" {
+                                        BEGIN(C_COMMENT);
+                                        int len = -2;
+                                        _lex->styleToken(len, SyntaxColours::UnterMultiComm);
+}
+
+<C_COMMENT>"*\/" { // Remove backslash when re-implementing
+                                        BEGIN(INITIAL);
+}
+
+<C_COMMENT>. {
+                                        size_t len = strlen(yytext);
+                                        _lex->styleToken(len, SyntaxColours::UnterMultiComm);
+}
 
 {RETURN_TYPE} {
                                         int *positions = find_return_token_pos(yytext);
@@ -62,10 +79,17 @@ RETURN_TYPE                             {RET}[ \t]*{IDENTIFIER}"("
 
 %%
 
+
+{SL_COMMENT} {
+                                        size_t len = strlen(yytext);
+                                        _lex->styleToken(len, SyntaxColours::Comm);
+}
+
 " " {
                                         size_t len = 1;
                                         _lex->styleToken(len, SyntaxColours::Noncoloured);
 }
+
 \t {
                                         size_t len = 1;
                                         _lex->styleToken(len, SyntaxColours::Noncoloured);
@@ -119,22 +143,6 @@ if|for {
 {IDENTIFIER} {
 										size_t len = strlen(yytext);
                                         _lex->styleToken(len, SyntaxColours::Identifier);
-}
-
-{SL_COMMENT} { 					 		
-										size_t len = strlen(yytext);
-                                        _lex->styleToken(len, SyntaxColours::Comm);
-}
-
-{ML_COMMENT} {
-										size_t len = strlen(yytext);
-                                        _lex->styleToken(len, SyntaxColours::MultiComm);
-}
-							
-
-{ML_UNTERMINATED_COMMENT} {
-										size_t len = strlen(yytext);
-                                        _lex->styleToken(len, SyntaxColours::UnterMultiComm);
 }
 
 {NEWLINE} {
