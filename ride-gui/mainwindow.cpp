@@ -148,6 +148,9 @@ void MainWindow::setupShortcuts()
     ui->actionLicense->setShortcut(Qt::Key_F1);
     ui->actionAbout_RIDE->setShortcut(Qt::Key_F2);
     ui->actionAbout_Rix->setShortcut(Qt::Key_F2);
+    ui->actionCopy->setShortcut(Qt::CTRL | Qt::Key_C);
+    ui->actionCut->setShortcut(Qt::CTRL | Qt::Key_X);
+    ui->actionPaste->setShortcut(Qt::CTRL | Qt::Key_V);
 }
 
 void MainWindow::setupMenuActions()
@@ -163,6 +166,9 @@ void MainWindow::setupMenuActions()
     connect(ui->actionExit,         SIGNAL(triggered()), this, SLOT(sendCloseEvent()));
     connect(ui->actionUndo,         SIGNAL(triggered()), this, SLOT(undo()));
     connect(ui->actionRedo,         SIGNAL(triggered()), this, SLOT(redo()));
+    connect(ui->actionCut,          SIGNAL(triggered()), this, SLOT(cut()));
+    connect(ui->actionCopy,         SIGNAL(triggered()), this, SLOT(copy()));
+    connect(ui->actionPaste,        SIGNAL(triggered()), this, SLOT(paste()));
 }
 
 bool MainWindow::saveAs()
@@ -293,6 +299,21 @@ void MainWindow::gotoLine()
     {
         cur_doc->gotoLine(line);
     }
+}
+
+void MainWindow::copy()
+{
+    cur_doc->copy();
+}
+
+void MainWindow::cut()
+{
+    cur_doc->cut();
+}
+
+void MainWindow::paste()
+{
+    cur_doc->paste();
 }
 
 bool MainWindow::runCompiler()

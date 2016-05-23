@@ -182,6 +182,27 @@ void ScintillaDoc::gotoLine(int line)
     _editText->setCursorPosition((line - 1), 0);
 }
 
+void ScintillaDoc::copy()
+{
+    if(_editText->hasSelectedText())
+    {
+        _editText->copy();
+    }
+}
+
+void ScintillaDoc::cut()
+{
+    if(_editText->hasSelectedText())
+    {
+        _editText->cut();
+    }
+}
+
+void ScintillaDoc::paste()
+{
+    _editText->paste();
+}
+
 int ScintillaDoc::getTotalLines()
 {
     return _editText->lines();

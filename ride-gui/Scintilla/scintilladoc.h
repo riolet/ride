@@ -197,6 +197,42 @@ Sends the text cursor to the specified line.
     void gotoLine(int line);
 
 /*===============================================================================
+FUNCTION:       Copy
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void copy()
+
+NOTES:
+Copy the selected text.
+===============================================================================*/
+        void copy();
+
+/*===============================================================================
+FUNCTION:       Go to Line
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void cut()
+
+NOTES:
+Cut the selected text.
+===============================================================================*/
+        void cut();
+
+/*===============================================================================
+FUNCTION:       Go to Line
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void paste()
+
+NOTES:
+Paste the selected text at the text cursor.
+===============================================================================*/
+        void paste();
+
+/*===============================================================================
 FUNCTION:       Get Total Lines
 
 PROGRAMMER(S):  Tyler Trepanier-Bracken
