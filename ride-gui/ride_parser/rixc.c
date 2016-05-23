@@ -2057,7 +2057,7 @@ void stdprintobj(Object *in)
 }
 
 /** This is the old main method. Uncomment for modified purpose */
-int main(int argc, char **argv)
+/*int main(int argc, char **argv)
 {
     int c, i, fd, old_stdout;
     int errflg = 0;
@@ -2218,7 +2218,7 @@ int main(int argc, char **argv)
     //compilerDebugPrintf("\n%s compiled successfully.\n", ifile);
 
     return 0;
-}
+}*/
 
 
 /** MODIFIED METHODS START HERE **/
