@@ -1,6 +1,39 @@
 #include "rixlexer.h"
 #include "syntaxcolours.h"
 
+/******************************************************************************
+** FUNCTION: 		handleStyleNeeded
+** ​
+** PROGRAMMER(S):	Micah Willems
+** ​
+** PARAMETERS:		ScintillaDoc *sd
+**                      pointer to the ScintillaDoc instance
+​**
+** RETURNS:         void
+​**
+** NOTES:           Sets the ScintillaDoc associated with this RixLexer instance
+/*****************************************************************************/
+void RixLexer::setScintilladoc(ScintillaDoc *sd)
+{
+    _scint = sd;
+}
+
+/******************************************************************************
+** FUNCTION: 		handleStyleNeeded
+** ​
+** PROGRAMMER(S):	Micah Willems
+** ​
+** PARAMETERS:		int pos
+**                      The position of the cursor at the time of a "Styling
+**                      needed" signal
+​**
+** RETURNS:         void
+​**
+** NOTES:           The slot connected to the signal "StylingNeeded". When the
+**                  signal is emitted, this function is called. It gets the
+**                  first position on the line when the signal was emitted and
+**                  calls styleText
+/*****************************************************************************/
 void RixLexer::handleStyleNeeded(int pos)
 {
     if (!editor())
@@ -16,12 +49,23 @@ void RixLexer::handleStyleNeeded(int pos)
         styleText(start, pos);
 }
 
-void RixLexer::setScintilladoc(ScintillaDoc *sd)
-{
-    _scint = sd;
-}
-
-void RixLexer::styleText(int start, int end)
+/******************************************************************************
+** FUNCTION: 		styleText (abstract implementation)
+** ​
+** PROGRAMMER(S):	Micah Willems
+** ​
+** PARAMETERS:		unsigned int start
+**                      The first unstyled character
+**                  unsigned int end
+**                      The position of the caret
+​**
+** RETURNS:         void
+​**
+** NOTES:           Starts the styling for a section of text and sends the line
+**                  of text to flex to parse through the wrapper function
+**                  scan_string
+/*****************************************************************************/
+void RixLexer::styleText(unsigned int start, unsigned int end)
 {
     if(end < start || !editor())
         return;
@@ -34,7 +78,22 @@ void RixLexer::styleText(int start, int end)
     scan_string(chars);
 }
 
-void RixLexer::styleToken(int length, int style)
+/******************************************************************************
+** FUNCTION: 		styleToken
+** ​
+** PROGRAMMER(S):	Micah Willems
+** ​
+** PARAMETERS:		unsigned int length
+**                      The length of the token to be styled
+**                  int style
+**                      The style to use
+​**
+** RETURNS:         void
+​**
+** NOTES:           Styles a token according to the Rix language syntax and
+**                  chosen style colours.
+/*****************************************************************************/
+void RixLexer::styleToken(unsigned int length, int style)
 {
     if (style == SyntaxColours::Default)
     {
@@ -45,6 +104,55 @@ void RixLexer::styleToken(int length, int style)
     setStyling(length, style);
 }
 
+/******************************************************************************
+** FUNCTION: 		styleError
+** ​
+** PROGRAMMER(S):	Micah Willems
+** ​
+** PARAMETERS:		unsigned int line
+**                      The starting line
+**                  unsigned int offset
+**                      The offset on the line
+**                  unsigned int length
+**                      The length of characters to be styled
+​**
+** RETURNS:         void
+​**
+** NOTES:           Styles syntax errors.
+/*****************************************************************************/
+void RixLexer::styleError(unsigned int line, unsigned int offset, unsigned int length)
+{
+    if (!editor())
+        return;
+
+    int start = editor()->SendScintilla(QsciScintilla::SCI_POSITIONFROMLINE,
+                                        line);
+    if (start > -1)
+    {
+        int begin = start + offset;
+        editor()->SendScintilla(QsciScintilla::SCI_INDICATORFILLRANGE,
+                                begin, length);
+    }
+}
+
+/******************************************************************************
+** FUNCTION: 		handleCharAdded
+** ​
+** PROGRAMMER(S):	Micah Willems
+** ​
+** PARAMETERS:		int pos
+**                      Unknown (Scintilla signal gives unpredictable values)
+​**
+** RETURNS:         void
+​**
+** NOTES:           Slot connected to the "CharAdded" signal. Checks if the
+**                  last char typed was a period. If so, gets the preceding
+**                  word (if any) and calls the parser to get that variable's
+**                  functions and members (if a class) and fills the
+**                  autocomplete box with them.
+**                  If the last char typed was a newline, it initiates error
+**                  checking.
+/*****************************************************************************/
 void RixLexer::handleCharAdded(int pos)
 {
     if (pos <= 0)
@@ -52,23 +160,28 @@ void RixLexer::handleCharAdded(int pos)
 
     char currentChar[1];
     int wordEnd = editor()->SendScintilla(QsciScintilla::SCI_GETCURRENTPOS) - 1;
-    editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE, wordEnd, wordEnd + 1, currentChar);
+    editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE, wordEnd,
+                            wordEnd + 1, currentChar);
+
     if (currentChar[0] == '.')
     {
         bool onlyWordCharacters = true;
         int wordStart = editor()->SendScintilla(QsciScintillaBase::SCI_WORDSTARTPOSITION,
                                                 wordEnd, onlyWordCharacters);
 
-        char word[wordEnd - wordStart + 1];
-        editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE,
-                                wordStart, wordEnd, word);
+        if (wordEnd != wordStart)
+        {
+            char word[wordEnd - wordStart + 1];
+            editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE,
+                                    wordStart, wordEnd, word);
 
-        // Call function to get methods of "word" here
-        // Return must be a const c-string, with functions
-        // & members separated by spaces
-        const char *testing = "test test1 test2 test3";
+            // Call function to get methods/members of "word" here
+            // Return must be a const c-string, with functions
+            // & members separated by spaces
+            const char *testing = "test test1 test2 test3";
 
-        editor()->SendScintilla(QsciScintilla::SCI_AUTOCSHOW, (size_t)0, testing);
+            editor()->SendScintilla(QsciScintilla::SCI_AUTOCSHOW, (size_t)0, testing);
+        }
     }
     else if(currentChar[0] == '\n')
     {
@@ -99,12 +212,25 @@ void RixLexer::handleFoundErrors()
         len = cur_error->message_length;
 
         // TODO: Call highlight method here.
-        //method(msg, len, line, start, num);
+        styleError((unsigned int) line, (unsigned int) start,
+                   (unsigned int) num);
 
         errors--; // Decrement errors here.
     }
 }
 
+/******************************************************************************
+** FUNCTION: 		setWordChars
+** ​
+** PROGRAMMER(S):	Micah Willems
+** ​
+** PARAMETERS:		char *chars
+**                      The characters that comprise a word in Rix
+​**
+** RETURNS:         void
+​**
+** NOTES:           Sets the characters that comprise a word in Rix
+/*****************************************************************************/
 void RixLexer::setWordChars(char *chars)
 {
     if (!editor())
@@ -114,7 +240,49 @@ void RixLexer::setWordChars(char *chars)
                             chars);
 }
 
-QString RixLexer::description(int style) const
+/******************************************************************************
+** FUNCTION: 		setErrorStyle
+** ​
+** PROGRAMMER(S):	Micah Willems
+** ​
+** PARAMETERS:		unsigned int indic
+**                      The indicator number (error style number) to change
+**                  unsigned int style
+**                      The type of style to assign
+**                  unsigned int hexColour
+**                      The color of the style
+​**
+** RETURNS:         void
+​**
+** NOTES:           Sets the appearance of an error indicator.
+/*****************************************************************************/
+void RixLexer::setErrorStyle(unsigned int indic, unsigned int style, unsigned int hexColour)
+{
+    if (!editor())
+        return;
+
+    editor()->SendScintilla(QsciScintillaBase::SCI_INDICSETSTYLE,
+                            0, style);
+    editor()->SendScintilla(QsciScintillaBase::SCI_INDICSETFORE,
+                            0, hexColour);
+    editor()->SendScintilla(QsciScintillaBase::SCI_SETINDICATORCURRENT,
+                            0, indic);
+}
+
+/******************************************************************************
+** FUNCTION: 		description (abstract implementation)
+** ​
+** PROGRAMMER(S):	Micah Willems
+** ​
+** PARAMETERS:		unsigned int style
+**                      The style to get a descriptor for
+​**
+** RETURNS:         QString
+**                      The description of the style
+​**
+** NOTES:           Returns a descriptor for a style number.
+/*****************************************************************************/
+QString RixLexer::description(unsigned int style) const
 {
     switch (style)
     {
@@ -157,11 +325,31 @@ QString RixLexer::description(int style) const
     return NULL;
 }
 
+/******************************************************************************
+** FUNCTION: 		language (abstract implementation)
+** ​
+** PROGRAMMER(S):	Micah Willems
+** ​
+** RETURNS:		const char*
+**                      The name of the language
+**
+** NOTES:           Returns a descriptor of this lexer's language.
+/*****************************************************************************/
 const char* RixLexer::language() const
 {
     return "Rix";
 }
 
+/******************************************************************************
+** FUNCTION: 		lexer (abstract implementation)
+** ​
+** PROGRAMMER(S):	Micah Willems
+** ​
+** RETURNS:		const char*
+**                      The name of the lexer
+**
+** NOTES:           Returns a descriptor of this lexer.
+/*****************************************************************************/
 const char* RixLexer::lexer() const
 {
     return "RixLexer";

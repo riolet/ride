@@ -21,8 +21,8 @@ SCOPERESOP								"::"
 DIGIT    								[0-9]
 RET      								"->"
 SL_COMMENT 								"//".*
-ML_COMMENT  							[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]
-ML_UNTERMINATED_COMMENT					[/][*] 
+//ML_COMMENT  							[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]
+//ML_UNTERMINATED_COMMENT					[/][*]
 STRING        							\"(\\.|[^\\"])*\"
 CHAR        							\'(\\.|[^\\'])+\'
 
