@@ -1,3 +1,27 @@
+/******************************************************************************
+** SOURCE FILE:     rixlexer.cpp
+**
+** PROGRAMMER(S):   Micah Willems, Tyler Trepanier-Bracken
+**
+** PROGRAM:         RixLexer
+**
+** FUNCTIONS:       void setScintilladoc(ScintillaDoc *sd);
+**                  void styleText(unsigned int start, unsigned int end);
+**                  void styleToken(unsigned int length, int style);
+**                  void styleError(unsigned int line, unsigned int offset, unsigned int length);
+**                  void setWordChars(char *chars);
+**                  void setErrorStyle(unsigned int indic, unsigned int style, unsigned int hexColour);
+**                  QString description(unsigned int style) const;
+**                  const char* language() const;
+**                  const char* lexer() const;
+**                  void handleStyleNeeded(int pos);
+**                  void handleCharAdded(int pos);
+**                  void handleFoundErrors();
+**
+** NOTES:           This class handles the visual colouring and autocompletion
+**                  of the QScintilla text editor component, effectively adding
+**                  all the functionality that makes it a code editor.
+/******************************************************************************/
 #include "rixlexer.h"
 #include "syntaxcolours.h"
 
