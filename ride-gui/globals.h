@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QDir>
 #include <QString>
+#include <fstream>
 #include <iostream>
 #include <vector>
 #include <QFont>
@@ -20,6 +21,8 @@
 #include <string>
 #include <regex>
 #include <sstream>
+#include <stdlib.h>
+#include <string.h>
 
 extern pid_t child;
 
