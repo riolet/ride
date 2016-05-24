@@ -1,3 +1,20 @@
+/* 
+===============================================================================
+SOURCE FILE:	parser_error.h 
+					This files houses the defination of the semaphore structs
+
+PROGRAM:		Linux Terminal
+
+FUNCTIONS:		
+
+PROGRAMMER(S):	Duy Pham
+
+NOTES:
+This hold the defination of the semaphore structs that we use to communicate
+between the GUI and the Parser
+===============================================================================
+*/
+
 #ifndef PARSER_SEM_H
 #define PARSER_SEM_H
 
