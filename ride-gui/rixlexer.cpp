@@ -205,8 +205,16 @@ void RixLexer::handleCharAdded(int pos)
         if (wordEnd != wordStart)
         {
             char word[wordEnd - wordStart + 1];
+            int length = editor()->SendScintilla(QsciScintilla::SCI_GETTEXTLENGTH);
+            char contents[length + 1];
             editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE,
                                     wordStart, wordEnd, word);
+            editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE,
+                                    0, length, contents);
+
+            std::string sWord = word;
+            std::string sContents = contents;
+
 
             // Call function to get methods/members of "word" here
             // Return must be a const c-string, with functions
