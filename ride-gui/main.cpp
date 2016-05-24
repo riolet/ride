@@ -9,10 +9,9 @@
 #include "mainwindow.h"
 #include "globals.h"
 
-
+pid_t child;
 struct semaphore_request  sem_doc;
 struct semaphore_response sem_error;
-pid_t child;
 
 int main(int argc, char *argv[])
 {
