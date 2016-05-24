@@ -218,8 +218,8 @@ void RixLexer::handleCharAdded(int pos)
     }
     else if(currentChar[0] == '\n')
     {
-        _scint->parseError();
-        handleFoundErrors();
+        //_scint->parseError();
+        //handleFoundErrors();
     }
 }
 
