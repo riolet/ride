@@ -92,7 +92,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setupMenuActions();
     setupTheme();
     setupCompiler();
-    setupShortcuts(); //Not active atm
+    setupShortcuts();
 }
 
 MainWindow::~MainWindow()
@@ -114,8 +114,7 @@ void MainWindow::setupScintilla()
     ui->tabWidget_scintilla->removeTab(0);  // Remove the second unused tab
 
     ui->tabWidget_scintilla->addTab(blank->_editText, blank->_filename);
-    connect(cur_doc, SIGNAL(textChanged()),
-                this, SLOT(documentWasModified()));
+    connect(cur_doc, SIGNAL(textChanged()), this, SLOT(documentWasModified()));
 }
 
 void MainWindow::setupFileTree()
@@ -147,7 +146,11 @@ void MainWindow::setupShortcuts()
     ui->actionRedo->setShortcut(Qt::CTRL | Qt::Key_Y);
     ui->actionLicense->setShortcut(Qt::Key_F1);
     ui->actionAbout_RIDE->setShortcut(Qt::Key_F2);
-    ui->actionAbout_Rix->setShortcut(Qt::Key_F2);
+    ui->actionAbout_Rix->setShortcut(Qt::Key_F3);
+    ui->actionCopy->setShortcut(Qt::CTRL | Qt::Key_C);
+    ui->actionCut->setShortcut(Qt::CTRL | Qt::Key_X);
+    ui->actionPaste->setShortcut(Qt::CTRL | Qt::Key_V);
+    ui->actionRun->setShortcut(Qt::CTRL | Qt::Key_R);
 }
 
 void MainWindow::setupMenuActions()
@@ -163,6 +166,10 @@ void MainWindow::setupMenuActions()
     connect(ui->actionExit,         SIGNAL(triggered()), this, SLOT(sendCloseEvent()));
     connect(ui->actionUndo,         SIGNAL(triggered()), this, SLOT(undo()));
     connect(ui->actionRedo,         SIGNAL(triggered()), this, SLOT(redo()));
+    connect(ui->actionCut,          SIGNAL(triggered()), this, SLOT(cut()));
+    connect(ui->actionCopy,         SIGNAL(triggered()), this, SLOT(copy()));
+    connect(ui->actionPaste,        SIGNAL(triggered()), this, SLOT(paste()));
+    connect(ui->actionRun,          SIGNAL(triggered()), this, SLOT(runCompiler()));
 }
 
 bool MainWindow::saveAs()
@@ -232,9 +239,9 @@ void MainWindow::open()
 
 void MainWindow::newFile()
 {
+    bool flag = false;
 
     // Prompt for user action
-    bool flag = false;
     if(cur_doc->isModified())
     {
         flag = displayUnsavedChanges();
@@ -244,7 +251,7 @@ void MainWindow::newFile()
     }
     else if(!cur_doc->isBlank() && !cur_doc->isModified())
     {
-        QString title("Close the current file");
+        QString title("Close the current file...");
         QString msg("Are you sure you want to close the current file?");
         flag = displayAreYouSure(title, msg);
 
@@ -283,9 +290,7 @@ void MainWindow::newFile()
 
 void MainWindow::gotoLine()
 {
-    //QString tacos = cur_doc->getAllText();
-    //std::cerr << tacos.toStdString() << std::endl;
-    bool ok;
+    bool ok; // Boolean that checks to see if the user clicked ok.
     int max = cur_doc->getTotalLines();
     int line = QInputDialog::getInt(this, tr("Go to"), tr("line:"), 1, 1, max, 1, &ok);
 
@@ -293,6 +298,21 @@ void MainWindow::gotoLine()
     {
         cur_doc->gotoLine(line);
     }
+}
+
+void MainWindow::copy()
+{
+    cur_doc->copy();
+}
+
+void MainWindow::cut()
+{
+    cur_doc->cut();
+}
+
+void MainWindow::paste()
+{
+    cur_doc->paste();
 }
 
 bool MainWindow::runCompiler()
@@ -319,17 +339,17 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if(cur_doc->isModified())
         quit = displayUnsavedChanges();
 
-    // Ensure that the doc is garbage before we post it.
-    sprintf(sem_doc.content, "\0\0\0\0\0");
-
-    Error** temp = sem_error.content; //Used to see the contents of sem_error
-    Q_UNUSED(temp)
-
     if(!quit)
     {
         event->ignore();
         return;
     }
+
+    char* temp = sem_error.content; //Used to see the contents of sem_error
+    Q_UNUSED(temp)
+
+    // Ensure that the doc is garbage before we post it.
+    sprintf(sem_doc.content, "\0\0\0\0\0");
 
     sem_post(sem_doc.sem); // Unblock the child.
     //kill(child, SIGTERM);
@@ -371,13 +391,15 @@ void MainWindow::setupCompiler()
 {
     clearCompilerMessages();
     compiler = new CompilerHandler(this);
+
     connect(compiler, SIGNAL(compilerOutput(QString)), this, SLOT(readCompilerOutputLine(QString)));
-    connect(compiler, SIGNAL(compilerError(QString)),  this, SLOT(readCompilerErrorLine(QString)));
+    connect(compiler, SIGNAL(compilerError(QString)),  this, SLOT(readCompilerErrorLine (QString)));
 }
 
 void MainWindow::setupTheme()
 {
     themer = new ThemeHandler();
+    // TODO: Connect the RixLexer and Themer here.
 }
 
 void MainWindow::clearCompilerMessages()
@@ -417,20 +439,21 @@ void MainWindow::displayLicense()
 
 bool MainWindow::displayUnsavedChanges()
 {
-    bool quit = true;
-    bool flag = false;
-
     QMessageBox msgBox;
     msgBox.setText("The document has been modified.");
     msgBox.setInformativeText("Do you want to save your changes?");
     msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Save);
 
+    bool flag = false; // Flag for leaving loop
+    bool quit = true;  // Determine if user wants to quit or cancel
+
     /*
      * Continous loop to force the user make a decision
      * between saving / discard / cancel saved changes.
      */
     do{
+
         int ret = msgBox.exec();
 
         switch (ret)
@@ -456,15 +479,15 @@ bool MainWindow::displayUnsavedChanges()
 
 bool MainWindow::displayAreYouSure(const QString &title, const QString &msg)
 {
-    bool flag = false;
-
     QMessageBox msgBox;
     msgBox.setText(title);
     msgBox.setInformativeText(msg);
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::Yes);
 
+    bool flag = false;
     int ret = msgBox.exec();
+
     switch(ret)
     {
     case QMessageBox::Yes:
@@ -481,7 +504,6 @@ bool MainWindow::displayAreYouSure(const QString &title, const QString &msg)
 
 bool MainWindow::displaySaveOrIgnoreChanges()
 {
-    bool savedChanges = false;
 
     QMessageBox msgBox;
     msgBox.setText("The document has been previously modified.");
@@ -489,7 +511,9 @@ bool MainWindow::displaySaveOrIgnoreChanges()
     msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Ignore);
     msgBox.setDefaultButton(QMessageBox::Save);
 
+    bool savedChanges = false;
     int ret = msgBox.exec();
+
     switch(ret)
     {
     case QMessageBox::Save:
@@ -531,8 +555,8 @@ void MainWindow::documentWasModified()
 
 void MainWindow::tabChanged(int index)
 {
-    cur_index = index;
-    cur_doc = textEditList[cur_index];
+    cur_index   = index;
+    cur_doc     = textEditList[cur_index];
 }
 
 void MainWindow::on_button_open_clicked()
@@ -562,7 +586,7 @@ void MainWindow::on_button_zoom_out_clicked()
 
 void MainWindow::on_button_saveall_clicked()
 {
-    //Dealing with one file only atm, redirect to save file.
+    // Don't have multi-tabs; Redirect to save.
     save();
 }
 

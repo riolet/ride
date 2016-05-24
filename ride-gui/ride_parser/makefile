@@ -1,4 +1,4 @@
-all: rixc
+all: clean rixc
 
 rix.tab.c rix.tab.h:	rix.y
 	bison -d rix.y

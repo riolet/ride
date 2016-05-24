@@ -225,28 +225,29 @@ void RixLexer::handleCharAdded(int pos)
 
 void RixLexer::handleFoundErrors()
 {
-    Error*  cur_error;
+    char*   cur_error;
     char*   msg;
     int     len;
     int     line;
     int     start;
     int     num;
 
-    int errors = sem_error.errNumber;
+    int errors = *sem_error.errNumber;
 
     while(errors > 0)
     {
-        cur_error = sem_error.content[0];
+        //cur_error = sem_error.content;
 
-        msg = cur_error->message;
-        line = cur_error->line_number;
-        start = cur_error->column_start;
-        num = cur_error->num_characters;
-        len = cur_error->message_length;
+        // Do a parsing thing here, this is unfinished.
+        //msg = cur_error->message;
+        //line = cur_error->line_number;
+        //start = cur_error->column_start;
+        //num = cur_error->num_characters;
+        //len = cur_error->message_length;
 
         // TODO: Call highlight method here.
-        styleError((unsigned int) line, (unsigned int) start,
-                   (unsigned int) num);
+        //styleError((unsigned int) line, (unsigned int) start,
+        //           (unsigned int) num);
 
         errors--; // Decrement errors here.
     }

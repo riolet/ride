@@ -37,6 +37,9 @@ FUNCTIONS:      void on_button_open_clicked();
                 void loadFile(QString filepath);
                 void undo();
                 void redo();
+                void copy();
+                void cut();
+                void paste();
                 
                 void readCompilerOutputLine(const QString& line);
                 void readCompilerErrorLine(const QString& err);
@@ -432,6 +435,42 @@ Prompts the user with what line they wish to go to and makes their text cursor
 travel to the appropriate line.
 ===============================================================================*/
     void gotoLine();
+
+/*===============================================================================
+FUNCTION:       Copy
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void copy()
+
+NOTES:
+Copy the selected text.
+===============================================================================*/
+    void copy();
+
+/*===============================================================================
+FUNCTION:       Go to Line
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void cut()
+
+NOTES:
+Cut the selected text.
+===============================================================================*/
+    void cut();
+
+/*===============================================================================
+FUNCTION:       Go to Line
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void paste()
+
+NOTES:
+Paste the selected text at the text cursor.
+===============================================================================*/
+    void paste();
 
 /*===============================================================================
 FUNCTION:       Run Compiler

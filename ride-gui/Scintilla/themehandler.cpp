@@ -95,16 +95,16 @@ bool ThemeHandler::readFile(QFile *file)
 
 void ThemeHandler::parseFileContents(const QStringList &contents)
 {
-    int index = -1;
+    QStringList result;
+    int         index   = -1;
+    int         size;
 
     // Need a better regular expression for matching strings.
     QRegExp match("\"");
 
     for(int i = 0; i < _keylist.size(); i++)
     {
-        QString key = _keylist[i];
-        QStringList result;
-        int size;
+        QString     key     = _keylist[i];
 
         result = contents.filter(key);
         size = result.size();
@@ -118,6 +118,11 @@ void ThemeHandler::parseFileContents(const QStringList &contents)
             QString input;
             QString line = result[i];
 
+            /*
+            Since we matched with the key, let's find the next instance
+            of the next quotation mark by jumping past the key. This is a
+            temporary fix, should use regular expressions.
+            */
             index = line.indexOf(key) + (key.size());
             j = line.indexOf(match, index);
 
@@ -145,7 +150,7 @@ void ThemeHandler::assignColorString(const QString &keyword, const QString &inpu
 
     if(!color.isValid()) // Improperly formatted hexcode string
     {
-        color.setNamedColor(QString("#FFFFFF"));
+        return;
     }
 
     if(key_title.contains(keyword))
@@ -216,6 +221,6 @@ void ThemeHandler::setToAbsoluteDefault()
     for(int i = 0; i < _keylist.size(); i++)
     {
         QString key = _keylist[i];
-        assignColorString(key, QString("#FFFFFF"));
+        assignColorString(key, QString("#000000"));
     }
 }

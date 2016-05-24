@@ -73,7 +73,7 @@
        <enum>QAbstractItemView::ScrollPerPixel</enum>
       </property>
       <attribute name="headerVisible">
-       <bool>true</bool>
+       <bool>false</bool>
       </attribute>
       <attribute name="headerMinimumSectionSize">
        <number>80</number>
@@ -411,9 +411,16 @@
     <addaction name="actionZoom_In"/>
     <addaction name="actionZoom_Out"/>
    </widget>
+   <widget class="QMenu" name="menuBuild">
+    <property name="title">
+     <string>Build</string>
+    </property>
+    <addaction name="actionRun"/>
+   </widget>
    <addaction name="menuFILE"/>
    <addaction name="menuEDIT"/>
    <addaction name="menuVIEW"/>
+   <addaction name="menuBuild"/>
    <addaction name="menuHELP"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -505,6 +512,11 @@
   <action name="actionGo_to_line">
    <property name="text">
     <string>Go to line...</string>
+   </property>
+  </action>
+  <action name="actionRun">
+   <property name="text">
+    <string>Run</string>
    </property>
   </action>
  </widget>
