@@ -2,7 +2,6 @@
 #define PARSER_SEM_H
 
 #include <semaphore.h>
-#include "parser_error.h"
 
 #define SEM_CODE        		"/codesem"
 #define SHARED_CODE     		"/code"
