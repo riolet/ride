@@ -17,6 +17,8 @@
 #include <fcntl.h>           // For O_* constants
 #include <stdio.h>
 #include "ride_parser/parser_sem.h" //Contains the semaphores for the parser.
+#include <string>
+#include <regex>
 
 extern pid_t child;
 
