@@ -28,8 +28,9 @@ struct semaphore_response
 {
     sem_t   *sem;
     int     fd;     // fd is the start position of content in the shared memory block
-    int     errNumber;
-    Error   **content;
+    int 	fd_num_err;
+    int     *errNumber;
+    char   	*content;
 };
 
 extern struct semaphore_request sem_doc;

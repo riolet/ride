@@ -95,6 +95,14 @@ int errorDetect(Error **err, int *errnum, const char *doc);
  *
  * @param      e     the error that is returned from the parser
  */
-void sendError(Error *e);
+void pushError(Error *e);
+
+
+/**
+ * @brief      This is a callback method for error class. This method add an error into global error array and update the counter.
+ *
+ * @param      e     the error that is returned from the parser
+ */
+void returnError();
 
 #endif

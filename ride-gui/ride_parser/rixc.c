@@ -18,7 +18,7 @@ FILE *outMainFile;
 FILE *outHeaderFile;
 FILE *outMakeFile;
 
-Error **errors_array;
+Error **err_array;
 
 bool hitEOF;
 
@@ -2057,7 +2057,8 @@ void stdprintobj(Object *in)
 }
 
 /** This is the old main method. Uncomment for modified purpose */
-/*int main(int argc, char **argv)
+/*
+int main(int argc, char **argv)
 {
     int c, i, fd, old_stdout;
     int errflg = 0;
@@ -2218,103 +2219,115 @@ void stdprintobj(Object *in)
     //compilerDebugPrintf("\n%s compiled successfully.\n", ifile);
 
     return 0;
-}*/
+}
+ */
 
 
 /** MODIFIED METHODS START HERE **/
 int errorDetect(Error **err, int *errnum, const char *doc)
 {
+    char oMainFileName[BUFFLEN];
+    char oHeaderFileName[BUFFLEN];
+    char oMakeFileName[BUFFLEN];
+    char oCompilerLogFileName[BUFFLEN];
+
     FILE *ritTempFile;
     char *ifile = NULL;
     char *ofile = NULL;
     int numline = 0;
+    int parse_result = 0;
     g_headerLines = 0;
     e_count = 0;
+    e_flag = 0;
+
+    ifile = "Joyce-Collingwood.rit";
+    err_array   = err;
 
     // Retrieve document and write it to a temp file
-    file = fopen("Joyce-Collingwood.rit", "w+");
+    file = fopen(ifile, "w+");
 
     if(file == NULL)
     {
         perror("Can not initialize temp file");
     }
-    
-    int result = fprintf(ifile, "%s", doc);
-    if(result == 0)
-    {
-        return 0;
-    }
+
+    fprintf(file, "%s", doc);
 
     fclose(file);
 
     // Re-open document again
+    file = fopen(ifile, "r");
 
-    file = fopen("Joyce-Collingwood.rit.rit", "r");
-    if(file == NULL)
+
+    //
+    //
+    //
+    if (ofile == NULL)
     {
-        fprintf(stderr, "Failed to open the temp_parse_file for reading.\n");
-        return 0;
+        strcpy(oMainFileName, "out.c");
+        strcpy(oHeaderFileName, "out.h");
+        strcpy(oMakeFileName, "out.sh");
+        strcpy(oCompilerLogFileName, "out.log");
     }
 
+    //
+    //
+    //
     root = CreateObject("RootScope", "RootScope", 0, CodeBlock, "int");
 
     scopeStack[scope_idx] = root;
     current = scopeStack[scope_idx];
     defineRSLSymbols(root);
 
-    ritTempFile = fopen("rix_temp_file.rit", "w+");
-    if (ritTempFile == NULL)
+    ritTempFile = fopen("rix_temp_file.rit", "w");
+    if (ritTempFile == 0)
     {
         fprintf(stderr, "Failed to open the rix_temp_file for writing.\n");
         return 0;
     }
 
-    outCompilerLogFile  = fopen("out.log",  "w");
-    outMainFile         = fopen("out.c",    "w");
-    outHeaderFile       = fopen("out.h",    "w");
-    outMakeFile         = fopen("out.log",  "w");    
-    
-    readFile("rsl/rsl.rit", ritTempFile, &numline);
+    outCompilerLogFile = fopen(oCompilerLogFileName, "w");
 
-    //compilerDebugPrintf("Lines read %d\n", numline);
-    g_headerLines = numline;
+    compilerDebugPrintf("%s\n", ifile);
 
-    //Read mainfile
-    readFile("rix_temp_file.rit", ritTempFile, &numline);
+    readFile("rsl/rsl.rit", ritTempFile, &numline);     // Copy template header of a rix file
 
-    fprintf(ritTempFile, "\n"); //END OF FILE GUARANTEE!
+    compilerDebugPrintf("Lines read %d\n", numline);
+
+    g_headerLines = numline;                            // Update started line of the code
+
+    readFile(ifile, ritTempFile, &numline);             // Read our code and put it into ritTempFile
+
+    fprintf(ritTempFile, "\n");                         // END OF FILE GUARANTEE!
+
     fclose(ritTempFile);
 
+    //
+    //
+    //
+
     file = fopen("rix_temp_file.rit", "r+");
-    if(file == NULL)
-    {
-        fprintf(stderr, "failed to open rix_temp_file.rit.\n");
-        return 0;
-    }
 
     yyin = file;
 
+    outMainFile = fopen(oMainFileName, "w");
+    outHeaderFile = fopen(oHeaderFileName, "w");
+    outMakeFile = fopen(oMakeFileName, "w");
+
+    //
+    // PARSE
+    //
+
     hitEOF = false;
-    while (!hitEOF)
+    while ( !hitEOF )
     {
-        yyparse();
+        parse_result = yyparse();
     }
-
-    // Reassign input pointer
-    err = errors_array;
-    printf("Changed error count to: [%d].\n", e_count);
-    *errnum = e_count;
-    printf("errnum is: [%d].\n", *errnum);
-
-    fclose(file);
-    fclose(outMainFile);
-    fclose(outHeaderFile);
-    fclose(outMakeFile);
 
     return 1;
 }
 
-void sendError(Error *e)
+void pushError(Error *e)
 {
     int i;
     int usageed = 0;
@@ -2329,10 +2342,20 @@ void sendError(Error *e)
         }
         else
         {
-            errs[i] = errors_array[i];
+            errs[i] = err_array[i];
         }
         usageed++;
     }
 
-    errors_array = errs;
+    err_array = errs;
+}
+
+void returnError(){
+    // // Reassign input pointer
+    // err = err_array;
+    // printf("Changed error count to: [%d].\n", e_count);
+    // printf("errnum is: [%d].\n", *errnum);
+    // *errnum = e_count;
+
+    // fclose(file);
 }
