@@ -1,0 +1,43 @@
+Implement this in lex.l in the future:
+
+ML_COMMENT  							[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]
+ML_UNTERMINATED_COMMENT					[/][*]
+FUNCTION_DECLARATION                    {IDENTIFIER}[ \t]*{RET}
+FUNCTION_CALL                           {IDENTIFIER}[ \t]*"("
+RETURN_TYPE                             {RET}[ \t]*{IDENTIFIER}"("
+
+"/*" {
+                                        BEGIN(C_COMMENT);
+                                        int len = -2;
+                                        _lex->styleToken(len, SyntaxColours::UnterMultiComm);
+}
+
+<C_COMMENT>"*/" {
+                                        BEGIN(INITIAL);
+}
+
+<C_COMMENT>. {
+                                        size_t len = strlen(yytext);
+                                        _lex->styleToken(len, SyntaxColours::UnterMultiComm);
+}
+
+{RETURN_TYPE} {
+                                        int *positions = find_return_token_pos(yytext);
+                                        _lex->styleToken(2, SyntaxColours::Return);
+                                        _lex->styleToken(positions[0] - 2, SyntaxColours::Noncoloured);
+                                        _lex->styleToken(positions[1] - positions[0], SyntaxColours::ReturnType);
+                                        _lex->styleToken(positions[2] - positions[1], SyntaxColours::Noncoloured);
+                                        _lex->styleToken(1, SyntaxColours::Default);
+}
+
+{FUNCTION_DECLARATION} {
+                                        size_t len = strlen(yytext) - 2;
+                                        _lex->styleToken(len, SyntaxColours::FunctionDecl);
+                                        _lex->styleToken(2, SyntaxColours::Return);
+}
+
+{FUNCTION_CALL} {
+                                        size_t len = strlen(yytext) - 1;
+                                        _lex->styleToken(len, SyntaxColours::FunctionCall);
+                                        _lex->styleToken(1, SyntaxColours::Default);
+}

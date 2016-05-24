@@ -6,9 +6,6 @@ TEMPLATE = app
 LIBS += -lfl
 LIBS += -lrt
 LIBS += -lpthread
-#DEPENDPATH += ../
-#INCLUDEPATH += ../
-#LIBS += ../libqscintilla2.so
 
 SOURCES += \
     main.cpp \
@@ -62,3 +59,6 @@ flexheader.name = Flex Headers ${QMAKE_FILE_IN}
 flexheader.CONFIG += target_predeps no_link
 
 QMAKE_EXTRA_COMPILERS += flexheader
+
+DISTFILES += \
+    flex_todo.txt
