@@ -8,7 +8,6 @@
 #include <QApplication>
 #include "mainwindow.h"
 #include "globals.h"
-#include <autocompletion.h>
 
 
 struct semaphore_request  sem_doc;
@@ -108,8 +107,6 @@ int main(int argc, char *argv[])
         // THE CHILD WILL NEVER REACH HERE, IT IS REPLACED ENTIRELY
         return 0;
     }*/
-    Autocompletion comp;
-    comp.Detect("autocomp.rit");
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
