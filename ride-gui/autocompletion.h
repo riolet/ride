@@ -9,18 +9,48 @@
 #define LINESIZE 1024
 
 
+/*===============================================================================
+FUNCTION:       Store Found Functions
+
+PROGRAMMER(S):  Dimitry Rakhlei
+
+NOTES:
+Stores the function name, return type and all arguments as strings.
+===============================================================================*/
 struct Function {
     std::string              name;
     std::string              r_type;
     std::vector<std::string> args;
 };
 
+/*===============================================================================
+FUNCTION:       Store Found Class Declarations
+
+PROGRAMMER(S):  Dimitry Rakhlei
+
+NOTES:
+Stores the class name and it's parent's name.
+===============================================================================*/
 struct Class {
     std::string              name;
     std::string              parent;
 };
 
+/*===============================================================================
+FUNCTION:       Handle the Autocompletion data.
 
+PROGRAMMER(S):  Dimitry Rakhlei
+
+INTERFACES:     Autocompletion()       - Constructor.
+                Detect()               - Detects all functions and stores them.
+                FormatFunction()       - Formats one function for display.
+                FormatClass()          - Formats a class decl for display.
+                AutocompleteClass()    - Formats a class decl for insertion.
+                AutocompleteFunction() - Formats a function for insertion.
+                HandleImports()        - Stitches imported files into one.
+NOTES:
+Used by rixlexer to display an autocompletion box.
+===============================================================================*/
 class Autocompletion {
 private:
     std::vector<Function>    functs;
