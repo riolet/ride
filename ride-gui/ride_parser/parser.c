@@ -1,3 +1,20 @@
+/* 
+===============================================================================
+SOURCE FILE:    parser.h 
+                    This file houses all the parser functions that we uses
+                    for parsing text and detects error
+
+PROGRAM:        Linux Terminal
+
+FUNCTIONS:      void sig_chld (int)
+                int main(int , char **)
+
+PROGRAMMER(S):  Duy Pham
+
+NOTES:
+===============================================================================
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>

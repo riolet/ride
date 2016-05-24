@@ -1,3 +1,20 @@
+/* 
+===============================================================================
+SOURCE FILE:	errors.c 
+					This files houses all of the application logic for 
+					handling error message
+
+PROGRAM:		Linux Terminal
+
+FUNCTIONS:		void errorInitial( char *);
+
+PROGRAMMER(S):	Duy Pham
+
+NOTES:
+Standard Notes go here.
+===============================================================================
+*/
+
 #ifndef ERRORS_H
 #define ERRORS_H
 
@@ -42,11 +59,24 @@ int errorMsg(const char *format, ...);
 int warningMsg(const char *format, ...);
 void criticalError(ErrorCode code, char *message);
 
-/**
- * @brief      Initialize an error object
- *
- * @param      message  The message of the error
- */
+/*
+===============================================================================
+FUNCTION: 		errorInitial 
+
+PROGRAMMER(S):	Duy Pham
+
+INTERFACE:		multi interface
+
+PARAMETERS:		char *process: 
+					The error message that is called from other interface
+
+RETURNS:		void
+
+NOTES:			This methods create an error object and send it back to rixc
+				
+===============================================================================
+*/
+
 void errorInitial( char *message );
 
 #endif

@@ -1,3 +1,22 @@
+/* 
+===============================================================================
+SOURCE FILE:	rix.h 
+					This files houses the defination of the rix compiler and 
+					the rix parser. We only list the methods we created for the
+					rix parser
+
+PROGRAM:		Linux Terminal
+
+FUNCTIONS:		int errorDetect(Error **, int *, const char *);
+				void pushError(Error *e);
+				void returnError();
+
+PROGRAMMER(S):	Duy Pham, Phill Hood
+
+NOTES:
+===============================================================================
+*/
+
 #ifndef RITC_H
 #define RITC_H
 
@@ -86,7 +105,9 @@ int simplifyInt(int left, char *op, int right);
  * @param      errnum  the number of errors
  * @param[in]  doc     the original document
  *
- * @return     { description_of_the_return_value }
+ * @return     0 for no error
+ * 			   1 for error happens
+ * @author     Phill Hood
  */
 int errorDetect(Error **err, int *errnum, const char *doc);
 
@@ -94,6 +115,7 @@ int errorDetect(Error **err, int *errnum, const char *doc);
  * @brief      This is a callback method for error class. This method add an error into global error array and update the counter.
  *
  * @param      e     the error that is returned from the parser
+ * @author     Phill Hood
  */
 void pushError(Error *e);
 
@@ -102,6 +124,7 @@ void pushError(Error *e);
  * @brief      This is a callback method for error class. This method add an error into global error array and update the counter.
  *
  * @param      e     the error that is returned from the parser
+ * @author     Duy Pham
  */
 void returnError();
 
