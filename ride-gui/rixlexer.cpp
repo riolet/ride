@@ -212,16 +212,7 @@ void RixLexer::handleCharAdded(int pos)
             editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE,
                                     0, length, contents);
 
-            std::string sWord = word;
-            std::string sContents = contents;
-
-
-            // Call function to get methods/members of "word" here
-            // Return must be a const c-string, with functions
-            // & members separated by spaces
-            const char *testing = "test test1 test2 test3";
-
-            editor()->SendScintilla(QsciScintilla::SCI_AUTOCSHOW, (size_t)0, testing);
+            activateAutocomplete(contents, word);
         }
     }
     else if(currentChar[0] == '\n')
@@ -229,6 +220,16 @@ void RixLexer::handleCharAdded(int pos)
         //_scint->parseError();
         //handleFoundErrors();
     }
+}
+
+void RixLexer::activateAutocomplete(std::string code, std::string caller)
+{
+    // Call function to get methods/members of "word" here
+    // Return must be a const c-string, with functions
+    // & members separated by spaces
+    const char *testing = "test test1 test2 test3";
+
+    editor()->SendScintilla(QsciScintilla::SCI_AUTOCSHOW, (size_t)0, testing);
 }
 
 void RixLexer::handleFoundErrors()
