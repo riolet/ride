@@ -6,9 +6,6 @@ TEMPLATE = app
 LIBS += -lfl
 LIBS += -lrt
 LIBS += -lpthread
-#DEPENDPATH += ../
-#INCLUDEPATH += ../
-#LIBS += ../libqscintilla2.so
 
 SOURCES += \
     main.cpp \
@@ -17,7 +14,8 @@ SOURCES += \
     aboutdialog.cpp \
     Compiler/compilerhandler.cpp \
     rixlexer.cpp \
-    Scintilla/themehandler.cpp
+    Scintilla/themehandler.cpp \
+    autocompletion.cpp
 
 FLEXSOURCES = lex.l
 
@@ -43,7 +41,8 @@ HEADERS += \
     Compiler/compilerhandler.h \
     rixlexer.h \
     lexershare.h \
-    syntaxcolours.h
+    syntaxcolours.h \
+    autocompletion.h
 
 flexsource.input = FLEXSOURCES
 flexsource.output = ${QMAKE_FILE_BASE}.cpp
@@ -62,3 +61,6 @@ flexheader.name = Flex Headers ${QMAKE_FILE_IN}
 flexheader.CONFIG += target_predeps no_link
 
 QMAKE_EXTRA_COMPILERS += flexheader
+
+DISTFILES += \
+    flex_todo.txt

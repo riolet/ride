@@ -9,6 +9,7 @@
 #include "mainwindow.h"
 #include "globals.h"
 
+
 struct semaphore_request  sem_doc;
 struct semaphore_response sem_error;
 pid_t child;
@@ -106,7 +107,6 @@ int main(int argc, char *argv[])
         // THE CHILD WILL NEVER REACH HERE, IT IS REPLACED ENTIRELY
         return 0;
     }*/
-
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

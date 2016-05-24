@@ -7,6 +7,7 @@
 #include <Qsci/qscilexercustom.h>
 #include <Qsci/qscistyle.h>
 #include <stdio.h>
+#include <autocompletion.h>
 
 #include "Scintilla/scintilladoc.h"
 
@@ -22,6 +23,7 @@ public:
     void styleText(int start, int end);
     void styleToken(unsigned int length, int style);
     void styleError(unsigned int line, unsigned int offset, unsigned int length);
+    void activateAutocomplete(std::string code, std::string caller);
     void setWordChars(char *chars);
     void setErrorStyle(unsigned int indic, unsigned int style, unsigned int hexColour);
     QString description(int style) const;
