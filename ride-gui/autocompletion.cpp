@@ -11,9 +11,11 @@ Autocompletion::Autocompletion() {
 }
 
 
-void Autocompletion::Detect (char* ifile) {
-    HandleImports(ifile, ritTempFile, &numline);
-    std::cout << "Detecting: " << ifile << std::endl;
+void Autocompletion::Detect (std::string code) {
+    std::ofstream ofs("code.temp");
+    ofs << code;
+    ofs.close();
+    HandleImports("code.temp", ritTempFile, &numline);
     fclose(ritTempFile);
     std::ifstream file("rix_temp_file.rit");
     std::string input;
@@ -79,13 +81,40 @@ std::vector<Class> Autocompletion::GetClasses() {
 
 std::string Autocompletion::FormatFunction(Function in) {
     std::string out;
-    out = out + in.name;
-
+    out += in.name;
+    out += "->";
+    out += "(";
+    for(auto it : in.args)
+        out += it;
+    out += ")";
+    std::cout << out << std::endl;
     return out;
 }
 
-std::string Autocompletion::FormatClass(Class in);
+std::string Autocompletion::FormatClass(Class in) {
+    std::string out;
+    out += in.name;
+    out += "::";
+    out += in.parent;
+    std::cout << out << std::endl;
+    return out;
+}
 
+std::string Autocompletion::AutocompleteClass(Class in) {
+    std::string out;
+    out += in.name;
+    out += "( ";
+    out += " )";
+    return out;
+}
+
+std::string Autocompletion::AutocompleteFunction(Function in) {
+    std::string out;
+    out += in.name;
+    out += " (";
+    out += " );";
+    return out;
+}
 
 int Autocompletion::HandleImports(char name[], FILE * ofp, int *numline) {
     FILE *fp;

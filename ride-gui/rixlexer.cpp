@@ -222,12 +222,49 @@ void RixLexer::handleCharAdded(int pos)
     }
 }
 
+/******************************************************************************
+** FUNCTION: 		activateAutocomplete
+** ​
+** PROGRAMMER(S):	Dimitry Rakhlei, Micah Willems
+** ​
+** PARAMETERS:      std::string code(the code), std::string caller (text that
+**                  initialized autocomp)
+**
+** RETURNS:         void
+​**
+** NOTES:           This is a method that interfaces with the Autocompletion
+**                  class. It calls methods that parse the current code and
+**                  returns formatted strings for the widget that will display
+**                  them.
+******************************************************************************/
 void RixLexer::activateAutocomplete(std::string code, std::string caller)
 {
     // Call function to get methods/members of "word" here
     // Return must be a const c-string, with functions
     // & members separated by spaces
     const char *testing = "test test1 test2 test3";
+    Autocompletion autocomp;
+    autocomp.Detect(code);
+    std::vector<Class> classes = autocomp.GetClasses();
+    std::vector<Function> functions = autocomp.GetFunctions();
+    std::vector<std::string> formatted_functions;
+    std::vector<std::string> formatted_classes;
+    std::vector<std::string> insertable_class_code;
+    std::vector<std::string> insertable_function_code;
+    for(auto it : classes)
+        formatted_classes.push_back(autocomp.FormatClass(it));
+    for(auto it : functions)
+        formatted_functions.push_back(autocomp.FormatFunction(it));
+    for(auto it : classes)
+        insertable_class_code.push_back(autocomp.AutocompleteClass(it));
+    for(auto it : functions)
+        insertable_function_code.push_back(autocomp.AutocompleteFunction(it));
+
+    //Micah here is what I am giving you.
+    //formatted_functions and formatted_classes are the things you display in the autocompletion box.
+    //insertable_class_code and insertable_function_code are what you put if they select.
+
+    //so if user selects formatted_functions[4], you insert into file insertable_function_code[4]
 
     editor()->SendScintilla(QsciScintilla::SCI_AUTOCSHOW, (size_t)0, testing);
 }

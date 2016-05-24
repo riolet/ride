@@ -32,11 +32,13 @@ public:
 
     Autocompletion();
 
-    void Detect (char* ifile);
+    void Detect (std::string code);
     std::vector<Function>    GetFunctions();
     std::vector<Class>       GetClasses();
     std::string FormatFunction(Function in);
     std::string FormatClass(Class in);
+    std::string AutocompleteClass(Class in);
+    std::string AutocompleteFunction(Function in);
     int HandleImports(char name[], FILE * ofp, int *numline);
 };
 

@@ -7,6 +7,7 @@
 #include <Qsci/qscilexercustom.h>
 #include <Qsci/qscistyle.h>
 #include <stdio.h>
+#include <autocompletion.h>
 
 #include "Scintilla/scintilladoc.h"
 
