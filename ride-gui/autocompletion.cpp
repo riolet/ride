@@ -82,10 +82,14 @@ std::vector<Class> Autocompletion::GetClasses() {
 std::string Autocompletion::FormatFunction(Function in) {
     std::string out;
     out += in.name;
-    out += "->";
+    //out += "->";                      // Changes on these lines
     out += "(";
     for(auto it : in.args)
+    {                                   //
         out += it;
+        out += ",";                     //
+    }                                   //
+    out = out.substr(0, out.size()-1);  //
     out += ")";
     std::cout << out << std::endl;
     return out;
@@ -111,8 +115,8 @@ std::string Autocompletion::AutocompleteClass(Class in) {
 std::string Autocompletion::AutocompleteFunction(Function in) {
     std::string out;
     out += in.name;
-    out += " (";
-    out += " );";
+    out += "(";
+    out += ");";
     return out;
 }
 

@@ -45,6 +45,7 @@ ScintillaDoc::ScintillaDoc(QWidget *parent) : QWidget(parent)
     _isBlank    = true;
     _modified   = false;
     _filepath   = QString("");
+    _autoShort  = new QShortcut(QKeySequence("Ctrl+Space"), _editText);
 
     _lex->setEditor(_editText);
     _lex->setScintilladoc(this);
@@ -63,6 +64,8 @@ ScintillaDoc::ScintillaDoc(QWidget *parent) : QWidget(parent)
 
     connect(_editText,SIGNAL(SCN_CHARADDED(int)),
                  _lex, SLOT(handleCharAdded(int)));
+    connect(_autoShort, SIGNAL(activated()),
+                _lex, SLOT(autoCompleteShortcut()));
 
     connect(_editText, SIGNAL(textChanged()),
                 this, SLOT(scintillaTextChanged()));

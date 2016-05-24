@@ -37,6 +37,7 @@ mainwindow and scintilla.
 #include <QTextStream>
 #include <QFileInfo>
 #include <QMessageBox>
+#include <QShortcut>
 #include "globals.h"
 #include "lexershare.h"
 
@@ -338,6 +339,7 @@ public: // public variables
     QString             _filepath;      // Absolute file path of the file.
     QString             _errorString;   // Current error
     QFile*              _file;          // QFile containing the file's contents.
+    QShortcut*          _autoShort;      // Shortcut key binding for autocomplete
 
 private: // private variables
     bool            _isBlank;           // Blank file flag.

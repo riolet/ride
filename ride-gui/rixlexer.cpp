@@ -205,14 +205,10 @@ void RixLexer::handleCharAdded(int pos)
         if (wordEnd != wordStart)
         {
             char word[wordEnd - wordStart + 1];
-            int length = editor()->SendScintilla(QsciScintilla::SCI_GETTEXTLENGTH);
-            char contents[length + 1];
             editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE,
                                     wordStart, wordEnd, word);
-            editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE,
-                                    0, length, contents);
 
-            activateAutocomplete(contents, word);
+            activateAutocomplete(word);
         }
     }
     else if(currentChar[0] == '\n')
@@ -220,6 +216,11 @@ void RixLexer::handleCharAdded(int pos)
         //_scint->parseError();
         //handleFoundErrors();
     }
+}
+
+void RixLexer::autoCompleteShortcut()
+{
+    activateAutocomplete();
 }
 
 /******************************************************************************
@@ -237,14 +238,18 @@ void RixLexer::handleCharAdded(int pos)
 **                  returns formatted strings for the widget that will display
 **                  them.
 ******************************************************************************/
-void RixLexer::activateAutocomplete(std::string code, std::string caller)
+void RixLexer::activateAutocomplete(std::string caller)
 {
-    // Call function to get methods/members of "word" here
-    // Return must be a const c-string, with functions
-    // & members separated by spaces
-    const char *testing = "test test1 test2 test3";
+    if (!editor())
+        return;
+
+    int length = editor()->SendScintilla(QsciScintilla::SCI_GETTEXTLENGTH);
+    char contents[length + 1];
+    editor()->SendScintilla(QsciScintilla::SCI_GETTEXTRANGE,
+                            0, length, contents);
+
     Autocompletion autocomp;
-    autocomp.Detect(code);
+    autocomp.Detect(contents);
     std::vector<Class> classes = autocomp.GetClasses();
     std::vector<Function> functions = autocomp.GetFunctions();
     std::vector<std::string> formatted_functions;
@@ -260,13 +265,17 @@ void RixLexer::activateAutocomplete(std::string code, std::string caller)
     for(auto it : functions)
         insertable_function_code.push_back(autocomp.AutocompleteFunction(it));
 
+    std::string oneLine;
+    for (auto string : formatted_functions)
+        oneLine += string + " ";
+
     //Micah here is what I am giving you.
     //formatted_functions and formatted_classes are the things you display in the autocompletion box.
     //insertable_class_code and insertable_function_code are what you put if they select.
 
     //so if user selects formatted_functions[4], you insert into file insertable_function_code[4]
 
-    editor()->SendScintilla(QsciScintilla::SCI_AUTOCSHOW, (size_t)0, testing);
+    editor()->SendScintilla(QsciScintilla::SCI_AUTOCSHOW, (size_t)0, oneLine.c_str());
 }
 
 void RixLexer::handleFoundErrors()
