@@ -33,6 +33,7 @@ typedef enum
 } ErrorCode;
 
 int e_count;
+int e_flag;
 int g_lineNum;
 int g_lineCol;
 int g_headerLines;

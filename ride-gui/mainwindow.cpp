@@ -345,7 +345,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
         return;
     }
 
-    Error** temp = sem_error.content; //Used to see the contents of sem_error
+    char* temp = sem_error.content; //Used to see the contents of sem_error
     Q_UNUSED(temp)
 
     // Ensure that the doc is garbage before we post it.
