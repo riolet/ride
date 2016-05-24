@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QDir>
 #include <QString>
+#include <fstream>
 #include <iostream>
 #include <vector>
 #include <QFont>
@@ -17,6 +18,11 @@
 #include <fcntl.h>           // For O_* constants
 #include <stdio.h>
 #include "ride_parser/parser_sem.h" //Contains the semaphores for the parser.
+#include <string>
+#include <regex>
+#include <sstream>
+#include <stdlib.h>
+#include <string.h>
 
 extern pid_t child;
 

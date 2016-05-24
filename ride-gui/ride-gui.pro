@@ -14,7 +14,8 @@ SOURCES += \
     aboutdialog.cpp \
     Compiler/compilerhandler.cpp \
     rixlexer.cpp \
-    Scintilla/themehandler.cpp
+    Scintilla/themehandler.cpp \
+    autocompletion.cpp
 
 FLEXSOURCES = lex.l
 
@@ -40,7 +41,8 @@ HEADERS += \
     Compiler/compilerhandler.h \
     rixlexer.h \
     lexershare.h \
-    syntaxcolours.h
+    syntaxcolours.h \
+    autocompletion.h
 
 flexsource.input = FLEXSOURCES
 flexsource.output = ${QMAKE_FILE_BASE}.cpp
