@@ -4,6 +4,8 @@ CONFIG += qscintilla2
 TARGET = RIDE
 TEMPLATE = app
 LIBS += -lfl
+LIBS += -lrt
+LIBS += -lpthread
 #DEPENDPATH += ../
 #INCLUDEPATH += ../
 #LIBS += ../libqscintilla2.so
@@ -11,12 +13,11 @@ LIBS += -lfl
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    scintilladoc.cpp \
+    Scintilla/scintilladoc.cpp \
     aboutdialog.cpp \
-    compilerhandler.cpp \
+    Compiler/compilerhandler.cpp \
     rixlexer.cpp \
-    themehandler.cpp \
-    rixparser.c
+    Scintilla/themehandler.cpp
 
 FLEXSOURCES = lex.l
 
@@ -25,9 +26,6 @@ OTHER_FILES += \
 
 RESOURCES += \
         icons.qrc
-
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
 
 # Default rules for deployment.
 include(deployment.pri)
@@ -38,14 +36,14 @@ FORMS += \
 
 HEADERS += \
     mainwindow.h \
-    scintilladoc.h \
+    Scintilla/scintilladoc.h \
     globals.h \
     aboutdialog.h \
-    themehandler.h \
-    compilerhandler.h \
+    Scintilla/themehandler.h \
+    Compiler/compilerhandler.h \
     rixlexer.h \
     lexershare.h \
-    rixparser.h
+    syntaxcolours.h
 
 flexsource.input = FLEXSOURCES
 flexsource.output = ${QMAKE_FILE_BASE}.cpp

@@ -3,7 +3,15 @@
 #####
 
 #*.yy.c
-
+ride-gui/ride_parser/lex.yy.c
+ride-gui/ride_parser/out.c
+ride-gui/ride_parser/out.h
+ride-gui/ride_parser/out.log
+ride-gui/ride_parser/parser
+ride-gui/ride_parser/rix.tab.c
+ride-gui/ride_parser/rix.tab.h
+ride-gui/ride_parser/temp_parse_file.rit
+ride-gui/ride_parser/rixc
 
 #####
 ##### QT

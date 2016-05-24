@@ -1,14 +1,18 @@
 %{
+
 /* need this for the call to atof() below */
 #include <math.h>
 #include <string.h>
+#include <ctype.h>
 #include "lexershare.h"
+#include "syntaxcolours.h"
 RixLexer *_lex;
 int col_number = 0;
-
+int* find_return_token_pos(const char* token);
 
 %}
 
+%x C_COMMENT
 
 %option noyywrap
 
@@ -18,8 +22,6 @@ SCOPERESOP								"::"
 DIGIT    								[0-9]
 RET      								"->"
 SL_COMMENT 								"//".*
-ML_COMMENT  							[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]
-ML_UNTERMINATED_COMMENT					[/][*] 
 STRING        							\"(\\.|[^\\"])*\"
 CHAR        							\'(\\.|[^\\'])+\'
 
@@ -27,84 +29,130 @@ INT_TYPE								"int"
 
 IDENTIFIER								[A-Za-z0-9]+
 
+/*
+ * Fix and implement:
+ *
+ *                                                         | |<--- remove these two parentheses
+ *                                                         | |     when re-implementing
+ML_COMMENT  							[/][*][^*]*[*]+([^*(/)][^*]*[*]+)*[/]
+ML_UNTERMINATED_COMMENT					[/][*]
+FUNCTION_DECLARATION                    {IDENTIFIER}[ \t]*{RET}
+FUNCTION_CALL                           {IDENTIFIER}[ \t]*"("
+RETURN_TYPE                             {RET}[ \t]*{IDENTIFIER}"("
+
+"/*" {
+                                        BEGIN(C_COMMENT);
+                                        int len = -2;
+                                        _lex->styleToken(len, SyntaxColours::UnterMultiComm);
+}
+
+<C_COMMENT>"*\/" { // Remove backslash when re-implementing
+                                        BEGIN(INITIAL);
+}
+
+<C_COMMENT>. {
+                                        size_t len = strlen(yytext);
+                                        _lex->styleToken(len, SyntaxColours::UnterMultiComm);
+}
+
+{RETURN_TYPE} {
+                                        int *positions = find_return_token_pos(yytext);
+                                        _lex->styleToken(2, SyntaxColours::Return);
+                                        _lex->styleToken(positions[0] - 2, SyntaxColours::Noncoloured);
+                                        _lex->styleToken(positions[1] - positions[0], SyntaxColours::ReturnType);
+                                        _lex->styleToken(positions[2] - positions[1], SyntaxColours::Noncoloured);
+                                        _lex->styleToken(1, SyntaxColours::Default);
+}
+
+{FUNCTION_DECLARATION} {
+                                        size_t len = strlen(yytext) - 2;
+                                        _lex->styleToken(len, SyntaxColours::FunctionDecl);
+                                        _lex->styleToken(2, SyntaxColours::Return);
+}
+
+{FUNCTION_CALL} {
+                                        size_t len = strlen(yytext) - 1;
+                                        _lex->styleToken(len, SyntaxColours::FunctionCall);
+                                        _lex->styleToken(1, SyntaxColours::Default);
+}
+*/
+
 %%
 
 
+{SL_COMMENT} {
+                                        size_t len = strlen(yytext);
+                                        _lex->styleToken(len, SyntaxColours::Comm);
+}
+
+" " {
+                                        size_t len = 1;
+                                        _lex->styleToken(len, SyntaxColours::Noncoloured);
+}
+
+\t {
+                                        size_t len = 1;
+                                        _lex->styleToken(len, SyntaxColours::Noncoloured);
+}
 
 {DIGIT}+ {
 										size_t len = strlen(yytext);
-                                        _lex->styleToken(len, 1);
+                                        _lex->styleToken(len, SyntaxColours::Integer);
 }
 
 {DIGIT}+"."{DIGIT}* {
 										size_t len = strlen(yytext);
-                                        _lex->styleToken(len, 2);
+                                        _lex->styleToken(len, SyntaxColours::Float);
 }
 
 {INT_TYPE} {							
 										size_t len = strlen(yytext);
-                                        _lex->styleToken(len, 3);
+                                        _lex->styleToken(len, SyntaxColours::Int);
 }
 
 {STRING} {								
 										size_t len = strlen(yytext);
-                                        _lex->styleToken(len, 4);
+                                        _lex->styleToken(len, SyntaxColours::String);
 }
 
 {CHAR} {								
 										size_t len = strlen(yytext);
-                                        _lex->styleToken(len, 5);
+                                        _lex->styleToken(len, SyntaxColours::Char);
 }
 
 {CLASSOP} {								
 										size_t len = strlen(yytext);
-                                        _lex->styleToken(len, 6);
+                                        _lex->styleToken(len, SyntaxColours::Class);
 }
 
 {SCOPERESOP} {							
 										size_t len = strlen(yytext);
-                                        _lex->styleToken(len, 7);
+                                        _lex->styleToken(len, SyntaxColours::Scope);
 }
 
 if|for {								
 										size_t len = strlen(yytext);
-                                        _lex->styleToken(len, 8);
+                                        _lex->styleToken(len, SyntaxColours::Keyword);
 }
 
 {RET} {									
 										size_t len = strlen(yytext);
-                                        _lex->styleToken(len, 9);
+                                        _lex->styleToken(len, SyntaxColours::Return);
 }
 
 {IDENTIFIER} {
 										size_t len = strlen(yytext);
-                                        _lex->styleToken(len, 10);
-}
-
-{SL_COMMENT} { 					 		
-										size_t len = strlen(yytext);
-                                        _lex->styleToken(len, 11);
-}
-
-{ML_COMMENT} {
-										size_t len = strlen(yytext);
-                                        _lex->styleToken(len, 12);
-}
-							
-
-{ML_UNTERMINATED_COMMENT} {
-										size_t len = strlen(yytext);
-                                        _lex->styleToken(len, 13);
+                                        _lex->styleToken(len, SyntaxColours::Identifier);
 }
 
 {NEWLINE} {
                                         size_t len = 1;
-                                        _lex->styleToken(len, 0);
+                                        _lex->styleToken(len, SyntaxColours::Noncoloured);
 }
 
 . {
 										size_t len = strlen(yytext);
-                                        _lex->styleToken(len, 0);
+                                        _lex->styleToken(len, SyntaxColours::Noncoloured);
 }
 
 
@@ -115,4 +163,17 @@ void scan_string(const char* str)
 {
     yy_switch_to_buffer(yy_scan_string(str));
     yylex();
+}
+
+int* find_return_token_pos(const char* token)
+{
+    int indexStart = 0;
+
+    while(!isalnum(token[indexStart++])) {}
+    int indexEnd = indexStart;
+    while(isalnum(token[indexEnd++])) {}
+    int indexBrack = indexEnd;
+    while(token[indexBrack++] != '(') {}
+    int ret[3] = {indexStart, indexEnd, indexBrack};
+    return ret;
 }

@@ -1,0 +1,19 @@
+prthuh -> int () 
+	#i = 123
+	->i
+
+#aa = prthuha()
+print( aa )
+
+A :: BaseType
+	prtwat -> int (int num1, int num2)
+		#a = 10 + num1
+		->a
+
+#class = A()
+#bb = class.prtwat(10, 20)
+#cc = "hella"
+
+print ( bb )
+
+print ( cc )

@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
+#include "parser_error.h"
 
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_GREEN   "\x1b[32m"
@@ -31,23 +32,8 @@ typedef enum
     ERROR_RuntimeError
 } ErrorCode;
 
-/*-------------------------------------------------------------------------*//**
- * @brief      Type define of an error object
- * @details    This object indicates an error message that can be returned to
- *             the GUI.
- * @author     Duy Pham
- * @version    1.0
- */
-typedef struct error_object
-{
-    char *message;
-    int message_length;
-    int line_number;
-    int column_start;
-    int num_characters;
-} Error;
-
 int e_count;
+int e_flag;
 int g_lineNum;
 int g_lineCol;
 int g_headerLines;

@@ -1,3 +1,30 @@
+/*===============================================================================
+SOURCE FILE:    themehandler.cpp 
+                    Class dedicated to handling the colouring scheme of the 
+                    scintilla document in regards to variables, integers, etc.
+
+PROGRAM:        Ride
+
+FUNCTIONS:      explicit ThemeHandler(QWidget *parent = 0);
+                bool readDefaultFile();
+                bool readFile(QFile* file);
+                void parseFileContents(const QStringList &contents);
+                void assignColorString(const QString &keyword, const QString &input);
+                void setToAbsoluteDefault();
+
+QT SIGNALS:     void textChanged();
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+NOTES:
+This theme handler first reads in the default configuration file and allows
+the user to change the colour theme. 
+
+THIS CLASS IS CURRENTLY UNFINISHED BUT STILL PARSES THE CONFIG FILE CORRECTLY.
+Requires:
+-changing rix lexer colours using this class
+===============================================================================*/
+
 #include "themehandler.h"
 
 ThemeHandler::ThemeHandler(const QString &filepath)
@@ -68,16 +95,16 @@ bool ThemeHandler::readFile(QFile *file)
 
 void ThemeHandler::parseFileContents(const QStringList &contents)
 {
-    int index = -1;
+    QStringList result;
+    int         index   = -1;
+    int         size;
 
     // Need a better regular expression for matching strings.
     QRegExp match("\"");
 
     for(int i = 0; i < _keylist.size(); i++)
     {
-        QString key = _keylist[i];
-        QStringList result;
-        int size;
+        QString     key     = _keylist[i];
 
         result = contents.filter(key);
         size = result.size();
@@ -91,6 +118,11 @@ void ThemeHandler::parseFileContents(const QStringList &contents)
             QString input;
             QString line = result[i];
 
+            /*
+            Since we matched with the key, let's find the next instance
+            of the next quotation mark by jumping past the key. This is a
+            temporary fix, should use regular expressions.
+            */
             index = line.indexOf(key) + (key.size());
             j = line.indexOf(match, index);
 
@@ -118,7 +150,7 @@ void ThemeHandler::assignColorString(const QString &keyword, const QString &inpu
 
     if(!color.isValid()) // Improperly formatted hexcode string
     {
-        color.setNamedColor(QString("#FFFFFF"));
+        return;
     }
 
     if(key_title.contains(keyword))
@@ -189,6 +221,6 @@ void ThemeHandler::setToAbsoluteDefault()
     for(int i = 0; i < _keylist.size(); i++)
     {
         QString key = _keylist[i];
-        assignColorString(key, QString("#FFFFFF"));
+        assignColorString(key, QString("#000000"));
     }
 }

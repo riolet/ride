@@ -2,13 +2,14 @@
 
 int warningMsg(const char *format, ...)
 {
+    // printf("CALLED FROM WARNING ERROR\n");
     int ret;
     //fprintf(stderr,"Line %d: Column:%d - ",lineNum,linePos);
     fprintf(stderr, ANSI_COLOR_YELLOW);
     va_list arg;
     va_start(arg, format);
     ret = vfprintf(stderr, format, arg);
-    
+
     // In case we want to grab the error and modify it
     char buffer[1024];
     vsnprintf(buffer, 1024, format, arg);
@@ -21,6 +22,7 @@ int warningMsg(const char *format, ...)
 
 int errorMsg(const char *format, ...)
 {
+    // printf("CALLED FROM ERROR MESSAGE\n");
     int ret;
     fprintf(stderr, ANSI_COLOR_RED);
     fprintf(stderr, "Line %d: Column:%d - ", g_lineNum - g_headerLines, g_lineCol);
@@ -41,6 +43,8 @@ int errorMsg(const char *format, ...)
 void criticalError(ErrorCode code, char *message)
 {
     fprintf(stderr, "\t");
+    e_flag++;
+    // printf("CALLED FROM CRITICAL ERROR\n");
     switch (code)
     {
     case ERROR_EndlessString:
@@ -84,7 +88,8 @@ void criticalError(ErrorCode code, char *message)
         fprintf(stderr, "\t");
         fprintf(stderr, "%s", message);
     }
-    // exit((int)code);
+    
+    exit(0);
 }
 
 /**
@@ -94,16 +99,18 @@ void criticalError(ErrorCode code, char *message)
  */
 void errorInitial( char *message )
 {
-    Error *e = malloc(sizeof(Error));
+    Error *e;
+    // printf("A wild error has appeared\n");
+    // 
+    e = (Error *) malloc(sizeof(Error));
 
     //add to errList
 
-    e->message          = message;
-    e->message_length   = strlen(message);
-    e->line_number      = g_lineNum - g_headerLines;
-    e->column_start     = g_lineCol;
-    e->num_characters   = 0;
-
+    // e->message          = message;
+    // e->message_length   = strlen(message);
+    // e->line_number      = g_lineNum - g_headerLines;
+    // e->column_start     = g_lineCol;
+    // e->num_characters   = 0;
     e_count++;
-    sendError(e);
+    pushError(e);
 }

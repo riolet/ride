@@ -1,6 +1,11 @@
 #ifndef ERROR_OBJECT_H
 #define ERROR_OBJECT_H
 
+/*
+ * @brief      Type define of an error object
+ * @details    This object indicates an error message that can be returned to
+ *             the GUI.
+ */
 typedef struct error_object
 {
     char *message;
@@ -9,10 +14,4 @@ typedef struct error_object
     int column_start;
     int num_characters;
 } Error;
-
-extern Error** errors;
-
-extern int Detect_errors(Error** err, int* err_num, char* doc);
-extern int Return_errors();
-
-#endif // ERROR_OBJECT_H
+#endif  // ERROR_OBJECT_H
