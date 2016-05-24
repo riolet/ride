@@ -11,15 +11,16 @@ struct Function {
 struct Class {
     std::string           name;
     std::string           parent;
-    std::vector<Function> members;
 };
 
-struct Completion {
+
+class Autocompletion {
+private:
     std::vector<Function> functs;
     std::vector<Class>    classes;
-};
 
-Completion completion;
-void Detect ();
+public:
+    void Detect (char* code);
+};
 
 #endif // AUTOCOMPLETION_H

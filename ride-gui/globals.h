@@ -19,6 +19,7 @@
 #include "ride_parser/parser_sem.h" //Contains the semaphores for the parser.
 #include <string>
 #include <regex>
+#include <sstream>
 
 extern pid_t child;
 
