@@ -11,10 +11,10 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Ride</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0,0,0,0" columnstretch="0,1,2">
+   <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0,2,0,1" columnstretch="0,1,3">
     <item row="1" column="0" colspan="3">
      <widget class="Line" name="line_menu_seperator">
       <property name="sizePolicy">
@@ -73,7 +73,7 @@
        <enum>QAbstractItemView::ScrollPerPixel</enum>
       </property>
       <attribute name="headerVisible">
-       <bool>true</bool>
+       <bool>false</bool>
       </attribute>
       <attribute name="headerMinimumSectionSize">
        <number>80</number>
@@ -262,7 +262,7 @@
        </font>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_output">
        <property name="sizePolicy">
@@ -359,7 +359,7 @@
      <x>0</x>
      <y>0</y>
      <width>1120</width>
-     <height>24</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="font">
@@ -411,9 +411,16 @@
     <addaction name="actionZoom_In"/>
     <addaction name="actionZoom_Out"/>
    </widget>
+   <widget class="QMenu" name="menuBuild">
+    <property name="title">
+     <string>Build</string>
+    </property>
+    <addaction name="actionRun"/>
+   </widget>
    <addaction name="menuFILE"/>
    <addaction name="menuEDIT"/>
    <addaction name="menuVIEW"/>
+   <addaction name="menuBuild"/>
    <addaction name="menuHELP"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -505,6 +512,11 @@
   <action name="actionGo_to_line">
    <property name="text">
     <string>Go to line...</string>
+   </property>
+  </action>
+  <action name="actionRun">
+   <property name="text">
+    <string>Run</string>
    </property>
   </action>
  </widget>
