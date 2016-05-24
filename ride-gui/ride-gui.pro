@@ -64,3 +64,11 @@ QMAKE_EXTRA_COMPILERS += flexheader
 
 DISTFILES += \
     flex_todo.txt
+
+# Copy ride_parser from source to build folder
+copydata.commands = $(COPY_DIR) $$PWD/ride_parser $$OUT_PWD/ride_parser
+parsermake.commands =
+first.depends = $(first) copydata
+export(first.depends)
+export(copydata.commands)
+QMAKE_EXTRA_TARGETS += first copydata
