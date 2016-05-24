@@ -2,7 +2,7 @@
 
 Autocompletion::Autocompletion() {
     numline = 0;
-   // if(ritTempFile != 0) fclose(ritTempFile);
+    //if(ritTempFile != 0) fclose(ritTempFile);
     ritTempFile = fopen("rix_temp_file.rit", "w");
     if (ritTempFile == 0) {
         perror("fopen failed");
@@ -76,6 +76,15 @@ std::vector<Function> Autocompletion::GetFunctions() {
 std::vector<Class> Autocompletion::GetClasses() {
     return classes;
 }
+
+std::string Autocompletion::FormatFunction(Function in) {
+    std::string out;
+    out = out + in.name;
+
+    return out;
+}
+
+std::string Autocompletion::FormatClass(Class in);
 
 
 int Autocompletion::HandleImports(char name[], FILE * ofp, int *numline) {

@@ -35,6 +35,8 @@ public:
     void Detect (char* ifile);
     std::vector<Function>    GetFunctions();
     std::vector<Class>       GetClasses();
+    std::string FormatFunction(Function in);
+    std::string FormatClass(Class in);
     int HandleImports(char name[], FILE * ofp, int *numline);
 };
 
