@@ -27,6 +27,7 @@ void sig_chld (int signo)
 
 int main(int argc, char **argv)
 {
+    char *start;
     int i;
     char buf[1024];
 
@@ -95,7 +96,7 @@ int main(int argc, char **argv)
         err_array[0] = e;
         err_array[1] = e2;
 
-        char *start = sem_error.content;
+        start = sem_error.content;
         
         for (i = 0; i < *sem_error.errNumber; i++)
         {
