@@ -277,8 +277,11 @@ void RixLexer::activateAutocomplete(std::string caller)
         insertable_function_code.push_back(autocomp.AutocompleteFunction(it));
 
     std::string oneLine;
-    for (auto string : formatted_functions)
+    for (auto string : insertable_function_code) {
         oneLine += string + " ";
+        std::cout << string << std::endl;
+    }
+
 
     editor()->SendScintilla(QsciScintilla::SCI_AUTOCSHOW, (size_t)0, oneLine.c_str());
 }
