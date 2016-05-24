@@ -44,9 +44,7 @@ int main(int argc, char **argv)
         return 1;
     }
 
-
     /* ------------------------------------------------------------------------------------ */
-
     printf("Map file descriptor\n");
     sem_doc.fd              = shm_open(SHARED_CODE, O_RDWR, 0666);
     sem_error.fd            = shm_open(SHARED_ERROR, O_RDWR, 0666);
@@ -59,20 +57,16 @@ int main(int argc, char **argv)
         return 1;
     }
 
-
     /* ------------------------------------------------------------------------------------ */
-
     printf("Map contents with file descriptor\n");
     sem_doc.content     = (char *) mmap(0, 10240, PROT_READ, MAP_SHARED, sem_doc.fd,   0);
 
-
     sem_error.errNumber = (int *) mmap(0, sizeof(int), PROT_WRITE, MAP_SHARED, sem_error.fd_num_err, 0);
     sem_error.content   = (char *) mmap(0, 10240, PROT_WRITE, MAP_SHARED, sem_error.fd, 0);
-
-
+    
     /**
      * Parser start to parse the code continuously
-     */
+     */ 
     while (true)
     {
         printf("Waiting on document.\n");
@@ -122,13 +116,10 @@ int main(int argc, char **argv)
         }
         
         sem_error.content = start;
-        // free(e);
-        // free(e2);// free(e);
-        // free(e2);
-        // free(err_array);
-        // free(err_array);
+        free(e);
+        free(e2);
+        free(err_array);
         printf("Error detection finished\n");
-
 
         sem_post(sem_error.sem);
     }

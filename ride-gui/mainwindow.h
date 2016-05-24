@@ -34,7 +34,12 @@ FUNCTIONS:      void on_button_open_clicked();
                 void newFile();
                 void gotoLine();
                 bool runCompiler();
-                void loadFile(QString filename);
+                void loadFile(QString filepath);
+                void undo();
+                void redo();
+                void copy();
+                void cut();
+                void paste();
                 
                 void readCompilerOutputLine(const QString& line);
                 void readCompilerErrorLine(const QString& err);
@@ -356,6 +361,36 @@ if it is. Otherwise, it will attempt to save the already opened file.
     bool save();
 
 /*===============================================================================
+FUNCTION:       Undo
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void undo()
+
+RETURNS:        Void
+
+NOTES:
+When the scintilla document is not in focus, it sends the undo command to the
+scintilla as if it were in focused by the user.
+===============================================================================*/
+    void undo();
+
+/*===============================================================================
+FUNCTION:       Redo
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void redo()
+
+RETURNS:        Void
+
+NOTES:
+When the scintilla document is not in focus, it sends the redo command to the
+scintilla as if it were in focused by the user.
+===============================================================================*/
+    void redo();
+
+/*===============================================================================
 FUNCTION:       Open
 
 PROGRAMMER(S):  Tyler Trepanier-Bracken
@@ -402,6 +437,42 @@ travel to the appropriate line.
     void gotoLine();
 
 /*===============================================================================
+FUNCTION:       Copy
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void copy()
+
+NOTES:
+Copy the selected text.
+===============================================================================*/
+    void copy();
+
+/*===============================================================================
+FUNCTION:       Go to Line
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void cut()
+
+NOTES:
+Cut the selected text.
+===============================================================================*/
+    void cut();
+
+/*===============================================================================
+FUNCTION:       Go to Line
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void paste()
+
+NOTES:
+Paste the selected text at the text cursor.
+===============================================================================*/
+    void paste();
+
+/*===============================================================================
 FUNCTION:       Run Compiler
 
 PROGRAMMER(S):  Tyler Trepanier-Bracken
@@ -418,40 +489,262 @@ current document.
     bool runCompiler();
 
 /*===============================================================================
-FUNCTION:       Display Unsaved Changes
+FUNCTION:       Load File
 
 PROGRAMMER(S):  Tyler Trepanier-Bracken
 
 INTERFACE:      void displayUnsavedChanges()
 
-RETURNS:        -TRUE   : The user has decided either to ignore or save changes.
-                -FALSE  : The user selected to cancel the current operation.
+RETURNS:        Void
 
 NOTES:
-Prompts the user with three actions:
-    -Close the file without making changes.
-    -Save their changes
-    -Cancel the current operation
+Uses a file's absolute file path and attempts to load the file's content onto
+the scintilla text edit surface. Any errors when loading the file will display
+an error message indicating a file load failure.
 ===============================================================================*/
-    void loadFile(QString filename);
+    void loadFile(QString filepath);
     
+
+/******************************************** 
+      Qt Slots that handle Qt Signals
+********************************************/
+/*===============================================================================
+FUNCTION:       Read Compiler Output Line
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void readCompilerOutputLine(const QString& line)
+
+PARAMETERS:     const QString& line
+                    Standard output line message.
+
+RETURNS:        Void
+
+NOTES:
+This is a signal handler that catches the compilerOutput(QString) signal and
+sends the line of compiler output into the output tab.
+===============================================================================*/
     void readCompilerOutputLine(const QString& line);
+
+/*===============================================================================
+FUNCTION:       Read Compiler Error Line
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void readCompilerErrorLine(const QString& err)
+
+PARAMETERS:     const QString& err
+                    Standard error line message.
+
+RETURNS:        Void
+
+NOTES:
+This is a signal handler that catches the compilerError(QString) signal and
+sends the line of compiler error into the issues tab.
+===============================================================================*/
     void readCompilerErrorLine(const QString& err);
     
+/*===============================================================================
+FUNCTION:       Close Event
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void closeEvent(QCloseEvent *event)
+
+PARAMETERS:     QCloseEvent *event
+                    The caught close event to be handled.
+
+RETURNS:        Void
+
+NOTES:
+This is the close event signal handler. First it checks whether or not the 
+document that the user was working on was modified and prompts for user action.
+After that, it handles dealing with unblocking the child process that detects 
+errors and sends the kill signal to that process and destroying the used
+semaphores.
+===============================================================================*/
     void closeEvent(QCloseEvent *event);
+
+/*===============================================================================
+FUNCTION:       Send Close Event
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void sendCloseEvent()
+
+RETURNS:        Void
+
+NOTES:
+Creates a new close event signal and calls the closeEvent(QCloseEvent*) method.
+===============================================================================*/
     void sendCloseEvent();
 
+/*===============================================================================
+FUNCTION:       Tab Changed
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void tabChanged(int index)
+
+PARAMETERS:     int index
+                    Index of the new tab.
+
+RETURNS:        Void
+
+NOTES:
+This slot detects whenever the tab has changed in regarded to scintilla and
+changes the "cur_doc" to the new tab that was selected.
+
+UNFINISHED: Multiple tabs was not implemented but this will take care of
+            handling of changing the current document to the new tab which will
+            contain the new document.
+===============================================================================*/
     void tabChanged(int index);
+
+/*===============================================================================
+FUNCTION:       Document Was Modified
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void documentWasModified()
+
+RETURNS:        Void
+
+NOTES:
+Signal catcher used to handle when a document was modified. Upon modification,
+the tab text for the current document will contain a star and other options
+will open up to prevent running or closing an unsaved modified file.
+===============================================================================*/
     void documentWasModified();
 
     private:    //Private Functions
+/*===============================================================================
+FUNCTION:       Set Up Compiler
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void setupCompiler()
+
+RETURNS:        Void
+
+NOTES:
+Creates a new compiler handler and sends all compilation message to the output
+or error tabs.
+===============================================================================*/
     void setupCompiler();
+
+/*===============================================================================
+FUNCTION:       Set up File Tree
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void setupFileTree()
+
+RETURNS:        Void
+
+NOTES:
+Populates the file tree with the directory and file contents depending on where
+this application was launched.
+
+UNFINISHED: The file tree should indicate which files belong to their
+            projects and should contain multiple projects.
+===============================================================================*/
     void setupFileTree();
+
+/*===============================================================================
+FUNCTION:       Set up Menu Actions
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void setupMenuActions()
+
+RETURNS:        Void
+
+NOTES:
+Connects the menu actions with their appropriate method to call.
+
+UNFINISHED: The About Rix and About Ride actions are set up to call the proper
+            functions but the functions are currently empty.
+===============================================================================*/
     void setupMenuActions();
+
+/*===============================================================================
+FUNCTION:       Set up Scintilla
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void setupScintilla()
+
+RETURNS:        Void
+
+NOTES:
+Removes all initial unused tabs from the mainwindow and creates a new blank
+tab.
+===============================================================================*/
     void setupScintilla();
-    void setupShortcuts(); // Not done yet.
+
+/*===============================================================================
+FUNCTION:       Set up Shortcuts
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void setupShortcuts()
+
+RETURNS:        Void
+
+NOTES:
+Connects common actions to a desired keyboard shortcut.
+===============================================================================*/
+    void setupShortcuts();
+
+/*===============================================================================
+FUNCTION:       Set up File Tree
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void setupTheme()
+
+RETURNS:        Void
+
+NOTES:
+Initializes the theme handler and uses the default colour scheme.
+
+UNFINISHED: Does not connect to the RixLexer at the moment and having multiple
+            themes has not been built yet.
+===============================================================================*/
     void setupTheme();
+
+/*===============================================================================
+FUNCTION:       Set Document Modified
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void setDocumentModified(bool modified)
+
+PARAMETERS:     bool modified
+                    Flag to remove or set the star in the current document's
+                    tab text.
+
+RETURNS:        Void
+
+NOTES:
+Sets or removes a star character in the tab text of the current scintilla
+document.
+===============================================================================*/
     void setDocumentModified(bool modified);
+
+/*===============================================================================
+FUNCTION:       Clear Compiler Messages
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void clearCompilerMessages()
+
+RETURNS:        Void
+
+NOTES:
+Clears all compilation messages from the output and the issues tabs.
+===============================================================================*/
     void clearCompilerMessages();
 
 private:    //Private Variables
