@@ -21,7 +21,7 @@
 ** NOTES:           This class handles the visual colouring and autocompletion
 **                  of the QScintilla text editor component, effectively adding
 **                  all the functionality that makes it a code editor.
-/******************************************************************************/
+*******************************************************************************/
 #include "rixlexer.h"
 #include "syntaxcolours.h"
 
@@ -36,7 +36,7 @@
 ** RETURNS:         void
 ​**
 ** NOTES:           Sets the ScintillaDoc associated with this RixLexer instance
-/*****************************************************************************/
+******************************************************************************/
 void RixLexer::setScintilladoc(ScintillaDoc *sd)
 {
     _scint = sd;
@@ -57,7 +57,7 @@ void RixLexer::setScintilladoc(ScintillaDoc *sd)
 **                  signal is emitted, this function is called. It gets the
 **                  first position on the line when the signal was emitted and
 **                  calls styleText
-/*****************************************************************************/
+******************************************************************************/
 void RixLexer::handleStyleNeeded(int pos)
 {
     if (!editor())
@@ -78,9 +78,9 @@ void RixLexer::handleStyleNeeded(int pos)
 ** ​
 ** PROGRAMMER(S):	Micah Willems
 ** ​
-** PARAMETERS:		unsigned int start
+** PARAMETERS:		int start
 **                      The first unstyled character
-**                  unsigned int end
+**                  int end
 **                      The position of the caret
 ​**
 ** RETURNS:         void
@@ -88,8 +88,8 @@ void RixLexer::handleStyleNeeded(int pos)
 ** NOTES:           Starts the styling for a section of text and sends the line
 **                  of text to flex to parse through the wrapper function
 **                  scan_string
-/*****************************************************************************/
-void RixLexer::styleText(unsigned int start, unsigned int end)
+******************************************************************************/
+void RixLexer::styleText(int start, int end)
 {
     if(end < start || !editor())
         return;
@@ -116,13 +116,22 @@ void RixLexer::styleText(unsigned int start, unsigned int end)
 ​**
 ** NOTES:           Styles a token according to the Rix language syntax and
 **                  chosen style colours.
-/*****************************************************************************/
+******************************************************************************/
 void RixLexer::styleToken(unsigned int length, int style)
 {
-    if (style == SyntaxColours::Default)
+    int totLen = editor()->SendScintilla(QsciScintilla::SCI_GETTEXTLENGTH);
+    int cur = editor()->SendScintilla(QsciScintilla::SCI_GETENDSTYLED);
+    if (cur == totLen) {
+        return;
+    }
+    else if (style == SyntaxColours::Default)
     {
         setStyling(length, 32);
         return;
+    }
+    else if (length == -2)
+    {
+        length = totLen - cur;
     }
 
     setStyling(length, style);
@@ -143,14 +152,14 @@ void RixLexer::styleToken(unsigned int length, int style)
 ** RETURNS:         void
 ​**
 ** NOTES:           Styles syntax errors.
-/*****************************************************************************/
+******************************************************************************/
 void RixLexer::styleError(unsigned int line, unsigned int offset, unsigned int length)
 {
     if (!editor())
         return;
 
     int start = editor()->SendScintilla(QsciScintilla::SCI_POSITIONFROMLINE,
-                                        line);
+                                        (int) line);
     if (start > -1)
     {
         int begin = start + offset;
@@ -176,7 +185,7 @@ void RixLexer::styleError(unsigned int line, unsigned int offset, unsigned int l
 **                  autocomplete box with them.
 **                  If the last char typed was a newline, it initiates error
 **                  checking.
-/*****************************************************************************/
+******************************************************************************/
 void RixLexer::handleCharAdded(int pos)
 {
     if (pos <= 0)
@@ -216,28 +225,29 @@ void RixLexer::handleCharAdded(int pos)
 
 void RixLexer::handleFoundErrors()
 {
-    Error*  cur_error;
+    char*   cur_error;
     char*   msg;
     int     len;
     int     line;
     int     start;
     int     num;
 
-    int errors = sem_error.errNumber;
+    int errors = *sem_error.errNumber;
 
     while(errors > 0)
     {
-        cur_error = sem_error.content[0];
+        //cur_error = sem_error.content;
 
-        msg = cur_error->message;
-        line = cur_error->line_number;
-        start = cur_error->column_start;
-        num = cur_error->num_characters;
-        len = cur_error->message_length;
+        // Do a parsing thing here, this is unfinished.
+        //msg = cur_error->message;
+        //line = cur_error->line_number;
+        //start = cur_error->column_start;
+        //num = cur_error->num_characters;
+        //len = cur_error->message_length;
 
         // TODO: Call highlight method here.
-        styleError((unsigned int) line, (unsigned int) start,
-                   (unsigned int) num);
+        //styleError((unsigned int) line, (unsigned int) start,
+        //           (unsigned int) num);
 
         errors--; // Decrement errors here.
     }
@@ -254,7 +264,7 @@ void RixLexer::handleFoundErrors()
 ** RETURNS:         void
 ​**
 ** NOTES:           Sets the characters that comprise a word in Rix
-/*****************************************************************************/
+******************************************************************************/
 void RixLexer::setWordChars(char *chars)
 {
     if (!editor())
@@ -279,7 +289,7 @@ void RixLexer::setWordChars(char *chars)
 ** RETURNS:         void
 ​**
 ** NOTES:           Sets the appearance of an error indicator.
-/*****************************************************************************/
+******************************************************************************/
 void RixLexer::setErrorStyle(unsigned int indic, unsigned int style, unsigned int hexColour)
 {
     if (!editor())
@@ -298,15 +308,15 @@ void RixLexer::setErrorStyle(unsigned int indic, unsigned int style, unsigned in
 ** ​
 ** PROGRAMMER(S):	Micah Willems
 ** ​
-** PARAMETERS:		unsigned int style
+** PARAMETERS:		int style
 **                      The style to get a descriptor for
 ​**
 ** RETURNS:         QString
 **                      The description of the style
 ​**
 ** NOTES:           Returns a descriptor for a style number.
-/*****************************************************************************/
-QString RixLexer::description(unsigned int style) const
+******************************************************************************/
+QString RixLexer::description(int style) const
 {
     switch (style)
     {
@@ -358,7 +368,7 @@ QString RixLexer::description(unsigned int style) const
 **                      The name of the language
 **
 ** NOTES:           Returns a descriptor of this lexer's language.
-/*****************************************************************************/
+******************************************************************************/
 const char* RixLexer::language() const
 {
     return "Rix";
@@ -373,7 +383,7 @@ const char* RixLexer::language() const
 **                      The name of the lexer
 **
 ** NOTES:           Returns a descriptor of this lexer.
-/*****************************************************************************/
+******************************************************************************/
 const char* RixLexer::lexer() const
 {
     return "RixLexer";

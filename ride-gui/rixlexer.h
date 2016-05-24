@@ -19,17 +19,30 @@ class RixLexer : public QsciLexerCustom
 
 public:
     void setScintilladoc(ScintillaDoc *sd);
-    void styleText(unsigned int start, unsigned int end);
+    void styleText(int start, int end);
     void styleToken(unsigned int length, int style);
     void styleError(unsigned int line, unsigned int offset, unsigned int length);
     void setWordChars(char *chars);
     void setErrorStyle(unsigned int indic, unsigned int style, unsigned int hexColour);
-    QString description(unsigned int style) const;
+    QString description(int style) const;
     const char* language() const;
     const char* lexer() const;
+
 private slots:
     void handleStyleNeeded(int pos);
     void handleCharAdded(int pos);
+
+/*===============================================================================
+FUNCTION:       Handle Found Errors
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken, Micah Willems
+
+INTERFACE:      void handleFoundErrors()
+
+NOTES:
+Uses the global Error Array and highlights them according to their line,
+column and number of characters afflicted.
+===============================================================================*/
     void handleFoundErrors();
 
 private:

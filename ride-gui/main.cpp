@@ -71,8 +71,8 @@ int main(int argc, char *argv[])
     ftruncate(sem_doc.fd,   10240);
     ftruncate(sem_error.fd, 10240);
 
-    sem_doc.content   = (char *)  mmap(0, 10240, PROT_WRITE, MAP_SHARED, sem_doc.fd,   0);
-    sem_error.content = (Error **)mmap(0, 10240, PROT_WRITE, MAP_SHARED, sem_error.fd, 0);
+    sem_doc.content   = (char *) mmap(0, 10240, PROT_WRITE, MAP_SHARED, sem_doc.fd,   0);
+    sem_error.content = (char *) mmap(0, 10240, PROT_WRITE, MAP_SHARED, sem_error.fd, 0);
 
     //Error tester.
     /*
