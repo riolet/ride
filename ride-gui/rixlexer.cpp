@@ -218,6 +218,17 @@ void RixLexer::handleCharAdded(int pos)
     }
 }
 
+/******************************************************************************
+** FUNCTION: 		autoCompleteShortcut
+** ​
+** PROGRAMMER(S):	Micah Willems
+​**
+** RETURNS:         void
+​**
+** NOTES:           Slot connected to activateAutocomplete - autocomplete can
+**                  occur both on a shortcut key and by typing a '.' following
+**                  an identifier.
+******************************************************************************/
 void RixLexer::autoCompleteShortcut()
 {
     activateAutocomplete();
@@ -228,8 +239,8 @@ void RixLexer::autoCompleteShortcut()
 ** ​
 ** PROGRAMMER(S):	Dimitry Rakhlei, Micah Willems
 ** ​
-** PARAMETERS:      std::string code(the code), std::string caller (text that
-**                  initialized autocomp)
+** PARAMETERS:      std::string caller (optional text that preceded autocomp
+**                      character '.')
 **
 ** RETURNS:         void
 ​**
@@ -269,15 +280,19 @@ void RixLexer::activateAutocomplete(std::string caller)
     for (auto string : formatted_functions)
         oneLine += string + " ";
 
-    //Micah here is what I am giving you.
-    //formatted_functions and formatted_classes are the things you display in the autocompletion box.
-    //insertable_class_code and insertable_function_code are what you put if they select.
-
-    //so if user selects formatted_functions[4], you insert into file insertable_function_code[4]
-
     editor()->SendScintilla(QsciScintilla::SCI_AUTOCSHOW, (size_t)0, oneLine.c_str());
 }
 
+/******************************************************************************
+** FUNCTION: 		handleFoundErrors
+** ​
+** PROGRAMMER(S):	Tyler Trepanier
+​**
+** RETURNS:         void
+​**
+** NOTES:           Retrieves error information from shared memory and parses
+**                  and displays error highlights for each one.
+******************************************************************************/
 void RixLexer::handleFoundErrors()
 {
     char*   cur_error;

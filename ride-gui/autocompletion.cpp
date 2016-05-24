@@ -125,14 +125,10 @@ Function called on each Function before being displayed.
 std::string Autocompletion::FormatFunction(Function in) {
     std::string out;
     out += in.name;
-    //out += "->";                      // Changes on these lines
+    out += "->";
     out += "(";
     for(auto it : in.args)
-    {                                   //
         out += it;
-        out += ",";                     //
-    }                                   //
-    out = out.substr(0, out.size()-1);  //
     out += ")";
     std::cout << out << std::endl;
     return out;
