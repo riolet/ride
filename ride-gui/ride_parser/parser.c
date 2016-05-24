@@ -81,16 +81,16 @@ int main(int argc, char **argv)
         Error *e = (Error*) malloc(sizeof(Error));
         e->message = "Hello Duy";
         e->message_length = strlen(e->message);
-        e->line_number = 10;
-        e->column_start = 3;
-        e->num_characters = 10;
+        e->line_number = 2;
+        e->column_start = 4;
+        e->num_characters = 0;
 
         Error *e2 = (Error*) malloc(sizeof(Error));
         e2->message = "Hello anaksdmkasd";
         e2->message_length = strlen(e2->message);
-        e2->line_number = 10;
-        e2->column_start = 3;
-        e2->num_characters = 10;
+        e2->line_number = 3;
+        e2->column_start = 4;
+        e2->num_characters = 0;
 
         err_array = (Error **) malloc (sizeof(Error*) * 2);
         err_array[0] = e;
