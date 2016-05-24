@@ -353,7 +353,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
     sem_post(sem_doc.sem); // Unblock the child.
     //kill(child, SIGTERM);
-    wait(NULL);
+    //wait(NULL);
 
     QMainWindow::closeEvent(event);
     close();
