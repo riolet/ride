@@ -24,9 +24,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "sharedmemoryutilities.h"
+
 extern pid_t child;
 
-extern struct semaphore_request  sem_doc;
-extern struct semaphore_response sem_error;
+//extern struct semaphore_request  sem_doc;
+//extern struct semaphore_response sem_error;
+
 
 #endif // GLOBALS_H

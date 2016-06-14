@@ -96,18 +96,18 @@ int main(int argc, char **argv)
         *sem_error.errNumber = 2;
 
         Error *e = (Error*) malloc(sizeof(Error));
-        e->message = "Hello Duy";
+        e->message = "Hello Tyler";
         e->message_length = strlen(e->message);
-        e->line_number = 2;
-        e->column_start = 4;
-        e->num_characters = 0;
+        e->line_number = 0;
+        e->column_start = 0;
+        e->num_characters = 5;
 
         Error *e2 = (Error*) malloc(sizeof(Error));
-        e2->message = "Hello anaksdmkasd";
+        e2->message = "Goodbye Tyler";
         e2->message_length = strlen(e2->message);
-        e2->line_number = 3;
-        e2->column_start = 4;
-        e2->num_characters = 0;
+        e2->line_number = 1;
+        e2->column_start = 1;
+        e2->num_characters = 6;
 
         err_array = (Error **) malloc (sizeof(Error*) * 2);
         err_array[0] = e;
@@ -119,12 +119,12 @@ int main(int argc, char **argv)
         {
             memset(buf, 1024, 0);
             sprintf(buf,
-                    "%s,%d,%d,%d,%d\n",
-                    err_array[i]->message,
+                    "%d,%d,%d,%d,%s\n",
                     err_array[i]->message_length,
                     err_array[i]->line_number,
                     err_array[i]->column_start,
-                    err_array[i]->num_characters
+                    err_array[i]->num_characters,
+                    err_array[i]->message
                    );
             sprintf(sem_error.content, "%s", buf);
             

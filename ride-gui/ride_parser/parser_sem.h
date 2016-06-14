@@ -35,6 +35,7 @@ struct semaphore_request
     sem_t   *sem;
     int     fd;     // fd is the start position of content in the shared memory block
     char    *content;
+    int     max_size;
 };
 
 /**
@@ -47,6 +48,7 @@ struct semaphore_response
     int 	fd_num_err;
     int     *errNumber;
     char   	*content;
+    int     max_size;
 };
 
 extern struct semaphore_request sem_doc;

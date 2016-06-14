@@ -17,6 +17,11 @@ int main(int argc, char *argv[])
 {
     int doc, err;
 
+    // Destroy all previous instances of all used semaphores
+    //   note: if there is a zombie child, it will not be dead.
+    sem_unlink(SEM_CODE);
+    sem_unlink(SEM_ERROR);
+
     //
     // Create semaphore
     //
@@ -29,7 +34,6 @@ int main(int argc, char *argv[])
         perror("Semphore creation");
         return 1;
     }
-
 
     // Note: Use this ONLY for a HARD reset, you can easily screw up expected behaviour here.
     do // Sometimes semaphores screw up, use this to reset it back to normal
@@ -77,9 +81,14 @@ int main(int argc, char *argv[])
         return 1;
     }    
 
-    printf("Manipulating file descriptor size.\n");
-    ftruncate(sem_doc.fd,   10240);
-    ftruncate(sem_error.fd, 10240);
+    //
+    //Manipulate file descriptor size
+    //
+    sem_doc.max_size = 10240;
+    sem_error.max_size = 10240;
+
+    ftruncate(sem_doc.fd,   sem_doc.max_size);
+    ftruncate(sem_error.fd, sem_error.max_size);
     ftruncate(sem_error.fd_num_err, sizeof(int));
 
     //
@@ -87,10 +96,10 @@ int main(int argc, char *argv[])
     //
     printf("Map contents with file descriptor\n");
 
-    sem_doc.content     = (char *)  mmap(0, 10240, PROT_WRITE, MAP_SHARED, sem_doc.fd,   0);
+    sem_doc.content     = (char *)  mmap(0, sem_doc.max_size, PROT_WRITE, MAP_SHARED, sem_doc.fd,   0);
     
     sem_error.errNumber = (int*) mmap(0, sizeof(int), PROT_READ, MAP_SHARED, sem_error.fd_num_err, 0);  
-    sem_error.content   = (char *) mmap(0, 10240, PROT_READ, MAP_SHARED, sem_error.fd, 0);  
+    sem_error.content   = (char *) mmap(0, sem_error.max_size, PROT_READ, MAP_SHARED, sem_error.fd, 0);
 
     
     //
@@ -99,7 +108,7 @@ int main(int argc, char *argv[])
     child = fork();
     if (child == 0)
     {
-        // system("./make ride_parser/make parser");
+        system("./make ride_parser/make parser");
 
         execl("./ride_parser/parser", (char *)0);
 
@@ -111,7 +120,7 @@ int main(int argc, char *argv[])
     // This block is a mockup testing
     //
     FILE *file;
-    char str[10024];
+    char str[sem_doc.max_size];
     size_t nread;
 
     file = fopen("ride_parser/www.rit", "r");
@@ -123,18 +132,25 @@ int main(int argc, char *argv[])
         }
         if (ferror(file))
         {
-            /* deal with error */
+            // deal with error
         }
         fclose(file);
-    }  
+    }
 
     printf("Print document:\n%s\n", str);
 
-    sprintf(sem_doc.content, str);    // Gimme a char * or char[]
+    sprintf(sem_doc.content, str);
+
+    // View the contents here in Qt
+    semaphore_request test = sem_doc;
+    semaphore_response temp = sem_error;
 
     sem_post(sem_doc.sem);
-
     sem_wait(sem_error.sem);
+
+    // View the contents here in Qt
+    test = sem_doc;
+    temp = sem_error;
 
     printf("sem_error content:\n%s\n[END]", sem_error.content);
 

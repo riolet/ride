@@ -352,14 +352,20 @@ void MainWindow::closeEvent(QCloseEvent *event)
     sprintf(sem_doc.content, "\0\0\0\0\0");
 
     sem_post(sem_doc.sem); // Unblock the child.
-    //kill(child, SIGTERM);
-    //wait(NULL);
+
+    if(child != 0)
+    {
+        kill(child, SIGTERM);
+        wait(NULL);
+    }
 
     QMainWindow::closeEvent(event);
     close();
 
-    sem_destroy(sem_doc.sem);
-    sem_destroy(sem_error.sem);
+    sem_unlink(SEM_CODE);
+    sem_unlink(SEM_ERROR);
+    munmap(sem_error.content, sem_error.max_size);
+    munmap(sem_doc.content, sem_error.max_size);
 }
 
 void MainWindow::sendCloseEvent()

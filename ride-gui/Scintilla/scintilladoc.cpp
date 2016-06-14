@@ -237,13 +237,28 @@ const QString ScintillaDoc::getAllText()
 void ScintillaDoc::parseError()
 {
     QString text = getAllText();
+    int size = text.length();
     if(text.isEmpty() || text.isNull())
     {
         return;
     }
 
+    semaphore_request start_doc = sem_doc;
+    semaphore_response start_err = sem_error;
+
+    int result;
+    if(text.length() > sem_doc.max_size)
+    {
+        result = RemapSharedMemory(&sem_doc, &sem_error, size + 1);
+    }
+
+    semaphore_request  end_doc = sem_doc;
+    semaphore_response end_err = sem_error;
+
     // START WRITING TO TEMP DOC
     printf("Sem wait, writing to document.\n");
+
+
 
     printf("Writing to shared memory\n");
     sprintf(sem_doc.content, "%s", text.toStdString().c_str());

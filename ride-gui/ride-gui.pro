@@ -15,7 +15,8 @@ SOURCES += \
     Compiler/compilerhandler.cpp \
     rixlexer.cpp \
     Scintilla/themehandler.cpp \
-    autocompletion.cpp
+    autocompletion.cpp \
+    sharedmemoryutilties.cpp
 
 FLEXSOURCES = lex.l
 
@@ -42,7 +43,8 @@ HEADERS += \
     rixlexer.h \
     lexershare.h \
     syntaxcolours.h \
-    autocompletion.h
+    autocompletion.h \
+    sharedmemoryutilities.h
 
 flexsource.input = FLEXSOURCES
 flexsource.output = ${QMAKE_FILE_BASE}.cpp
