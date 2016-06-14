@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
     {
         // system("./make ride_parser/make parser");
 
-        execl("./ride_parser/parser", (char *)0);
+//        execl("./ride_parser/parser", (char *)0);
 
         // THE CHILD WILL NEVER REACH HERE, IT IS REPLACED ENTIRELY
         return 0;

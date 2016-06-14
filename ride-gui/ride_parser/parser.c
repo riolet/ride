@@ -91,29 +91,30 @@ int main(int argc, char **argv)
         printf("Woken up\n");
 
         printf("Print document:\n%s\n", sem_doc.content);
+      
+        err_array = (Error **) malloc(sizeof(Error));
+        errorDetect(err_array, sem_error.errNumber, sem_doc.content);
+        // *sem_error.errNumber = 2;
 
-        // errorDetect(error_array, sem_error.errNumber, sem_doc.content);
-        *sem_error.errNumber = 2;
+        // Error *e = (Error*) malloc(sizeof(Error));
+        // e->message = "Hello Duy";
+        // e->message_length = strlen(e->message);
+        // e->line_number = 2;
+        // e->column_start = 4;
+        // e->num_characters = 0;
 
-        Error *e = (Error*) malloc(sizeof(Error));
-        e->message = "Hello Duy";
-        e->message_length = strlen(e->message);
-        e->line_number = 2;
-        e->column_start = 4;
-        e->num_characters = 0;
+        // Error *e2 = (Error*) malloc(sizeof(Error));
+        // e2->message = "Hello anaksdmkasd";
+        // e2->message_length = strlen(e2->message);
+        // e2->line_number = 3;
+        // e2->column_start = 4;
+        // e2->num_characters = 0;
 
-        Error *e2 = (Error*) malloc(sizeof(Error));
-        e2->message = "Hello anaksdmkasd";
-        e2->message_length = strlen(e2->message);
-        e2->line_number = 3;
-        e2->column_start = 4;
-        e2->num_characters = 0;
+        // err_array = (Error **) malloc (sizeof(Error*) * 2);
+        // err_array[0] = e;
+        // err_array[1] = e2;
 
-        err_array = (Error **) malloc (sizeof(Error*) * 2);
-        err_array[0] = e;
-        err_array[1] = e2;
-
-        start = sem_error.content;
+        // start = sem_error.content;
         
         for (i = 0; i < *sem_error.errNumber; i++)
         {
@@ -133,8 +134,8 @@ int main(int argc, char **argv)
         }
         
         sem_error.content = start;
-        free(e);
-        free(e2);
+        // free(e);
+        // free(e2);
         free(err_array);
         printf("Error detection finished\n");
 
