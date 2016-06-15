@@ -53,11 +53,11 @@ Stream::BaseType
 
 //Done
 ##external ""
-porn -> int () 
-	#i = 1
+prthuh -> int () 
+	#i = 123
 	->i
 
-#aa = porn_w()
+#aa = prthuha()
 print( aa )
 
 A :: BaseType
