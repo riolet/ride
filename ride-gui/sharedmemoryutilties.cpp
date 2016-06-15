@@ -17,7 +17,6 @@ RETURNS:    >>  0 upon successful remapping of the shared memory segment
 NOTES:
 Reallocates the shared memory to a different size value.
 ===============================================================================*/
-
 int RemapSharedMemory(struct semaphore_request* doc, struct semaphore_response* err, int newSize)
 {
     if(munmap((*doc).content, (*doc).max_size) == -1
