@@ -9,15 +9,19 @@ class ProjectHandler
 {
 public: // Public methods
     ProjectHandler();
-    ProjectHandler(QString filepath);
+    ProjectHandler(QString* filepath);
     bool isProject();
+    const QDir getDirectory() &;
 
 private: // Private methods
-    bool loadProjectFile(QString filename);
-    bool populateSources(QString sources);
-    bool populateHeaders(QString headers);
-    bool populateLibs(QString libs);
-    bool populateUserProfile(QString config_filename);
+    bool loadProjectFile(QFile* file);
+    bool populateSources(QString *contents);
+    bool populateHeaders(QString* contents);
+    bool populateLibs(QString* contents);
+    bool populateUserProfile(QString* contents);
+    bool populateProjectName(QString* contents);
+    QStringList searchContents(QString* contents, QString start, QString key);
+    const QStringList createKeywords();
 
 public: // public variables
     ThemeHandler    _userprofile;
@@ -25,12 +29,11 @@ public: // public variables
     QStringList     _headers;
     QStringList     _libs;
     QString         _project_name;
+    QDir            _directory;
 
 private: // private variables
     QFile*          _config;
-    QDir            _cur_dir;
     bool            _isProject;
-
 };
 
 #endif // PROJECTHANDLER_H

@@ -31,6 +31,8 @@ FUNCTIONS:      void on_button_open_clicked();
                 bool saveAs();
                 bool save();
                 void open();
+                void openProject();
+                void newProject();
                 void newFile();
                 void gotoLine();
                 bool runCompiler();
@@ -87,10 +89,11 @@ caught by the mainwindow slot.
 #include <QTreeView>
 #include <string>
 #include "globals.h"
-#include "Scintilla/scintilladoc.h"
 #include "aboutdialog.h"
-#include "Compiler/compilerhandler.h"
+#include "Scintilla/scintilladoc.h"
 #include "Scintilla/themehandler.h"
+#include "Compiler/compilerhandler.h"
+#include "Compiler/projecthandler.h"
 
 namespace Ui {
     class MainWindow;
@@ -404,6 +407,36 @@ Prompts the user to select a file to be opened and attempts to load the file's
 contents onto the scintilla edit text surface.
 ===============================================================================*/
     void open();
+
+/*===============================================================================
+FUNCTION:       Open Project
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void openProject()
+
+RETURNS:        Void
+
+NOTES:
+Prompts the user to select a file with the '.prox' file extension to be opened
+and attempts to load the file's contents using the Project Handler.
+===============================================================================*/
+    void openProject();
+
+/*===============================================================================
+FUNCTION:       New Project
+
+PROGRAMMER(S):  Tyler Trepanier-Bracken
+
+INTERFACE:      void openProject()
+
+RETURNS:        Void
+
+NOTES:
+Creates a new project for the user by prompting the user where they want to
+create the project.
+===============================================================================*/
+    void newProject();
 
 /*===============================================================================
 FUNCTION:       New File
@@ -750,12 +783,13 @@ Clears all compilation messages from the output and the issues tabs.
 private:    //Private Variables
     Ui::MainWindow              *ui;            // Central UI Widget Container
     std::vector<ScintillaDoc*>  textEditList;   // Container of Scintilla widgets
+    ScintillaDoc                *cur_doc;       // Currently active document
     int                         cur_index;      // Currently active document index
     QFileSystemModel            *model;         // File Directory View
     QTreeView                   *tree;          // File Directory Tree
-    ScintillaDoc                *cur_doc;       // Currently active document
     ThemeHandler                *themer;        // Text highlighting manager
     CompilerHandler             *compiler;      // Compilation Handler
+    ProjectHandler              *project;       // Project handler
 
 };
 

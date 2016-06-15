@@ -155,6 +155,8 @@ void MainWindow::setupShortcuts()
 
 void MainWindow::setupMenuActions()
 {   
+    connect(ui->actionOpen_Project, SIGNAL(triggered()), this, SLOT(openProject()));
+    connect(ui->actionNew_Project,  SIGNAL(triggered()), this, SLOT(newProject()));
     connect(ui->actionNew_File,     SIGNAL(triggered()), this, SLOT(newFile()));
     connect(ui->actionOpen,         SIGNAL(triggered()), this, SLOT(open()));
     connect(ui->actionSave_File,    SIGNAL(triggered()), this, SLOT(save()));
@@ -235,6 +237,26 @@ void MainWindow::open()
     QString fileName = QFileDialog::getOpenFileName(this);
     if (!fileName.isEmpty())
         loadFile(fileName);
+}
+
+void MainWindow::openProject()
+{
+    QString selfilter = tr("Project files (*.prox)");
+    QString filename = QFileDialog::getOpenFileName(
+            this,
+            "Open Project",
+            "/home",
+            tr("Project files (*.prox);;RIX (*.rit *.rix);;All files (*.*)" ),
+            &selfilter
+    );
+
+    project = new ProjectHandler(&filename);
+
+}
+
+void MainWindow::newProject()
+{
+
 }
 
 void MainWindow::newFile()
