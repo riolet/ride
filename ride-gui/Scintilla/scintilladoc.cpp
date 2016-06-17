@@ -250,27 +250,24 @@ void ScintillaDoc::parseError()
     if(text.length() > sem_doc.max_size)
     {
         result = RemapSharedMemory(&sem_doc, &sem_error, size + 1);
+
+        if(result != (size+1))
+        {
+            std::cerr << "Critical error, could not remap the shared memory." << std::endl;
+        }
     }
 
     //semaphore_request  end_doc = sem_doc;
     //semaphore_response end_err = sem_error;
 
     // START WRITING TO TEMP DOC
-    printf("Sem wait, writing to document.\n");
-
-
-
     printf("Writing to shared memory\n");
     sprintf(sem_doc.content, "%s", text.toStdString().c_str());
     printf("Sem post, finished writing to document.\n");
 
-    sem_post(sem_doc.sem);
-    // END OF TEMP DOC WRITING
+    sem_post(sem_doc.sem);   // END OF TEMP DOC WRITING
 
-
-    // GRAB THE ERROR HERE
-    sem_wait(sem_error.sem);
-    //FIN
+    sem_wait(sem_error.sem); // GRAB THE ERROR HERE
 }
 
 // Working but it is not implemented yet.

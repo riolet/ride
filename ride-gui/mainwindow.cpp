@@ -372,7 +372,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
     // Ensure that the doc is garbage before we post it.
     sprintf(sem_doc.content, "\0\0\0\0\0");
-
     sem_post(sem_doc.sem); // Unblock the child.
 
     if(child != 0)
@@ -381,16 +380,10 @@ void MainWindow::closeEvent(QCloseEvent *event)
         wait(NULL);
     }
 
+    CleanUpSharedMemory(&sem_doc, &sem_error);
+
     QMainWindow::closeEvent(event);
     close();
-
-    sem_unlink(SEM_CODE);
-    sem_unlink(SEM_ERROR);
-    shm_unlink(SHARED_CODE);
-    shm_unlink(SHARED_ERROR);
-    shm_unlink(SHARED_NUMBER_ERROR);
-    munmap(sem_error.content, sem_error.max_size);
-    munmap(sem_doc.content, sem_error.max_size);
 }
 
 void MainWindow::sendCloseEvent()
