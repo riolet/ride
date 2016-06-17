@@ -60,6 +60,7 @@ Object *beginClass(char *className, char *parentName, Object *typeArgs, bool isP
     if (!className || !parentName)
     {
         criticalError(ERROR_ParseError, "Class name mustn't be null.\n");
+        return NULL;
     }
     //build full name of class:  <ClassName><sep><ParentClassName>
     char fullname[BUFFLEN];
@@ -73,6 +74,7 @@ Object *beginClass(char *className, char *parentName, Object *typeArgs, bool isP
         char error[BUFFLEN];
         snprintf(error, BUFFLEN, "Cannot find definition for '%s'\n", parentName);
         criticalError(ERROR_ParseError, error);
+        return NULL;
     }
 
     snprintf(codename, BUFFLEN, "%s", className);
@@ -160,6 +162,7 @@ Object *beginFunction(char *returnType, char *funcName, Object *parameters)
     {
         flag = true;
         criticalError(ERROR_ParseError, "Return category mustn't be null.\n");
+        return NULL;
     }
     ListString *types = parameters->paramTypes;
     ListString *names = parameters->code;
@@ -275,6 +278,7 @@ Object *beginConstructor(Object *parameters)
     if (current->category != Type)
     {
         criticalError(ERROR_ParseError, "Constructor can only exist inside a class.\n");
+        return NULL;
     }
     ListString *types = parameters->paramTypes;
     ListString *names = parameters->code;
@@ -445,6 +449,7 @@ Object *beginDestructor(Object *paramItermeters)
     if (current->category != Type)
     {
         criticalError(ERROR_ParseError, "Destructor can only exist inside a class.\n");
+        return NULL;
     }
 
     char funcFullName[BUFFLEN];
@@ -524,6 +529,7 @@ Object *funcParameters(Object *paramList, char *paramType, char *paramName)
         char error[BUFFLEN];
         snprintf(error, BUFFLEN, "Cannot find category '%s'\n", paramType);
         criticalError(ERROR_UndefinedType, error);
+        return NULL;
     }
 
     Object *result;
@@ -795,6 +801,7 @@ Object *conjugateAssign(Object *subject, Object *verb, Object *objects)
     if (subject == 0)
     {
         criticalError(ERROR_ParseError, "Cannot assign to nothing.\n");
+        return NULL;
     }
     ListString *paramIter;
     Object *realVerb = 0;
@@ -861,6 +868,7 @@ Object *conjugateAssign(Object *subject, Object *verb, Object *objects)
         char error[BUFFLEN];
         snprintf(error, BUFFLEN, "Cannot find function named %s %d.\n", verbname, __LINE__);
         criticalError(ERROR_UndefinedVerb, error);
+        return NULL;
     }
     else if (realVerb == 0)
     {
@@ -868,12 +876,14 @@ Object *conjugateAssign(Object *subject, Object *verb, Object *objects)
         if (!objects)
         {
             criticalError(ERROR_ParseError, "Object of assignment was not found.\n");
+        return NULL;
         }
         if (!objects->returnType)
         {
             char error[BUFFLEN];
             snprintf(error, BUFFLEN, "Paramtypes not found for %s %d.\n", objects->name, __LINE__);
             criticalError(ERROR_ParseError, error);
+        return NULL;
         }
         result = CreateObject(0, 0, 0, Expression, objects->returnType);
         addParam(result, objects->returnType);
@@ -906,6 +916,7 @@ Object *conjugateAssign(Object *subject, Object *verb, Object *objects)
                 g_lineNum--;
                 snprintf(error, 1024, "Unknown identifier %s\n", subject->name);
                 criticalError(ERROR_ParseError, error);
+                return NULL;
             }
         }
         else
@@ -923,6 +934,7 @@ Object *conjugateAssign(Object *subject, Object *verb, Object *objects)
                          subject->code->value, subject->returnType,
                          objects->returnType);
                 criticalError(ERROR_IncompatibleTypes, error);
+                return NULL;
                 // }
             }
         }
@@ -934,6 +946,7 @@ Object *conjugateAssign(Object *subject, Object *verb, Object *objects)
             char error[BUFFLEN];
             snprintf(error, BUFFLEN, "Cannot find category for %s\n", objects->returnType);
             criticalError(ERROR_ParseError, error);
+            return NULL;
         }
 
         if (getFlag(rType, FLAG_PRIMITIVE))
@@ -1011,6 +1024,7 @@ Object *conjugateAssign(Object *subject, Object *verb, Object *objects)
             char error[1024];
             snprintf(error, 1024, "Unknown identifier %s\n", subject->name);
             criticalError(ERROR_ParseError, error);
+            return NULL;
         }
     }
 
@@ -1058,6 +1072,7 @@ Object *conjugate(Object *subject, Object *verb, Object *objects)
             snprintf(error, BUFFLEN, "Variable '%s' used before definition\n",
                      subject->code->value);
             criticalError(ERROR_UndefinedVariable, error);
+            return NULL;
         }
 
         verbname_pos +=
@@ -1166,6 +1181,7 @@ Object *conjugate(Object *subject, Object *verb, Object *objects)
             snprintf(error, BUFFLEN, "Variable '%s' used before definition as object\n",
                      objects->code->value);
             criticalError(ERROR_UndefinedVariable, error);
+            return NULL;
         }
         paramIter = objects->paramTypes;
         while (paramIter)
@@ -1270,6 +1286,7 @@ Object *conjugate(Object *subject, Object *verb, Object *objects)
             snprintf(error, BUFFLEN, "Cannot find function named %s %d.\n", verbname, __LINE__);
         }
         criticalError(ERROR_UndefinedVerb, error);
+        return NULL;
     }
     else if (!realVerb)
     {
@@ -1287,6 +1304,7 @@ Object *conjugate(Object *subject, Object *verb, Object *objects)
             snprintf(error, BUFFLEN, "Did you forget an operand? %s %s ???\n",
                      subject->code->value, verb->fullname);
             criticalError(ERROR_InvalidArguments, error);
+            return NULL;
         }
         if (verb->returnType)
         {
@@ -1654,6 +1672,7 @@ Object *verbIdent(char *verb)
         char error[BUFFLEN];
         sprintf(error, "Function \"%s(..)\" used before declaration.\n", verb);
         criticalError(ERROR_UndefinedVerb, error);
+        return NULL;
     }
     return result;
 }
@@ -1672,6 +1691,7 @@ Object *sVerbIdent(char *staticVerb)
         char error[BUFFLEN];
         snprintf(error, BUFFLEN, "Cannot find category %s\n", type);
         criticalError(ERROR_UndefinedVariable, error);
+        return NULL;
     }
     //build verb name
     char verbname[BUFFLEN];
@@ -1690,6 +1710,7 @@ Object *verbCtor(char *type, char *ytype)
         char error[BUFFLEN];
         sprintf(error, "Cannot find Class \"%s\".\n", type);
         criticalError(ERROR_UndefinedVerb, error);
+        return NULL;
     }
     if (ytype)
     {
@@ -1707,6 +1728,7 @@ Object *parenthesize(Object *expr)
     {
         criticalError(ERROR_ParseError,
                       "Object* expr was void in parenthesize. (rixc.c)\n");
+        return NULL;
     }
 
     Object *parenthesized =
@@ -1717,6 +1739,7 @@ Object *parenthesize(Object *expr)
     {
         criticalError(ERROR_ParseError,
                       "Cannot put parentheses around nothing. (rixc.c)\n");
+        return NULL;
     }
 
     snprintf(line, BUFFLEN, "(%s)", expr->code->value);
@@ -1741,6 +1764,7 @@ Object *objectNewIdent(char *ident)
         char error[1024];
         snprintf(error, 1024, "Using an existing identifier as new %s\n", ident);
         criticalError(ERROR_ParseError, error);
+        return NULL;
     }
     addCode(result, identifier ? identifier->fullname : ident);
     // compilerDebugPrintf("Result at %d = %d\n",__LINE__,result);
@@ -1791,6 +1815,7 @@ Object *objectIdent(char *ident)
         char error[1024];
         snprintf(error, 1024, "Unknown identifier %s\n", ident);
         criticalError(ERROR_ParseError, error);
+        return NULL;
     }
     else
     {
@@ -1820,6 +1845,7 @@ Object *objectSelfIdent(char *ident)
     {
         criticalError(ERROR_ParseError,
                       "Cannot use self identifier ($) outside of class verbs.\n");
+        return NULL;
     }
 
     Object *result;
@@ -1916,6 +1942,7 @@ Object *objectPlaceHolderType(char *ident)
     else
     {
         criticalError(ERROR_ParseError, "Placeholder ident not available");
+        return NULL;
     }
     addCode(result, identifier ? identifier->fullname : ident);
     return result;
@@ -1933,6 +1960,7 @@ Object *conjugateAccessorIdent(Object *subject, char *field)
         char error[BUFFLEN];
         snprintf(error, BUFFLEN, "Cannot find object named %s\n", subCodeValue);
         criticalError(ERROR_UndefinedVariable, error);
+        return NULL;
     }
 
     char *returnType = subject->returnType;
@@ -1947,6 +1975,7 @@ Object *conjugateAccessorIdent(Object *subject, char *field)
         {
             errorMsg("No generic type for %s\n", subCodeValue);
             criticalError(ERROR_ParseError, "Generic Type not found\n");
+            return NULL;
 
         }
     }
@@ -1997,6 +2026,7 @@ Object *conjugateAccessorIdent(Object *subject, char *field)
         snprintf(error, BUFFLEN, "%s %s has no member named %s\n", returnType,
                  subCodeValue, field);
         criticalError(ERROR_UndefinedVariable, error);
+        return NULL;
     }
 
 
@@ -2323,6 +2353,7 @@ int errorDetect(Error **err, int *errnum, const char *doc)
     {
         parse_result = yyparse();
     }
+    *errnum = e_count;
 
     return 1;
 }
