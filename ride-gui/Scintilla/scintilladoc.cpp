@@ -243,8 +243,8 @@ void ScintillaDoc::parseError()
         return;
     }
 
-    semaphore_request start_doc = sem_doc;
-    semaphore_response start_err = sem_error;
+    //semaphore_request start_doc = sem_doc;
+    //semaphore_response start_err = sem_error;
 
     int result;
     if(text.length() > sem_doc.max_size)
@@ -252,8 +252,8 @@ void ScintillaDoc::parseError()
         result = RemapSharedMemory(&sem_doc, &sem_error, size + 1);
     }
 
-    semaphore_request  end_doc = sem_doc;
-    semaphore_response end_err = sem_error;
+    //semaphore_request  end_doc = sem_doc;
+    //semaphore_response end_err = sem_error;
 
     // START WRITING TO TEMP DOC
     printf("Sem wait, writing to document.\n");

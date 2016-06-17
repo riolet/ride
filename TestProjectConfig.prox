@@ -1,0 +1,30 @@
+#Auto-generated Project File 
+
+[SOURCES] 
+    file1.rit \
+    file2.rit \
+    file3.rit \
+    file4.rit \
+    file5.rit \
+    file6.rit
+    # Each file must be followed by a '\' or else
+    #   it won't be counted and will continue
+    #   until the next keyword is found.
+
+[HEADERS]
+    file1.rh \
+    file2.rh \
+    file3.rh 
+
+[USER_PROFILE]
+    default.cnf
+    #can also be "Tyler" where tyler is the user
+    #   or even something invalid which will 
+    #   replace the invald name with default
+
+[LIBS]
+    # I don't know if Rix will implement libs
+    #   but it's here
+
+[PROJECT_NAME]
+    "My project" # Quotes are going to be required.
