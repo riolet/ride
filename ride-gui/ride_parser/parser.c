@@ -133,8 +133,8 @@ int main(int argc, char **argv)
         }
         
         sem_error.content = start;
-        free(e);
-        free(e2);
+        // free(e);
+        // free(e2);
         free(err_array);
         printf("Error detection finished\n");
 
