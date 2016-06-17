@@ -21,6 +21,9 @@ int main(int argc, char *argv[])
     //   note: if there is a zombie child, it will not be dead.
     sem_unlink(SEM_CODE);
     sem_unlink(SEM_ERROR);
+    shm_unlink(SHARED_CODE);
+    shm_unlink(SHARED_ERROR);
+    shm_unlink(SHARED_NUMBER_ERROR);
 
     //
     // Create semaphore
@@ -136,9 +139,6 @@ int main(int argc, char *argv[])
         }
         fclose(file);
     }
-
-    printf("Print document:\n%s\n", str);
-
     sprintf(sem_doc.content, str);
 
     // View the contents here in Qt
@@ -151,8 +151,6 @@ int main(int argc, char *argv[])
     // View the contents here in Qt
     test = sem_doc;
     temp = sem_error;
-
-    printf("sem_error content:\n%s\n[END]", sem_error.content);
 
     //
     // Start GUI

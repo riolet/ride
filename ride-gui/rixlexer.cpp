@@ -319,11 +319,11 @@ void RixLexer::handleFoundErrors()
                 travel = strstr(travel, ",") + 1;
             }
             strncpy(msg, travel, len);
-            qDebug() << "[MSG:" << msg
-                     << "] LEN:" << len
-                     << "LINE:" << line
-                     << "START:" << start
-                     << "NUM:" << num;
+            //qDebug() << "[MSG:" << msg
+            //         << "] LEN:" << len
+            //         << "LINE:" << line
+            //         << "START:" << start
+            //         << "NUM:" << num;
         }
 
         styleError(line, start, num);
