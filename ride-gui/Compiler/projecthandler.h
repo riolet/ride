@@ -15,16 +15,18 @@ public: // Public methods
 
 private: // Private methods
     bool loadProjectFile(QFile* file);
-    bool populateSources(QString *contents);
+    bool populateSources(QString* contents);
     bool populateHeaders(QString* contents);
     bool populateLibs(QString* contents);
     bool populateUserProfile(QString* contents);
     bool populateProjectName(QString* contents);
-    QStringList searchContents(QString* contents, QString start, QString key);
+    QStringList searchContents(QString* contents, QString key, QString start, QString stop = NULL);
+    QString searchProjectName(QString* contents);
     const QStringList createKeywords();
+    void setDefaults();
 
 public: // public variables
-    ThemeHandler    _userprofile;
+    ThemeHandler*   _userprofile;
     QStringList     _sources;
     QStringList     _headers;
     QStringList     _libs;

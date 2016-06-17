@@ -12,12 +12,12 @@
     #   until the next keyword is found.
 
 [HEADERS]
-    file1.rit \
-    file2.rit \
-    file3.rit 
+    file1.rh \
+    file2.rh \
+    file3.rh 
 
 [USER_PROFILE]
-    default 
+    default.cnf
     #can also be "Tyler" where tyler is the user
     #   or even something invalid which will 
     #   replace the invald name with default

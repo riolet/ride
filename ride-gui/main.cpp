@@ -21,6 +21,9 @@ int main(int argc, char *argv[])
     //   note: if there is a zombie child, it will not be dead.
     sem_unlink(SEM_CODE);
     sem_unlink(SEM_ERROR);
+    shm_unlink(SHARED_CODE);
+    shm_unlink(SHARED_ERROR);
+    shm_unlink(SHARED_NUMBER_ERROR);
 
     //
     // Create semaphore

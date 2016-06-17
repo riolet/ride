@@ -386,6 +386,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
     sem_unlink(SEM_CODE);
     sem_unlink(SEM_ERROR);
+    shm_unlink(SHARED_CODE);
+    shm_unlink(SHARED_ERROR);
+    shm_unlink(SHARED_NUMBER_ERROR);
     munmap(sem_error.content, sem_error.max_size);
     munmap(sem_doc.content, sem_error.max_size);
 }

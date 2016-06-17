@@ -3,20 +3,25 @@
 
 ProjectHandler::ProjectHandler()
 {
-    _directory = QDir::current();
-    _isProject = false;
+    setDefaults();
 }
 
 ProjectHandler::ProjectHandler(QString* filepath)
 {
-    _directory = QDir::current();
-    _config = new QFile(*filepath);
-    _isProject = false;
+    setDefaults();
+    QFile* config = new QFile(*filepath);
 
-    bool result = false;
+    // Can't load the project properly
+    if(loadProjectFile(config))
+    {
+        _config = config;
+    }
+    else
+    {
+        setDefaults();
+    }
 
 
-    result = loadProjectFile(_config);
 }
 
 bool ProjectHandler::isProject()
@@ -41,9 +46,7 @@ bool ProjectHandler::loadProjectFile(QFile* file)
     }
 
     QTextStream in(file);
-    QString contents;
-    bool result = false;
-    contents = in.readAll();
+    QString contents = in.readAll();
 
     if(contents.isNull() || contents.isEmpty())
     {
@@ -58,29 +61,27 @@ bool ProjectHandler::loadProjectFile(QFile* file)
 
         if(keywords[index] == "[PROJECT_NAME]")
         {
-            populateProjectName(&key_contents);
+            if(populateProjectName(&key_contents)) {continue;}
         }
         else if(keywords[index] == "[SOURCES]")
         {
-            populateSources(&key_contents);
+            if(populateSources(&key_contents)) {continue;}
         }
         else if(keywords[index] == "[HEADERS]")
         {
-            populateHeaders(&key_contents);
+            if(populateHeaders(&key_contents)) {continue;}
         }
         else if(keywords[index] == "[USER_PROFILE]")
         {
-            populateUserProfile(&key_contents);
+            if(populateUserProfile(&key_contents)) {continue;}
         }
         else if(keywords[index] == "[LIBS]")
         {
-            populateLibs(&key_contents);
+            if(populateLibs(&key_contents)) {continue;}
         }
-    }
 
-    if(!result)
-    {
-        // Handle project error here.
+        file->close();
+        return false;
     }
 
     file->close();
@@ -90,36 +91,97 @@ bool ProjectHandler::loadProjectFile(QFile* file)
 
 bool ProjectHandler::populateSources(QString* contents)
 {
+    QStringList tempList;
+    QString key = ".rit";
+    QString start = "[SOURCES]";
 
+    tempList = searchContents(contents, key, start);
+    if(tempList.size() == 0)
+        return false;
+
+    _sources = tempList;
+    return true;
 }
 
 bool ProjectHandler::populateHeaders(QString* contents)
 {
+    QStringList tempList;
+    QString key = ".rh";
+    QString start = "[HEADERS]";
 
+    tempList = searchContents(contents, key, start);
+    if(tempList.size() == 0)
+        return false;
+
+    _headers = tempList;
+    return true;
 }
 
 bool ProjectHandler::populateLibs(QString* contents)
 {
+    Q_UNUSED(contents)
+    /* No libraries are supported yet.
 
+    QStringList tempList;
+    QString key = ".so";
+    QString start = "[LIBS]";
+
+    tempList = searchContents(contents, key, start);
+    if(tempList.size() == 0)
+        return false;
+
+    _libs = tempList;
+    return true;
+    */
+    return true;
 }
 
 bool ProjectHandler::populateUserProfile(QString *contents)
 {
+    QStringList tempList;
+    QString key = ".cnf";
+    QString start = "[USER_PROFILE]";
 
+    tempList = searchContents(contents, key, start);
+    if(tempList.size() == 1)
+    {
+        // Populate the themehandler here.
+        _userprofile = new ThemeHandler(tempList[0]);
+        //
+        return true;
+    }
+
+    // Use the default profile, something went wrong.
+    return false;
 }
 
 bool ProjectHandler::populateProjectName(QString* contents)
 {
+    QString name;
+    QString start("[PROJECT_NAME]");
 
+    name = searchProjectName(contents);
+    if(name == NULL)
+    {
+        return false;
+    }
+
+    _project_name = name;
+    return true;
 }
 
-QStringList ProjectHandler::searchContents(QString* contents, QString start, QString key)
+QStringList ProjectHandler::searchContents(QString* contents, QString key, QString start, QString stop)
 {
+    Q_UNUSED(stop)
+
     QStringList foundList;
     QString line;
     QString word;
     QRegExp COMMENT("#");
     QRegExp MORE("\\");
+
+    if(stop == NULL)
+        stop = QString("[");
 
     QTextStream in(contents);
 
@@ -145,7 +207,7 @@ QStringList ProjectHandler::searchContents(QString* contents, QString start, QSt
             continue;
 
         // Found another "[Header]", stop processing
-        else if(line.contains("["))
+        else if(line.contains(stop))
             return foundList;
 
 
@@ -194,6 +256,76 @@ QStringList ProjectHandler::searchContents(QString* contents, QString start, QSt
     return foundList;
 }
 
+QString ProjectHandler::searchProjectName(QString *contents)
+{
+    QStringList names;
+    QString line;
+    QString word;
+    QRegExp COMMENT("#");
+    QRegExp QUOTE("\\\"([\\w]|\\s)+\\\"");
+
+    QTextStream in(contents);
+
+    while (!in.atEnd())
+    {
+        line = in.readLine();
+
+        // remove all comments from the line
+        int size = line.length();
+        int comment = line.indexOf(COMMENT);
+
+        if(comment != -1)
+        {
+            line = line.remove(comment, size-comment);
+            size = line.length();
+        }
+
+        if(line.isNull() || line.isEmpty())
+            continue;
+        else if(line.trimmed().length() == 0)
+            continue;
+        else if(line.contains("[PROJECT_NAME]"))
+            continue;
+        else if(line.contains("["))
+            return NULL; // Return null string.
+
+        int pos = QUOTE.indexIn(line);
+        if (pos > -1)
+        {
+            word = QUOTE.cap();
+            names << word;
+        }
+
+        if(names.size() > 1)
+            return NULL;
+        //
+        // Process the line
+        //
+        /*QTextStream s(&line);
+        while(!s.atEnd())
+        {
+            s >> word;
+            if(word.count(QUOTE) == 2)
+            {
+                names << word;
+            }
+
+            if(names.size() > 1)
+            {
+                return NULL;
+            }
+        }*/
+    }
+
+    // Expected result that only one name with quotes is found.
+    if(names.size() == 1)
+    {
+        return names[0];
+    }
+
+    return NULL;
+}
+
 
 
 const QStringList ProjectHandler::createKeywords()
@@ -203,4 +335,17 @@ const QStringList ProjectHandler::createKeywords()
              << "[LIBS]" << "[PROJECT_NAME]";
 
     return keywords;
+}
+
+void ProjectHandler::setDefaults()
+{
+    QStringList temp; // Empty List
+
+    _userprofile    = new ThemeHandler();
+    _sources        = temp;
+    _headers        = temp;
+    _libs           = temp;
+    _project_name   = QString("New Project");
+    _directory      = QDir::current();
+    _isProject      = false;
 }
