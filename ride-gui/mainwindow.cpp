@@ -371,7 +371,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     Q_UNUSED(temp)
 
     // Ensure that the doc is garbage before we post it.
-    sprintf(sem_doc.content, "\0\0\0\0\0");
+    memset(sem_doc.content, 0, sem_doc.max_size);
     sem_post(sem_doc.sem); // Unblock the child.
 
     if(child != 0)

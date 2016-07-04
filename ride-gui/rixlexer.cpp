@@ -251,6 +251,8 @@ void RixLexer::autoCompleteShortcut()
 ******************************************************************************/
 void RixLexer::activateAutocomplete(std::string caller)
 {
+    Q_UNUSED(caller)
+
     if (!editor())
         return;
 
