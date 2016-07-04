@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
         }
         fclose(file);
     }
-    sprintf(sem_doc.content, str);
+    memcpy(sem_doc.content, str, sem_doc.max_size);
 
     // View the contents here in Qt
     semaphore_request test = sem_doc;

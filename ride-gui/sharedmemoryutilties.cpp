@@ -60,7 +60,7 @@ int CreateSemaphores(struct semaphore_request* doc, struct semaphore_response* e
         }
 
     }
-    while(err != 0);
+    while(sem_val != 0);
 
     return 0;
 }
