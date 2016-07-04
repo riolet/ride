@@ -155,6 +155,8 @@ void MainWindow::setupShortcuts()
 
 void MainWindow::setupMenuActions()
 {   
+    connect(ui->actionOpen_Project, SIGNAL(triggered()), this, SLOT(openProject()));
+    connect(ui->actionNew_Project,  SIGNAL(triggered()), this, SLOT(newProject()));
     connect(ui->actionNew_File,     SIGNAL(triggered()), this, SLOT(newFile()));
     connect(ui->actionOpen,         SIGNAL(triggered()), this, SLOT(open()));
     connect(ui->actionSave_File,    SIGNAL(triggered()), this, SLOT(save()));
@@ -235,6 +237,26 @@ void MainWindow::open()
     QString fileName = QFileDialog::getOpenFileName(this);
     if (!fileName.isEmpty())
         loadFile(fileName);
+}
+
+void MainWindow::openProject()
+{
+    QString selfilter = tr("Project files (*.prox)");
+    QString filename = QFileDialog::getOpenFileName(
+            this,
+            "Open Project",
+            "/home",
+            tr("Project files (*.prox);;RIX (*.rit *.rix);;All files (*.*)" ),
+            &selfilter
+    );
+
+    project = new ProjectHandler(&filename);
+
+}
+
+void MainWindow::newProject()
+{
+
 }
 
 void MainWindow::newFile()
@@ -349,17 +371,19 @@ void MainWindow::closeEvent(QCloseEvent *event)
     Q_UNUSED(temp)
 
     // Ensure that the doc is garbage before we post it.
-    sprintf(sem_doc.content, "\0\0\0\0\0");
-
+    memset(sem_doc.content, 0, sem_doc.max_size);
     sem_post(sem_doc.sem); // Unblock the child.
-    //kill(child, SIGTERM);
-    //wait(NULL);
+
+    if(child != 0)
+    {
+        kill(child, SIGTERM);
+        wait(NULL);
+    }
+
+    CleanUpSharedMemory(&sem_doc, &sem_error);
 
     QMainWindow::closeEvent(event);
     close();
-
-    sem_destroy(sem_doc.sem);
-    sem_destroy(sem_error.sem);
 }
 
 void MainWindow::sendCloseEvent()

@@ -213,8 +213,8 @@ void RixLexer::handleCharAdded(int pos)
     }
     else if(currentChar[0] == '\n')
     {
-        //_scint->parseError();
-        //handleFoundErrors();
+        _scint->parseError();
+        handleFoundErrors();
     }
 }
 
@@ -251,6 +251,8 @@ void RixLexer::autoCompleteShortcut()
 ******************************************************************************/
 void RixLexer::activateAutocomplete(std::string caller)
 {
+    Q_UNUSED(caller)
+
     if (!editor())
         return;
 
@@ -298,29 +300,41 @@ void RixLexer::activateAutocomplete(std::string caller)
 ******************************************************************************/
 void RixLexer::handleFoundErrors()
 {
-    char*   cur_error;
-    char*   msg;
+    char    *cur_error;
+    char    msg[1024];
     int     len;
     int     line;
     int     start;
     int     num;
 
     int errors = *sem_error.errNumber;
+    cur_error  = sem_error.content;
 
     while(errors > 0)
     {
-        //cur_error = sem_error.content;
+        if(sscanf(cur_error, "%d,%d,%d,%d,", &len, &line, &start, &num) == 4)
+        {
+            //Skip the four commas
+            char* travel = cur_error;
+            for(int i = 0; i < 4; i++)
+            {
+                travel = strstr(travel, ",") + 1;
+            }
+            strncpy(msg, travel, len);
+            //qDebug() << "[MSG:" << msg
+            //         << "] LEN:" << len
+            //         << "LINE:" << line
+            //         << "START:" << start
+            //         << "NUM:" << num;
+        }
 
-        // Do a parsing thing here, this is unfinished.
-        //msg = cur_error->message;
-        //line = cur_error->line_number;
-        //start = cur_error->column_start;
-        //num = cur_error->num_characters;
-        //len = cur_error->message_length;
+        styleError(line, start, num);
 
-        // TODO: Call highlight method here.
-        //styleError((unsigned int) line, (unsigned int) start,
-        //           (unsigned int) num);
+        cur_error = strstr(cur_error, "\n") +1;
+        if(cur_error == 0)
+        {
+            break;
+        }
 
         errors--; // Decrement errors here.
     }

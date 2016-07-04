@@ -7,6 +7,20 @@ LIBS += -lfl
 LIBS += -lrt
 LIBS += -lpthread
 
+HEADERS += \
+    mainwindow.h \
+    Scintilla/scintilladoc.h \
+    globals.h \
+    aboutdialog.h \
+    Scintilla/themehandler.h \
+    Compiler/compilerhandler.h \
+    rixlexer.h \
+    lexershare.h \
+    syntaxcolours.h \
+    autocompletion.h \
+    sharedmemoryutilities.h \
+    Compiler/projecthandler.h
+
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
@@ -15,7 +29,9 @@ SOURCES += \
     Compiler/compilerhandler.cpp \
     rixlexer.cpp \
     Scintilla/themehandler.cpp \
-    autocompletion.cpp
+    autocompletion.cpp \
+    sharedmemoryutilties.cpp \
+    Compiler/projecthandler.cpp
 
 FLEXSOURCES = lex.l
 
@@ -31,18 +47,6 @@ include(deployment.pri)
 FORMS += \
     mainwindow.ui \
     aboutdialog.ui
-
-HEADERS += \
-    mainwindow.h \
-    Scintilla/scintilladoc.h \
-    globals.h \
-    aboutdialog.h \
-    Scintilla/themehandler.h \
-    Compiler/compilerhandler.h \
-    rixlexer.h \
-    lexershare.h \
-    syntaxcolours.h \
-    autocompletion.h
 
 flexsource.input = FLEXSOURCES
 flexsource.output = ${QMAKE_FILE_BASE}.cpp

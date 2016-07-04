@@ -371,8 +371,10 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionNew_Project"/>
     <addaction name="actionNew_File"/>
     <addaction name="separator"/>
+    <addaction name="actionOpen_Project"/>
     <addaction name="actionOpen"/>
     <addaction name="actionSave_File"/>
     <addaction name="actionSave_As"/>
@@ -517,6 +519,16 @@
   <action name="actionRun">
    <property name="text">
     <string>Run</string>
+   </property>
+  </action>
+  <action name="actionOpen_Project">
+   <property name="text">
+    <string>Open Project...</string>
+   </property>
+  </action>
+  <action name="actionNew_Project">
+   <property name="text">
+    <string>New Project...</string>
    </property>
   </action>
  </widget>
